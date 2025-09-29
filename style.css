@@ -1,0 +1,91 @@
+/* Stile base per un look pulito */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #1a73e8; /* Un bel blu per richiamare modernità */
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+/* Stili per la sezione filtri e ricerca */
+#filtri-e-ricerca {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#barra-ricerca, #filtro-tono {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 300px;
+    max-width: 100%;
+}
+
+/* Contenitore principale con CSS Grid per la scalabilità */
+#archivio-container {
+    display: grid;
+    /* Crea colonne flessibili che si adattano allo schermo */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 25px;
+    padding: 25px;
+}
+
+/* Stile per la singola scheda del progetto */
+.progetto-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.progetto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.progetto-card h2 {
+    color: #1a73e8;
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.progetto-card p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.progetto-card strong {
+    font-weight: bold;
+}
+
+.progetto-card a {
+    display: inline-block;
+    background-color: #4CAF50; /* Verde per l'azione principale */
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    background-color: #eee;
+    font-size: 0.8em;
+}

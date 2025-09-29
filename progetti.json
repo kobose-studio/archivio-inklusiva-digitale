@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "titolo": "ZERO 1 (Copertina JPEG)",
+    "autore": "Sebastiano Branca",
+    "modulo_corso": "Modulo II: Mani, Macchine & Layout",
+    "tono_voce": "Ironico",
+    "tema": "Cut-Up Bibliotecario / Ribellione su Carta",
+    "anno": 2025,
+    "link_fanzine": "assets/zero-1_Sebastiano-Branca.jpg"
+  },
+  {
+    "id": 2,
+    "titolo": "ZERO 2 (Copertina JPEG)",
+    "autore": "Sebastiano Branca",
+    "modulo_corso": "Modulo II: Mani, Macchine & Layout",
+    "tono_voce": "Aggressivo",
+    "tema": "L'Occhio Ibrido / Fotografia d'Autore",
+    "anno": 2025,
+    "link_fanzine": "assets/zero-2_Sebastiano-Branca.jpg"
+  },
+  {
+    "id": 3,
+    "titolo": "Fanzine Completa (PDF Low-Res)",
+    "autore": "Sebastiano Branca",
+    "modulo_corso": "Modulo III: Proiezione e Mercato",
+    "tono_voce": "Poetico",
+    "tema": "Prodotto Fisico Finito / Rilegatura Finale",
+    "anno": 2025,
+    "link_fanzine": "assets/funzinne_Sebastiano-Branca_low.pdf"
+  }
+]
