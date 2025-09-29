@@ -1,91 +1,166 @@
-/* Stile base per un look pulito */
+/* ========================================= */
+/* 0. VARIABILI E FONT (Il cuore del look Gen-Z) */
+/* ========================================= */
+:root {
+    /* Palette Colori */
+    --colore-primario: #0A0A0A; /* Nero Intenso */
+    --colore-secondario: #FFFFFF; /* Bianco Puro */
+    --colore-accento: #7FFF00; /* Verde Lime Elettrico (Super Saturato) */
+    --colore-sfondo: #F7F7F7; /* Grigio Molto Chiaro */
+
+    /* Font (Sostituisci con font "cool" se li colleghi, altrimenti restiamo su Arial) */
+    --font-titoli: 'Arial Black', sans-serif; 
+    --font-base: 'Arial', sans-serif;
+}
+
+/* Reset base e Sfondo */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    font-family: var(--font-base);
+    background-color: var(--colore-sfondo);
+    color: var(--colore-primario);
     margin: 0;
     padding: 0;
+    line-height: 1.5;
 }
+
+/* ========================================= */
+/* 1. HEADER E TITOLI */
+/* ========================================= */
 
 header {
-    background-color: #1a73e8; /* Un bel blu per richiamare modernità */
-    color: white;
+    background-color: var(--colore-primario); /* Barra Nera */
+    color: var(--colore-secondario); /* Testo Bianco */
     padding: 30px 20px;
     text-align: center;
+    border-bottom: 5px solid var(--colore-accento); /* Bordo Neon Acceso */
 }
 
-/* Stili per la sezione filtri e ricerca */
+header h1 {
+    font-family: var(--font-titoli);
+    font-size: 2.5em; /* Grande e Imponente */
+    margin-bottom: 0;
+}
+
+header p {
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+/* ========================================= */
+/* 2. FILTRI E RICERCA (Stile Minimalista/Tecnico) */
+/* ========================================= */
+
 #filtri-e-ricerca {
     display: flex;
     justify-content: center;
     gap: 20px;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    background-color: var(--colore-secondario);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 #barra-ricerca, #filtro-tono {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 300px;
+    padding: 12px 15px;
+    border: 3px solid var(--colore-primario); /* Bordo Spesso e Nero */
+    border-radius: 0; /* Bordi Quadrati per un look deciso */
+    font-size: 1em;
+    width: 250px;
     max-width: 100%;
+    transition: all 0.2s;
 }
 
-/* Contenitore principale con CSS Grid per la scalabilità */
+#barra-ricerca:focus, #filtro-tono:focus {
+    border-color: var(--colore-accento); /* Bordo Acceso al Focus */
+    outline: none;
+    box-shadow: 0 0 0 2px var(--colore-accento);
+}
+
+/* ========================================= */
+/* 3. LAYOUT DELLE SCHEDE (Griglia Dinamica) */
+/* ========================================= */
+
 #archivio-container {
     display: grid;
-    /* Crea colonne flessibili che si adattano allo schermo */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    gap: 25px;
-    padding: 25px;
+    /* Grid che crea colonne da 280px in su */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 30px; /* Spazio maggiore tra le card */
+    padding: 40px 5%; 
 }
 
 /* Stile per la singola scheda del progetto */
 .progetto-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: transform 0.2s;
+    background-color: var(--colore-secondario);
+    border-radius: 0; /* Bordi Quadrati */
+    border: 2px solid var(--colore-primario); /* Contorno Netto */
+    box-shadow: 6px 6px 0px 0px var(--colore-accento); /* Ombra Disallineata, Pop Art */
+    padding: 25px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animazione Elastica */
 }
 
 .progetto-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translate(-3px, -3px); /* Si solleva leggermente */
+    box-shadow: 9px 9px 0px 0px var(--colore-accento); /* L'ombra si sposta */
 }
 
+/* Titoli delle schede */
 .progetto-card h2 {
-    color: #1a73e8;
+    font-family: var(--font-titoli);
+    font-size: 1.4em;
+    color: var(--colore-accento); /* Titoli Lime */
     margin-top: 0;
-    font-size: 1.5em;
+    margin-bottom: 10px;
 }
 
-.progetto-card p {
-    margin: 5px 0;
+/* Metadati */
+.metadato {
     font-size: 0.9em;
+    color: var(--colore-primario);
+    margin: 5px 0;
 }
 
-.progetto-card strong {
+.metadato strong {
+    color: var(--colore-primario);
     font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 5px;
 }
 
+/* Pulsanti "Vedi Fanzine" */
 .progetto-card a {
     display: inline-block;
-    background-color: #4CAF50; /* Verde per l'azione principale */
-    color: white;
-    padding: 8px 15px;
-    text-decoration: none;
-    border-radius: 5px;
+    background-color: var(--colore-accento);
+    color: var(--colore-primario);
+    font-family: var(--font-titoli);
+    padding: 10px 20px;
     margin-top: 15px;
-    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 2px solid var(--colore-primario);
+    border-radius: 0;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
+.progetto-card a:hover {
+    background-color: var(--colore-primario); /* Inverte i colori al passaggio */
+    color: var(--colore-accento);
+    transform: scale(1.05);
+}
+
+/* Footer */
 footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-    background-color: #eee;
+    border-top: 1px solid #ddd;
     font-size: 0.8em;
+    color: #666;
+    background-color: var(--colore-secondario);
+}
+
+/* Messaggio di Errore */
+.errore {
+    color: red;
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2em;
 }
