@@ -23,18 +23,17 @@ body {
 }
 
 /* ========================================= */
-/* 1. HEADER (Titoli in contrasto) */
+/* 1. HEADER (Il look INKLUSIVA / 4.0) */
 /* ========================================= */
 
 header {
-    background-color: var(--colore-primario); /* Sfondo Nero */
+    background-color: var(--colore-primario); 
     color: var(--colore-secondario); 
     padding: 30px 5%;
     text-align: center;
-    border-bottom: 5px solid var(--colore-accento); /* Bordo Neon accattivante */
+    border-bottom: 5px solid var(--colore-accento); 
 }
 
-/* Titolo Principale: INKLUSIVA (GRANDE LIME) */
 #main-title {
     font-size: 4em; 
     font-weight: 900; 
@@ -44,7 +43,6 @@ header {
     text-transform: uppercase;
 }
 
-/* Sottotitolo: ARCHIVIO LEGACY DIGITALE 4.0 (Piccolo Bianco) */
 #sub-title {
     font-size: 1.1em; 
     font-weight: 700;
@@ -84,13 +82,11 @@ header {
 }
 
 /* ========================================= */
-/* 3. LAYOUT DELLE SCHEDE (GRIGLIA) */
+/* 3. LAYOUT DELLE SCHEDE (Griglia) */
 /* ========================================= */
 
 #archivio-container {
-    /* *** QUESTA E' LA PARTE CRUCIALE PER L'ALLINEAMENTO ORIZZONTALE *** */
     display: grid;
-    /* Crea colonne flessibili che si allineano in orizzontale e si rompono in colonna su mobile */
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
     gap: 30px; 
     padding: 40px 5%; 
@@ -101,7 +97,7 @@ header {
     background-color: var(--colore-secondario);
     border: 2px solid var(--colore-primario); 
     border-radius: 0;
-    box-shadow: 6px 6px 0px 0px var(--colore-accento); /* Ombra Pop Art Lime */
+    box-shadow: 6px 6px 0px 0px var(--colore-accento); 
     padding: 25px;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
@@ -110,6 +106,28 @@ header {
     transform: translate(-3px, -3px); 
     box-shadow: 9px 9px 0px 0px var(--colore-accento); 
 }
+
+/* 4. STILE IMMAGINI DI COPERTINA (NUOVO) */
+.copertina-fanzine {
+    width: 100%; 
+    height: auto; 
+    max-height: 350px;
+    object-fit: cover; 
+    
+    border: 2px solid var(--colore-primario); 
+    margin-bottom: 20px; 
+    box-shadow: 4px 4px 0px 0px var(--colore-primario); 
+    
+    /* Filtro per omogeneizzare le copertine se sono a colori */
+    filter: grayscale(80%) contrast(1.1); 
+    transition: filter 0.3s;
+}
+
+.progetto-card:hover .copertina-fanzine {
+    /* Rimuove il filtro per far apparire i colori all'hover */
+    filter: grayscale(0%) contrast(1.0);
+}
+
 
 /* Contenuti delle schede */
 .progetto-card h2 {
@@ -152,7 +170,7 @@ header {
 }
 
 /* ========================================= */
-/* 4. FOOTER */
+/* 5. FOOTER */
 /* ========================================= */
 
 footer {
