@@ -12,28 +12,34 @@
 </head>
 <body>
 
-    <header>
-        <h1>INKLUSIVA // Archivio Digitale 4.0</h1>
-        <p>Una collezione scalabile dei progetti di micro-editoria del corso INKLUSIVA.</p>
-    </header>
+      <div id="vertical-sidebar">
+        <div id="titolo-container">
+            <h1 id="main-title">INKLUSIVA</h1>
+            <h2 id="sub-title">ARCHIVIO LEGACY DIGITALE 4.0</h2>
+        </div>
+        
+        <div id="filtri-e-ricerca">
 
-    <div id="filtri-e-ricerca">
-        <input type="text" id="barra-ricerca" placeholder="Cerca per titolo, autore o tema...">
+            <input type="text" id="barra-ricerca" placeholder="Cerca: Titolo, Autore o Tema...">
 
-        <select id="filtro-tono">
-            <option value="">Filtra per Tono di Voce (Tutti)</option>
-            <option value="Aggressivo">Aggressivo</option>
-            <option value="Poetico">Poetico</option>
-            <option value="Ironico">Ironico</option>
-        </select>
+            <select id="filtro-tono">
+                <option value="">FILTRA PER TONO (Tutti)</option>
+                <option value="Aggressivo">Aggressivo</option>
+                <option value="Poetico">Poetico</option>
+                <option value="Ironico">Ironico</option>
+            </select>
         </div>
 
-    <div id="archivio-container">
-        </div>
-
-    <footer>
-        <p>© Archivio INKLUSIVA. [cite_start]Progettato per accessibilità e scalabilità (PI tecnologica)[cite: 297, 298].</p>
-    </footer>
+        <footer>
+            <p>© INKLUSIVA. Progettato per accessibilità e scalabilità. 
+            <br>PI Tecnologica 4.0 | [Nome Autore]</p>
+        </footer>
+    </div>
+    
+    <div id="main-content">
+        <div id="archivio-container">
+            </div>
+    </div>
 
     <script src="script.js"></script>
 
