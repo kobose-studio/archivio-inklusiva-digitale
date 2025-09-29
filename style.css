@@ -3,14 +3,14 @@
 /* ========================================= */
 :root {
     /* Palette Colori */
-    --colore-primario: #0A0A0A; 
-    --colore-secondario: #FFFFFF; 
-    --colore-accento: #7FFF00; /* Verde Lime Elettrico */
-    --colore-sfondo: #F7F7F7; 
+    --colore-primario: #0A0A0A; /* Nero Intenso */
+    --colore-secondario: #FFFFFF; /* Bianco Puro */
+    --colore-accento: #7FFF00; /* Verde Lime Elettrico (Super Saturato) */
+    --colore-sfondo: #F7F7F7; /* Grigio Molto Chiaro */
 
-    /* Font aggiornati con Michroma e base moderna */
-    --font-titoli: 'Michroma', sans-serif; 
-    --font-base: 'Inter', sans-serif; /* Usiamo un font più moderno per il corpo */
+    /* Font aggiornati con ROBOTO MONO */
+    --font-titoli: 'Roboto Mono', monospace; /* Applicazione del nuovo font */
+    --font-base: 'Inter', sans-serif; 
 }
 
 /* Reset base e Sfondo */
