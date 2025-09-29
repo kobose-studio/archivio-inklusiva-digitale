@@ -8,5 +8,15 @@
     "tema": "Fantascienza e Tecnologia/Rilegatura Finale",
     "anno": 2025,
     "link_fanzine": "assets/bio-punk_kobose.pdf"
+  },
+  {
+    "id": 2, 
+    "titolo": "Brutalist",
+    "autore": "Kobose",
+    "modulo_corso": "Modulo II: Mani, Macchine & Layout",
+    "tono_voce": "Aggressivo",
+    "tema": "Design Brutalista e Tipografia",
+    "anno": 2025,
+    "link_fanzine": "assets/Brutalist_kobose.pdf"
   }
 ]
