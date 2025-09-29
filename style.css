@@ -23,12 +23,12 @@ body {
 }
 
 /* ========================================= */
-/* 1. HEADER (Il nuovo stile Orrizontale) */
+/* 1. HEADER (Titoli in contrasto) */
 /* ========================================= */
 
 header {
     background-color: var(--colore-primario); /* Sfondo Nero */
-    color: var(--colore-secondario); /* Testo Bianco di default */
+    color: var(--colore-secondario); 
     padding: 30px 5%;
     text-align: center;
     border-bottom: 5px solid var(--colore-accento); /* Bordo Neon accattivante */
@@ -36,20 +36,20 @@ header {
 
 /* Titolo Principale: INKLUSIVA (GRANDE LIME) */
 #main-title {
-    font-size: 4em; /* Molto grande per l'impatto */
+    font-size: 4em; 
     font-weight: 900; 
     margin: 0;
-    line-height: 0.9; /* Per avvicinare INKLUSIVA al sottotitolo */
+    line-height: 0.9; 
     color: var(--colore-accento); 
     text-transform: uppercase;
 }
 
-/* Sottotitolo: ARCHIVIO LEGACY DIGITALE 4.0 (Piccolo Nero) */
+/* Sottotitolo: ARCHIVIO LEGACY DIGITALE 4.0 (Piccolo Bianco) */
 #sub-title {
     font-size: 1.1em; 
     font-weight: 700;
     margin: 0;
-    color: var(--colore-secondario); /* Usa il bianco sull'header nero */
+    color: var(--colore-secondario); 
     text-transform: uppercase;
 }
 
@@ -60,16 +60,16 @@ header {
 #filtri-e-ricerca {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* Permette ai filtri di andare a capo su schermi piccoli */
+    flex-wrap: wrap; 
     gap: 20px;
     padding: 20px 5%;
     background-color: var(--colore-secondario);
-    border-bottom: 1px solid var(--colore-primario); /* Linea di separazione */
+    border-bottom: 1px solid var(--colore-primario); 
 }
 
 #barra-ricerca, #filtro-tono {
     padding: 12px 15px;
-    border: 2px solid var(--colore-primario); /* Bordo Spesso e Nero */
+    border: 2px solid var(--colore-primario); 
     border-radius: 0; 
     font-size: 1em;
     width: 250px;
@@ -78,17 +78,19 @@ header {
 }
 
 #barra-ricerca:focus, #filtro-tono:focus {
-    border-color: var(--colore-accento); /* Bordo Acceso al Focus */
+    border-color: var(--colore-accento); 
     outline: none;
     box-shadow: 0 0 0 2px var(--colore-accento);
 }
 
 /* ========================================= */
-/* 3. LAYOUT DELLE SCHEDE (Griglia) */
+/* 3. LAYOUT DELLE SCHEDE (GRIGLIA) */
 /* ========================================= */
 
 #archivio-container {
+    /* *** QUESTA E' LA PARTE CRUCIALE PER L'ALLINEAMENTO ORIZZONTALE *** */
     display: grid;
+    /* Crea colonne flessibili che si allineano in orizzontale e si rompono in colonna su mobile */
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
     gap: 30px; 
     padding: 40px 5%; 
@@ -97,9 +99,9 @@ header {
 /* Stile per la singola scheda del progetto */
 .progetto-card {
     background-color: var(--colore-secondario);
-    border: 2px solid var(--colore-primario); /* Contorno Netto */
+    border: 2px solid var(--colore-primario); 
     border-radius: 0;
-    box-shadow: 6px 6px 0px 0px var(--colore-accento); /* Ombra Disallineata, Pop Art */
+    box-shadow: 6px 6px 0px 0px var(--colore-accento); /* Ombra Pop Art Lime */
     padding: 25px;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
@@ -109,7 +111,7 @@ header {
     box-shadow: 9px 9px 0px 0px var(--colore-accento); 
 }
 
-/* Titoli delle schede e metadati */
+/* Contenuti delle schede */
 .progetto-card h2 {
     font-size: 1.4em;
     color: var(--colore-accento); 
