@@ -1,167 +1,179 @@
 /* ========================================= */
-/* 0. VARIABILI E FONT (Il cuore del look Gen-Z) */
+/* 0. VARIABILI E FONT (Roboto Mono) */
 /* ========================================= */
 :root {
-    /* Palette Colori */
+    /* Palette Colori (B/N e Lime Estremo) */
     --colore-primario: #0A0A0A; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco Puro */
     --colore-accento: #7FFF00; /* Verde Lime Elettrico (Super Saturato) */
     --colore-sfondo: #F7F7F7; /* Grigio Molto Chiaro */
 
-    /* Font aggiornati con ROBOTO MONO */
-    --font-titoli: 'Roboto Mono', monospace; /* Applicazione del nuovo font */
-    --font-base: 'Inter', sans-serif; 
+    /* Font: Roboto Mono per tutto il look "terminale" */
+    --font-base: 'Roboto Mono', monospace; 
 }
 
-/* Reset base e Sfondo */
+/* Reset Base e Layout Principale */
 body {
-    font-family: var(--font-base); /* Ora usa Inter o il font base */
-    background-color: var(--colore-sfondo);
+    font-family: var(--font-base);
     color: var(--colore-primario);
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    background-color: var(--colore-sfondo);
+    
+    /* Attiva il layout a due colonne (sidebar + contenuto) */
+    display: flex;
+    min-height: 100vh;
 }
 
 /* ========================================= */
-/* 1. HEADER E TITOLI */
+/* 1. SIDEBAR / HEADER VERTICALE (Fissa) */
 /* ========================================= */
 
-header {
-    background-color: var(--colore-primario); /* Barra Nera */
-    color: var(--colore-secondario); /* Testo Bianco */
-    padding: 30px 20px;
-    text-align: center;
-    border-bottom: 5px solid var(--colore-accento); /* Bordo Neon Acceso */
+#vertical-sidebar {
+    position: sticky; /* Rende la sidebar fissa durante lo scrolling */
+    top: 0;
+    width: 100px; /* Larghezza fissa per la colonna laterale */
+    min-height: 100vh;
+    padding: 0;
+    background-color: var(--colore-secondario);
+    border-right: 2px solid var(--colore-primario); /* Bordo di separazione netto */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Spinge titolo/filtri in alto e footer in basso */
+    align-items: center;
+    z-index: 100;
 }
 
-header h1 {
-    font-family: var(--font-titoli);
-    font-size: 2.5em; 
-    margin-bottom: 0;
-    font-weight: 700; /* Forza il grassetto per Roboto Mono */
+/* Contenitore per la Rotazione del Titolo */
+#titolo-container {
+    /* Rotazione Magica per l'effetto verticale */
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: left top;
+    
+    /* Posizionamento */
+    width: 100vh; /* Alto quanto la viewport ruotata */
+    text-align: right; /* Allinea il testo ruotato a destra (in alto) */
+    padding: 20px 0;
+    margin: 0;
+    
+    border-bottom: 2px solid var(--colore-primario); /* Bordo di separazione titolo */
 }
 
-header p {
-    font-size: 1em;
-    opacity: 0.8;
+/* Titolo Principale: INKLUSIVA (GRANDE LIME) */
+#main-title {
+    font-size: 3.5em; /* Grande per l'impatto */
+    font-weight: 900; /* Super Grassetto */
+    margin: 0;
+    line-height: 0.9; 
+    color: var(--colore-accento); 
+    text-transform: uppercase;
+}
+
+/* Sottotitolo: ARCHIVIO LEGACY DIGITALE 4.0 (Piccolo Nero) */
+#sub-title {
+    font-size: 0.8em; /* Molto più piccolo, per contrasto */
+    font-weight: 700;
+    margin: 0;
+    color: var(--colore-primario);
+    text-transform: uppercase;
 }
 
 /* ========================================= */
-/* 2. FILTRI E RICERCA (Stile Minimalista/Tecnico) */
+/* 2. FILTRI E RICERCA (Integrati nella Sidebar) */
 /* ========================================= */
 
 #filtri-e-ricerca {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 25px;
-    background-color: var(--colore-secondario);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    margin-top: 20px; /* Spazio sotto il titolo */
 }
 
 #barra-ricerca, #filtro-tono {
-    padding: 12px 15px;
-    border: 3px solid var(--colore-primario); /* Bordo Spesso e Nero */
-    border-radius: 0; /* Bordi Quadrati per un look deciso */
-    font-size: 1em;
-    width: 250px;
-    max-width: 100%;
-    transition: all 0.2s;
-}
-
-#barra-ricerca:focus, #filtro-tono:focus {
-    border-color: var(--colore-accento); /* Bordo Acceso al Focus */
-    outline: none;
-    box-shadow: 0 0 0 2px var(--colore-accento);
+    width: 70px; /* Larghezza ridotta per stare nella sidebar */
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 0.7em; /* Testo più piccolo e tecnico */
+    border: 1px solid var(--colore-primario);
+    border-radius: 0;
+    text-align: center;
+    background-color: var(--colore-sfondo);
 }
 
 /* ========================================= */
-/* 3. LAYOUT DELLE SCHEDE (Griglia Dinamica) */
+/* 3. CONTENUTO PRINCIPALE (Griglia) */
 /* ========================================= */
+
+#main-content {
+    flex-grow: 1; /* Occupa tutto lo spazio restante */
+    background-color: var(--colore-sfondo);
+    padding: 40px;
+}
 
 #archivio-container {
     display: grid;
-    /* Grid che crea colonne da 280px in su */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 30px; /* Spazio maggiore tra le card */
-    padding: 40px 5%; 
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 20px;
 }
 
 /* Stile per la singola scheda del progetto */
 .progetto-card {
     background-color: var(--colore-secondario);
-    border-radius: 0; /* Bordi Quadrati */
-    border: 2px solid var(--colore-primario); /* Contorno Netto */
-    box-shadow: 6px 6px 0px 0px var(--colore-accento); /* Ombra Disallineata, Pop Art */
-    padding: 25px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animazione Elastica */
+    border: 1px solid var(--colore-primario); 
+    border-radius: 0;
+    padding: 20px;
+    transition: all 0.2s;
 }
 
 .progetto-card:hover {
-    transform: translate(-3px, -3px); /* Si solleva leggermente */
-    box-shadow: 9px 9px 0px 0px var(--colore-accento); /* L'ombra si sposta */
+    box-shadow: 4px 4px 0px 0px var(--colore-accento); 
+    transform: translate(-2px, -2px);
 }
 
-/* Titoli delle schede */
+/* Titoli delle schede e metadati */
 .progetto-card h2 {
-    font-family: var(--font-titoli);
-    font-size: 1.4em;
-    color: var(--colore-accento); /* Titoli Lime */
+    font-size: 1.1em;
+    color: var(--colore-accento);
     margin-top: 0;
     margin-bottom: 10px;
 }
 
-/* Metadati */
 .metadato {
-    font-size: 0.9em;
-    color: var(--colore-primario);
-    margin: 5px 0;
-}
-
-.metadato strong {
-    color: var(--colore-primario);
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-right: 5px;
+    font-size: 0.8em;
+    margin: 4px 0;
 }
 
 /* Pulsanti "Vedi Fanzine" */
 .progetto-card a {
-    display: inline-block;
+    display: block; 
     background-color: var(--colore-accento);
     color: var(--colore-primario);
-    font-family: var(--font-titoli);
-    padding: 10px 20px;
+    font-family: var(--font-base);
+    padding: 8px;
     margin-top: 15px;
     text-decoration: none;
     text-transform: uppercase;
-    border: 2px solid var(--colore-primario);
+    text-align: center;
+    border: 1px solid var(--colore-primario);
     border-radius: 0;
-    transition: background-color 0.2s, transform 0.1s;
 }
 
 .progetto-card a:hover {
-    background-color: var(--colore-primario); /* Inverte i colori al passaggio */
+    background-color: var(--colore-primario);
     color: var(--colore-accento);
-    transform: scale(1.05);
 }
 
-/* Footer */
+/* ========================================= */
+/* 4. FOOTER */
+/* ========================================= */
+
 footer {
+    font-size: 0.6em;
+    padding: 10px 5px;
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-    border-top: 1px solid #ddd;
-    font-size: 0.8em;
-    color: #666;
-    background-color: var(--colore-secondario);
-}
-
-/* Messaggio di Errore */
-.errore {
-    color: red;
-    text-align: center;
-    padding: 50px;
-    font-size: 1.2em;
+    border-top: 1px solid var(--colore-primario);
+    width: 100%;
 }
