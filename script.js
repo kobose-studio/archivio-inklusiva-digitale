@@ -28,33 +28,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Funzione per creare e visualizzare le schede dei progetti
     function visualizzaProgetti(progettiDaMostrare) {
-        container.innerHTML = ''; // Svuota il contenitore prima di inserire i nuovi risultati
+        container.innerHTML = ''; // Pulisce il contenitore
 
         if (progettiDaMostrare.length === 0) {
-            container.innerHTML = '<p class="risultato-nullo">Nessun progetto trovato che corrisponda ai criteri di ricerca/filtro.</p>';
+            container.innerHTML = '<p class="errore">Nessun progetto trovato che corrisponda ai criteri di ricerca/filtro.</p>';
             return;
         }
 
         progettiDaMostrare.forEach(progetto => {
-            // Crea l'elemento HTML (la "card")
             const card = document.createElement('div');
-            card.className = 'progetto-card';
+            card.classList.add('progetto-card');
 
-            // Costruisci il contenuto della card
+            // Importante: qui usiamo la nuova variabile link_copertina per l'immagine
             card.innerHTML = `
-                <h2>${progetto.titolo}</h2>
-                <p><strong>Autore:</strong> ${progetto.autore}</p>
-                <p><strong>Tema:</strong> ${progetto.tema}</p>
-                <p><strong>Tono di Voce:</strong> ${progetto.tono_voce}</p>
-                <p><strong>Modulo:</strong> ${progetto.modulo_corso}</p>
-                <a href="${progetto.link_fanzine}" target="_blank">VEDI FANZINE</a>
+                <img src="${progetto.link_copertina}" alt="Copertina della fanzine ${progetto.titolo}" class="copertina-fanzine">
+                
+                <div class="card-content">
+                    <h2>${progetto.titolo}</h2>
+                    <p class="metadato"><strong>Autore:</strong> ${progetto.autore}</p>
+                    <p class="metadato"><strong>Tono:</strong> ${progetto.tono_voce}</p>
+                    <p class="metadato"><strong>Tema:</strong> ${progetto.tema}</p>
+                    <p class="metadato"><strong>Modulo:</strong> ${progetto.modulo_corso}</p>
+                </div>
+                <a href="${progetto.link_fanzine}" target="_blank" rel="noopener noreferrer">Vedi Fanzine (PDF)</a>
             `;
-            // Aggiungi la card al contenitore principale
             container.appendChild(card);
         });
     }
 
-    // 4. Funzione principale per filtrare e cercare i progetti (il cuore della fruibilità)
+    // 4. Funzione principale di filtro (il motore della fruibilità)
     function filtraEOrdinaProgetti() {
         // Valori di ricerca e filtro (convertiti in minuscolo per una ricerca non case-sensitive)
         const testoRicerca = barraRicerca.value.toLowerCase();
