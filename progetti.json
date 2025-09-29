@@ -7,7 +7,8 @@
     "tono_voce": "Aggressivo",
     "tema": "Fantascienza e Tecnologia/Rilegatura Finale",
     "anno": 2025,
-    "link_fanzine": "assets/bio-punk_kobose.pdf"
+    "link_fanzine": "assets/bio-punk_kobose.pdf",
+    "link_copertina": "assets/bio-punk_kobose_cover.jpg" 
   },
   {
     "id": 2, 
@@ -17,6 +18,7 @@
     "tono_voce": "Aggressivo",
     "tema": "Design Brutalista e Tipografia",
     "anno": 2025,
-    "link_fanzine": "assets/Brutalist_kobose.pdf"
+    "link_fanzine": "assets/Brutalist_kobose.pdf",
+    "link_copertina": "assets/brutalist_kobose_cover.jpg" 
   }
 ]
