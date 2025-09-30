@@ -19,6 +19,17 @@
     "tema": "Design Brutalista e Tipografia",
     "anno": 2025,
     "link_fanzine": "assets/Brutalist_kobose.pdf",
-    "link_copertina": "assets/brutalist_kobose_cover.jpg" 
+    "link_copertina": "assets/Brutalist_kobose_cover.jpg" 
+  },
+  {
+    "id": 3, 
+    "titolo": "Far-Fest",
+    "autore": "Kobose",
+    "modulo_corso": "Modulo I: Lo Sguardo e la Strategia",
+    "tono_voce": "Poetico",
+    "tema": "Preistoria e Western/Visione Critica",
+    "anno": 2025,
+    "link_fanzine": "assets/Far-Fest_kobose_zine-web.pdf",
+    "link_copertina": "assets/Far-Fest_kobose_cover.jpg" 
   }
 ]
