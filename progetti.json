@@ -7,6 +7,7 @@
     "tono_voce": "Aggressivo",
     "tema": "Fantascienza e Tecnologia/Rilegatura Finale",
     "anno": 2025,
+    "numero_pagine": 16, 
     "link_fanzine": "assets/bio-punk_kobose.pdf",
     "link_copertina": "assets/bio-punk_kobose_cover.jpg" 
   },
@@ -18,6 +19,7 @@
     "tono_voce": "Aggressivo",
     "tema": "Design Brutalista e Tipografia",
     "anno": 2025,
+    "numero_pagine": 16, 
     "link_fanzine": "assets/Brutalist_kobose.pdf",
     "link_copertina": "assets/Brutalist_kobose_cover.jpg" 
   },
@@ -29,6 +31,7 @@
     "tono_voce": "Poetico",
     "tema": "Preistoria e Western/Visione Critica",
     "anno": 2025,
+    "numero_pagine": 32, 
     "link_fanzine": "assets/Far-Fest_kobose_zine_32p-web.pdf",
     "link_copertina": "assets/Far-Fest_kobose_cover.jpg" 
   }
