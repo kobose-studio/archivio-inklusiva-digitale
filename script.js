@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="metadato"><strong>Tono:</strong> ${progetto.tono_voce}</p>
                     <p class="metadato"><strong>Tema:</strong> ${progetto.tema}</p>
                     <p class="metadato"><strong>Modulo:</strong> ${progetto.modulo_corso}</p>
+                    <p class="metadato"><strong>Pagine:</strong> ${progetto.numero_pagine}</p>
                 </div>
                 <a href="${progetto.link_fanzine}" target="_blank" rel="noopener noreferrer">Vedi Fanzine (PDF)</a>
             `;
