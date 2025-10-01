@@ -19,7 +19,7 @@
     "tono_voce": "Aggressivo",
     "tema": "Design Brutalista e Tipografia",
     "anno": 2025,
-    "numero_pagine": 16, 
+    "numero_pagine": 24, 
     "link_fanzine": "assets/Brutalist_kobose.pdf",
     "link_copertina": "assets/Brutalist_kobose_cover.jpg" 
   },
@@ -34,5 +34,17 @@
     "numero_pagine": 32, 
     "link_fanzine": "assets/Far-Fest_kobose_zine_32p-web.pdf",
     "link_copertina": "assets/Far-Fest_kobose_cover.jpg" 
+  },
+  {
+    "id": 4, 
+    "titolo": "Bull",
+    "autore": "Kobose",
+    "modulo_corso": "Modulo III: Proiezione e Mercato",
+    "tono_voce": "Aggressivo",
+    "tema": "Montaggio Ibrido e Comunicazione Etica",
+    "anno": 2025,
+    "numero_pagine": 28, 
+    "link_fanzine": "assets/Bull_28p_web.pdf",
+    "link_copertina": "assets/Bull_cover.jpg" 
   }
 ]
