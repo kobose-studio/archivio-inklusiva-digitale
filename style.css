@@ -9,18 +9,21 @@
     --colore-primario: #000000; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    --font-famiglia: 'Space Mono', monospace; /* NUOVO FONT */
+    --font-famiglia: 'Space Mono', monospace; 
 }
 
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
-    background-color: var(--colore-secondario); /* Sfondo principale BIANCO come prima */
+    background-color: var(--colore-secondario); 
     color: var(--colore-primario);
     margin: 0;
     padding: 0;
 }
 
+/* ========================================= */
+/* 1. HEADER (Titoli e Sottotitoli) */
+/* ========================================= */
 header {
     background-color: var(--colore-primario); 
     color: var(--colore-accento);
@@ -35,13 +38,15 @@ header {
     text-transform: uppercase;
 }
 
-#sub-title {
+/* ❌ CORREZIONE COLORE: Sottotitolo in colore CHIARO (Bianco) ❌ */
+header p {
     font-size: 1.2em;
     margin-top: 5px;
+    color: var(--colore-secondario); /* Bianco per chiarezza, come richiesto */
 }
 
 /* ========================================= */
-/* 1. MENU DI NAVIGAZIONE (NAV) */
+/* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
 
 #main-nav {
@@ -80,14 +85,14 @@ header {
 }
 
 /* ========================================= */
-/* 2. FILTRI E RICERCA (SOLO SU INDEX.HTML) */
+/* 3. FILTRI E RICERCA (SOLO SU INDEX.HTML) */
 /* ========================================= */
 #filtri-e-ricerca {
     display: flex;
     justify-content: center;
     gap: 20px;
     padding: 20px 5%;
-    background-color: var(--colore-secondario); /* BIANCO */
+    background-color: var(--colore-secondario); 
     border-bottom: 2px solid var(--colore-primario);
 }
 
@@ -95,14 +100,14 @@ header {
     padding: 10px;
     border: 3px solid var(--colore-primario); 
     background-color: var(--colore-secondario);
-    font-family: var(--font-famiglia); /* Usa Space Mono anche qui */
+    font-family: var(--font-famiglia); 
     font-size: 16px;
     width: 300px;
     max-width: 100%;
 }
 
 /* ========================================= */
-/* 3. ARCHIVIO CARDS (SOLO SU INDEX.HTML) */
+/* 4. ARCHIVIO CARDS (SOLO SU INDEX.HTML) */
 /* ========================================= */
 #archivio-container {
     background-color: var(--colore-secondario); 
@@ -116,34 +121,45 @@ header {
     background-color: var(--colore-secondario);
     border: 3px solid var(--colore-primario);
     padding: 20px;
-    transition: transform 0.1s;
+    transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 5px 5px 0px var(--colore-primario); 
 }
 
 .progetto-card:hover {
-    transform: translate(0, 0);
-    box-shadow: 2px 2px 0px var(--colore-primario);
+    transform: translate(-3px, -3px); /* Leggera mossa */
+    box-shadow: 8px 8px 0px var(--colore-accento); /* Ombra di impatto con accento */
 }
 
-.progetto-card h2 {
-    color: var(--colore-primario);
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--colore-accento);
-    padding-bottom: 5px;
-    /* Opzionale: Bold per i titoli */
-    font-weight: 700; 
-}
-
+/* ❌ NUOVO: Effetto Desaturazione/Saturazione sulle Immagini ❌ */
 .copertina-fanzine {
     width: 100%;
     height: auto;
     display: block;
     border: 2px solid var(--colore-primario);
     margin-bottom: 15px;
+    /* Desaturazione: Rende l'immagine in scala di grigi */
+    filter: grayscale(100%) contrast(1.1);
+    /* Aggiunge una transizione fluida per l'effetto hover */
+    transition: filter 0.3s ease-out; 
+}
+
+/* Quando si passa il mouse sulla CARD, l'immagine torna a colori */
+.progetto-card:hover .copertina-fanzine {
+    filter: grayscale(0%) contrast(1); /* Togli l'effetto scala di grigi */
+}
+/* FINE EFFETTO HOVER */
+
+
+.progetto-card h2 {
+    color: var(--colore-primario);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--colore-accento);
+    padding-bottom: 5px;
+    font-weight: 700; 
 }
 
 /* ========================================= */
-/* 4. STILI SPECIFICI PER LE SOTTOPAGINE (MANIFESTO/VIBE) */
+/* 5. STILI SPECIFICI PER LE SOTTOPAGINE (MANIFESTO/VIBE) */
 /* ========================================= */
 .page-content {
     background-color: var(--colore-secondario);
@@ -156,27 +172,45 @@ header {
 /* Il grande font Gen-Z/Brutalista richiesto */
 .large-title {
     font-size: 4.5em; 
-    font-weight: 700; /* Usiamo il Bold di Space Mono */
+    font-weight: 700; 
     color: var(--colore-primario);
     text-transform: uppercase;
     line-height: 1;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     border-bottom: 5px solid var(--colore-accento); 
     padding-bottom: 15px;
 }
 
 .large-text {
     font-size: 1.5em; 
-    /* Opzionale: Italic per dare un tocco di 'handgloves' o enfasi Gen-Z */
     font-style: italic; 
     line-height: 1.4;
     max-width: 800px;
     margin-bottom: 30px;
 }
 
+/* Nuovo stile per i sottotitoli delle sezioni del Manifesto */
+.manifesto-sottotitolo {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--colore-accento); /* Usa l'accento lime per i titoli interni */
+    text-transform: uppercase;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    border-left: 5px solid var(--colore-primario);
+    padding-left: 10px;
+}
+
+.page-content p {
+    font-size: 1em; /* Testo del manifesto leggermente più piccolo per migliore leggibilità */
+    line-height: 1.6;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
 /* ========================================= */
-/* 5. FOOTER */
+/* 6. FOOTER */
 /* ========================================= */
 footer {
     background-color: var(--colore-primario);
@@ -188,7 +222,7 @@ footer {
 }
 
 /* ========================================= */
-/* 6. MEDIA QUERIES (REATTIVITÀ) */
+/* 7. MEDIA QUERIES (REATTIVITÀ) */
 /* ========================================= */
 @media (max-width: 768px) {
     #filtri-e-ricerca {
