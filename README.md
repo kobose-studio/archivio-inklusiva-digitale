@@ -11,7 +11,7 @@ L'archivio è progettato per dimostrare una **P.I. tecnologica** focalizzata su 
 L'archivio è attualmente ospitato e accessibile pubblicamente tramite GitHub Pages.
 
 **Visualizza l'Archivio Online Qui:**
-[INSERISCI QUI IL LINK PUBBLICO DI GITHUB PAGES]
+[https://kobose-studio.github.io/archivio-inklusiva-digitale/index.html]
 
 ---
 
