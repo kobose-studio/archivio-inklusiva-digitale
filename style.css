@@ -1,13 +1,48 @@
 /* ========================================= */
-/* 6. MENU DI NAVIGAZIONE (NAV) */
+/* 0. VARIABILI E FONT PER STILE BRUTALISTA */
+/* ========================================= */
+:root {
+    --colore-primario: #000000; /* Nero Intenso per lo sfondo o testo principale */
+    --colore-secondario: #FFFFFF; /* Bianco */
+    --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
+    --font-famiglia: 'Helvetica Neue', Arial, sans-serif; /* Font chiaro e leggibile */
+}
+
+/* Stile base per un look Brutalista */
+body {
+    font-family: var(--font-famiglia);
+    background-color: var(--colore-accento); /* Sfondo lime elettrico */
+    color: var(--colore-primario);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: var(--colore-primario); 
+    color: var(--colore-accento);
+    padding: 30px 5%; /* Padding percentuale per reattività */
+    text-align: center;
+    border-bottom: 5px solid var(--colore-accento); /* Bordo netto */
+}
+
+#main-title {
+    font-size: 3em;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#sub-title {
+    font-size: 1.2em;
+    margin-top: 5px;
+}
+
+/* ========================================= */
+/* 1. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
 
-/* Assunzione: hai già definito le variabili --colore-primario (nero/scuro) e --colore-accento (lime/brillante) */
-
 #main-nav {
-    /* Ho mantenuto i colori in base al tuo stile Brutalista */
-    background-color: var(--colore-primario, #1a1a1a); 
-    border-bottom: 2px solid var(--colore-accento, #ccff00); 
+    background-color: var(--colore-primario);
+    border-bottom: 2px solid var(--colore-accento);
 }
 
 #main-nav ul {
@@ -26,34 +61,137 @@
     display: block;
     padding: 15px 20px;
     text-decoration: none;
-    color: var(--colore-secondario, white); /* Testo chiaro sul fondo scuro */
+    color: var(--colore-secondario); 
     font-size: 1em;
     font-weight: 700;
     text-transform: uppercase;
-    border-right: 1px solid var(--colore-accento, #ccff00); /* Separatore aggressivo */
+    border-right: 1px solid var(--colore-accento); 
     transition: background-color 0.2s, color 0.2s;
 }
 
-#main-nav a:hover {
-    background-color: var(--colore-accento, #ccff00); /* Inverti i colori all'hover */
-    color: var(--colore-primario, #1a1a1a);
+#main-nav a:hover,
+#main-nav a.active-page { /* Stile per la pagina attiva */
+    background-color: var(--colore-accento); 
+    color: var(--colore-primario);
 }
 
 /* ========================================= */
-/* 7. SEZIONI DEI CONTENUTI (Manifesto/About) */
+/* 2. FILTRI E RICERCA (SOLO SU INDEX.HTML) */
 /* ========================================= */
-.content-section {
-    padding: 40px 5%;
-    margin-bottom: 20px;
-    background-color: var(--colore-secondario, white);
-    border: 2px solid var(--colore-primario, #1a1a1a);
-    border-top: none;
+#filtri-e-ricerca {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 5%;
+    background-color: var(--colore-secondario);
+    border-bottom: 2px solid var(--colore-primario);
 }
 
-.content-section h2 {
-    color: var(--colore-accento, #ccff00);
-    font-size: 2em;
-    border-bottom: 3px solid var(--colore-primario, #1a1a1a);
-    padding-bottom: 10px;
+#barra-ricerca, #filtro-tono {
+    padding: 10px;
+    border: 3px solid var(--colore-primario); /* Bordo spesso e netto */
+    background-color: var(--colore-secondario);
+    font-size: 16px;
+    width: 300px;
+    max-width: 100%;
+}
+
+/* ========================================= */
+/* 3. ARCHIVIO CARDS (SOLO SU INDEX.HTML) */
+/* ========================================= */
+#archivio-container {
+    background-color: var(--colore-secondario); /* Sfondo bianco per le card */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 25px;
+    padding: 25px 5%;
+}
+
+.progetto-card {
+    background-color: var(--colore-secondario);
+    border: 3px solid var(--colore-primario);
+    padding: 20px;
+    transition: transform 0.1s;
+    box-shadow: 5px 5px 0px var(--colore-primario); /* Ombra brutale */
+}
+
+.progetto-card:hover {
+    transform: translate(0, 0);
+    box-shadow: 2px 2px 0px var(--colore-primario);
+}
+
+.progetto-card h2 {
+    color: var(--colore-primario);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--colore-accento);
+    padding-bottom: 5px;
+}
+
+.copertina-fanzine {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 2px solid var(--colore-primario);
+    margin-bottom: 15px;
+}
+
+/* ========================================= */
+/* 4. STILI SPECIFICI PER LE SOTTOPAGINE (MANIFESTO/VIBE) */
+/* ========================================= */
+.page-content {
+    background-color: var(--colore-secondario);
+    padding: 50px 10%;
     margin-top: 0;
+    border-bottom: 5px solid var(--colore-primario);
+    min-height: 70vh;
+}
+
+/* Il grande font Gen-Z/Brutalista richiesto */
+.large-title {
+    font-size: 4.5em; /* Molto grande */
+    font-weight: 900;
+    color: var(--colore-primario);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 5px solid var(--colore-accento); /* Linea di divisione lime */
+    padding-bottom: 15px;
+}
+
+.large-text {
+    font-size: 1.5em; /* Testo leggibile ma grande */
+    line-height: 1.4;
+    max-width: 800px;
+    margin-bottom: 30px;
+}
+
+/* ========================================= */
+/* 5. FOOTER */
+/* ========================================= */
+footer {
+    background-color: var(--colore-primario);
+    color: var(--colore-accento);
+    text-align: center;
+    padding: 20px 5%;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+/* ========================================= */
+/* 6. MEDIA QUERIES (REATTIVITÀ) */
+/* ========================================= */
+@media (max-width: 768px) {
+    #filtri-e-ricerca {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #barra-ricerca, #filtro-tono {
+        width: 100%;
+    }
+
+    .large-title {
+        font-size: 3em; /* Rendi i titoli grandi più gestibili sul mobile */
+    }
 }
