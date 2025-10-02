@@ -7,9 +7,9 @@
 
 :root {
     --colore-primario: #000000; /* Nero Intenso */
-    --colore-secondario: #FFFFFF; /* Bianco */
+    --colore-secondario: #FFFFFF; /* Bianco (Colore del testo del menu) */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    --colore-grigio-chiaro: #AAAAAA; /* Grigio Chiaro */
+    --colore-grigio-chiaro: #AAAAAA; /* Colore precedente del sottotitolo */
     --font-famiglia: 'Space Mono', monospace; 
 }
 
@@ -23,22 +23,6 @@ body {
 }
 
 /* ========================================= */
-/* NUOVO: Stile generico per i link (A) */
-/* Applicato alle card e al footer per rimuovere il blu predefinito */
-/* ========================================= */
-a {
-    /* Rimuove il classico colore link blu. I link nel corpo saranno neri, ma sottolineati. */
-    color: var(--colore-primario); 
-    text-decoration: underline; 
-    transition: color 0.2s;
-}
-
-a:hover {
-    /* Usa il lime come accento per l'interazione */
-    color: var(--colore-accento); 
-}
-
-/* ========================================= */
 /* 1. HEADER (Titoli e Sottotitoli) */
 /* ========================================= */
 header {
@@ -49,23 +33,26 @@ header {
     border-bottom: 5px solid var(--colore-accento); 
 }
 
+/* ✅ CORREZIONE: Aumenta la dimensione del titolo in modo "eccessivo" */
 #main-title {
-    font-size: 4.5em; /* Grande come i titoli delle sottopagine */
+    font-size: 5.5em; /* Un aumento significativo per un carattere extra! */
     margin: 0;
     text-transform: uppercase;
     line-height: 1; 
 }
 
-/* ✅ NUOVO: Sottotitolo in colore BIANCO (colore del menu), come richiesto */
-header p {
+/* ✅ CORREZIONE: Sottotitolo nel colore del testo del Menu (Bianco) */
+#sub-title {
     font-size: 1.2em;
-    margin-top: 10px; 
-    color: var(--colore-secondario); /* Bianco/colore del testo del menu */
+    margin-top: 10px;
+    color: var(--colore-secondario); /* Bianco/Colore Menu */
 }
+
 
 /* ========================================= */
 /* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
+
 #main-nav {
     background-color: var(--colore-primario);
     border-bottom: 2px solid var(--colore-accento);
@@ -102,8 +89,9 @@ header p {
 }
 
 /* ========================================= */
-/* 3. FILTRI E RICERCA (SOLO SU INDEX.HTML) */
+/* 3. FILTRI E RICERCA */
 /* ========================================= */
+/* ... codice Filtri invariato ... */
 #filtri-e-ricerca {
     display: flex;
     justify-content: center;
@@ -124,7 +112,7 @@ header p {
 }
 
 /* ========================================= */
-/* 4. ARCHIVIO CARDS (SOLO SU INDEX.HTML) */
+/* 4. ARCHIVIO CARDS */
 /* ========================================= */
 #archivio-container {
     background-color: var(--colore-secondario); 
@@ -147,7 +135,7 @@ header p {
     box-shadow: 8px 8px 0px var(--colore-accento); 
 }
 
-/* Titolo della zine */
+/* Stili per il titolo della zine */
 .progetto-card h2 {
     color: var(--colore-primario);
     text-transform: uppercase;
@@ -157,20 +145,11 @@ header p {
     transition: color 0.3s ease-out; 
 }
 
-/* ✅ CONFERMATO: Il titolo della zine diventa LIME al mouse-over */
+/* Mouse-over: Titolo della zine in LIME */
 .progetto-card:hover h2 {
     color: var(--colore-accento); 
     border-bottom: 1px solid var(--colore-primario); 
 }
-
-/* Link all'interno delle card (le fanzine stesse) */
-.progetto-card a {
-    /* Il link deve essere nero (come il testo circostante) e solo sottolineato */
-    color: var(--colore-primario); 
-    text-decoration: underline; 
-    /* Lo hover prenderà lo stile generico 'a:hover' (Lime) */
-}
-
 
 /* Effetto Desaturazione/Saturazione sulle Immagini */
 .copertina-fanzine {
@@ -187,9 +166,17 @@ header p {
     filter: grayscale(0%) contrast(1); 
 }
 
+/* ✅ NUOVO: Stile per i link all'interno della scheda (ad esempio, il link alla zine) */
+.progetto-card a {
+    color: inherit; /* Mantiene il colore nero del testo circostante */
+    text-decoration: underline; /* Mantiene solo la sottolineatura */
+    text-decoration-color: var(--colore-accento); /* Rende la sottolineatura Lime */
+}
+
 /* ========================================= */
-/* 5. STILI SPECIFICI PER LE SOTTOPAGINE (MANIFESTO/VIBE) */
+/* 5. STILI SPECIFICI PER LE SOTTOPAGINE */
 /* ========================================= */
+/* ... codice Sottopagine invariato ... */
 .page-content {
     background-color: var(--colore-secondario);
     padding: 50px 10%;
@@ -248,15 +235,19 @@ footer {
     text-transform: uppercase;
 }
 
-/* ✅ NUOVO: Stilizzazione link specifico nel footer (su sfondo scuro) */
+/* ✅ NUOVO: Stile per i link nel footer (Mantiene il colore del testo circostante) */
 footer a {
-    color: var(--colore-accento); /* Il link sul footer è Lime Elettrico */
+    color: inherit; /* Mantiene il colore lime del footer */
     text-decoration: underline;
+    text-decoration-color: var(--colore-secondario); /* Sottolineatura Bianca/Chiara */
+    transition: color 0.2s;
 }
 
+/* Piccolo effetto hover sul link del footer */
 footer a:hover {
-    color: var(--colore-secondario); /* Diventa Bianco al mouse-over per un effetto di inversione */
+    color: var(--colore-secondario); /* Diventa bianco al mouse over */
 }
+
 
 /* ========================================= */
 /* 7. MEDIA QUERIES (REATTIVITÀ) */
@@ -272,6 +263,6 @@ footer a:hover {
     }
 
     .large-title, #main-title {
-        font-size: 3em; 
+        font-size: 3.5em; /* Riduci per lo schermo mobile */
     }
 }
