@@ -9,7 +9,7 @@
     --colore-primario: #000000; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    --colore-grigio-chiaro: #AAAAAA; /* Grigio Chiaro per il sottotitolo */
+    --colore-grigio-chiaro: #AAAAAA; /* Grigio Chiaro */
     --font-famiglia: 'Space Mono', monospace; 
 }
 
@@ -23,6 +23,22 @@ body {
 }
 
 /* ========================================= */
+/* NUOVO: Stile generico per i link (A) */
+/* Applicato alle card e al footer per rimuovere il blu predefinito */
+/* ========================================= */
+a {
+    /* Rimuove il classico colore link blu. I link nel corpo saranno neri, ma sottolineati. */
+    color: var(--colore-primario); 
+    text-decoration: underline; 
+    transition: color 0.2s;
+}
+
+a:hover {
+    /* Usa il lime come accento per l'interazione */
+    color: var(--colore-accento); 
+}
+
+/* ========================================= */
 /* 1. HEADER (Titoli e Sottotitoli) */
 /* ========================================= */
 header {
@@ -33,25 +49,23 @@ header {
     border-bottom: 5px solid var(--colore-accento); 
 }
 
-/* ✅ NUOVO: Aumenta la dimensione del titolo per l'impatto Brutalista */
 #main-title {
-    font-size: 4.5em; /* Allineato a .large-title */
+    font-size: 4.5em; /* Grande come i titoli delle sottopagine */
     margin: 0;
     text-transform: uppercase;
-    line-height: 1; /* Rimuove lo spazio extra */
+    line-height: 1; 
 }
 
-/* ✅ CORREZIONE COLORE: Sottotitolo in GRIGIO CHIARO, come richiesto */
+/* ✅ NUOVO: Sottotitolo in colore BIANCO (colore del menu), come richiesto */
 header p {
     font-size: 1.2em;
-    margin-top: 10px; /* Più spazio sopra per via del titolo più grande */
-    color: var(--colore-grigio-chiaro); /* Usa la variabile per il grigio chiaro */
+    margin-top: 10px; 
+    color: var(--colore-secondario); /* Bianco/colore del testo del menu */
 }
 
 /* ========================================= */
 /* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
-/* ... codice NAV invariato ... */
 #main-nav {
     background-color: var(--colore-primario);
     border-bottom: 2px solid var(--colore-accento);
@@ -90,7 +104,6 @@ header p {
 /* ========================================= */
 /* 3. FILTRI E RICERCA (SOLO SU INDEX.HTML) */
 /* ========================================= */
-/* ... codice Filtri invariato ... */
 #filtri-e-ricerca {
     display: flex;
     justify-content: center;
@@ -134,21 +147,30 @@ header p {
     box-shadow: 8px 8px 0px var(--colore-accento); 
 }
 
+/* Titolo della zine */
 .progetto-card h2 {
     color: var(--colore-primario);
     text-transform: uppercase;
     border-bottom: 1px solid var(--colore-accento);
     padding-bottom: 5px;
     font-weight: 700;
-    /* Aggiungi transizione per il cambio di colore */
     transition: color 0.3s ease-out; 
 }
 
-/* ✅ NUOVO: La fanzine cambia colore in LIME al mouse-over */
+/* ✅ CONFERMATO: Il titolo della zine diventa LIME al mouse-over */
 .progetto-card:hover h2 {
     color: var(--colore-accento); 
-    border-bottom: 1px solid var(--colore-primario); /* L'accento si inverte */
+    border-bottom: 1px solid var(--colore-primario); 
 }
+
+/* Link all'interno delle card (le fanzine stesse) */
+.progetto-card a {
+    /* Il link deve essere nero (come il testo circostante) e solo sottolineato */
+    color: var(--colore-primario); 
+    text-decoration: underline; 
+    /* Lo hover prenderà lo stile generico 'a:hover' (Lime) */
+}
+
 
 /* Effetto Desaturazione/Saturazione sulle Immagini */
 .copertina-fanzine {
@@ -168,7 +190,6 @@ header p {
 /* ========================================= */
 /* 5. STILI SPECIFICI PER LE SOTTOPAGINE (MANIFESTO/VIBE) */
 /* ========================================= */
-/* ... codice Sottopagine invariato ... */
 .page-content {
     background-color: var(--colore-secondario);
     padding: 50px 10%;
@@ -177,7 +198,6 @@ header p {
     min-height: 70vh;
 }
 
-/* Questo è il riferimento per la dimensione 4.5em */
 .large-title {
     font-size: 4.5em; 
     font-weight: 700; 
@@ -228,6 +248,16 @@ footer {
     text-transform: uppercase;
 }
 
+/* ✅ NUOVO: Stilizzazione link specifico nel footer (su sfondo scuro) */
+footer a {
+    color: var(--colore-accento); /* Il link sul footer è Lime Elettrico */
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: var(--colore-secondario); /* Diventa Bianco al mouse-over per un effetto di inversione */
+}
+
 /* ========================================= */
 /* 7. MEDIA QUERIES (REATTIVITÀ) */
 /* ========================================= */
@@ -242,6 +272,6 @@ footer {
     }
 
     .large-title, #main-title {
-        font-size: 3em; /* Adatta anche il titolo principale su mobile */
+        font-size: 3em; 
     }
 }
