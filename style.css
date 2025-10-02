@@ -9,13 +9,13 @@
     --colore-primario: #000000; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    /* NUOVO FONT: Space Mono */
-    --font-famiglia: 'Space Mono', monospace; 
+    --font-famiglia: 'Space Mono', monospace; /* NUOVO FONT */
 }
+
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
-    background-color: var(--colore-accento); /* Sfondo lime elettrico */
+    background-color: var(--colore-secondario); /* Sfondo principale BIANCO come prima */
     color: var(--colore-primario);
     margin: 0;
     padding: 0;
@@ -24,9 +24,9 @@ body {
 header {
     background-color: var(--colore-primario); 
     color: var(--colore-accento);
-    padding: 30px 5%; /* Padding percentuale per reattività */
+    padding: 30px 5%; 
     text-align: center;
-    border-bottom: 5px solid var(--colore-accento); /* Bordo netto */
+    border-bottom: 5px solid var(--colore-accento); 
 }
 
 #main-title {
@@ -74,7 +74,7 @@ header {
 }
 
 #main-nav a:hover,
-#main-nav a.active-page { /* Stile per la pagina attiva */
+#main-nav a.active-page { 
     background-color: var(--colore-accento); 
     color: var(--colore-primario);
 }
@@ -87,14 +87,15 @@ header {
     justify-content: center;
     gap: 20px;
     padding: 20px 5%;
-    background-color: var(--colore-secondario);
+    background-color: var(--colore-secondario); /* BIANCO */
     border-bottom: 2px solid var(--colore-primario);
 }
 
 #barra-ricerca, #filtro-tono {
     padding: 10px;
-    border: 3px solid var(--colore-primario); /* Bordo spesso e netto */
+    border: 3px solid var(--colore-primario); 
     background-color: var(--colore-secondario);
+    font-family: var(--font-famiglia); /* Usa Space Mono anche qui */
     font-size: 16px;
     width: 300px;
     max-width: 100%;
@@ -104,7 +105,7 @@ header {
 /* 3. ARCHIVIO CARDS (SOLO SU INDEX.HTML) */
 /* ========================================= */
 #archivio-container {
-    background-color: var(--colore-secondario); /* Sfondo bianco per le card */
+    background-color: var(--colore-secondario); 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 25px;
@@ -116,7 +117,7 @@ header {
     border: 3px solid var(--colore-primario);
     padding: 20px;
     transition: transform 0.1s;
-    box-shadow: 5px 5px 0px var(--colore-primario); /* Ombra brutale */
+    box-shadow: 5px 5px 0px var(--colore-primario); 
 }
 
 .progetto-card:hover {
@@ -129,6 +130,8 @@ header {
     text-transform: uppercase;
     border-bottom: 1px solid var(--colore-accento);
     padding-bottom: 5px;
+    /* Opzionale: Bold per i titoli */
+    font-weight: 700; 
 }
 
 .copertina-fanzine {
@@ -152,19 +155,21 @@ header {
 
 /* Il grande font Gen-Z/Brutalista richiesto */
 .large-title {
-    font-size: 4.5em; /* Molto grande */
-    font-weight: 900;
+    font-size: 4.5em; 
+    font-weight: 700; /* Usiamo il Bold di Space Mono */
     color: var(--colore-primario);
     text-transform: uppercase;
     line-height: 1;
     margin-top: 0;
     margin-bottom: 20px;
-    border-bottom: 5px solid var(--colore-accento); /* Linea di divisione lime */
+    border-bottom: 5px solid var(--colore-accento); 
     padding-bottom: 15px;
 }
 
 .large-text {
-    font-size: 1.5em; /* Testo leggibile ma grande */
+    font-size: 1.5em; 
+    /* Opzionale: Italic per dare un tocco di 'handgloves' o enfasi Gen-Z */
+    font-style: italic; 
     line-height: 1.4;
     max-width: 800px;
     margin-bottom: 30px;
@@ -196,6 +201,6 @@ footer {
     }
 
     .large-title {
-        font-size: 3em; /* Rendi i titoli grandi più gestibili sul mobile */
+        font-size: 3em; 
     }
 }
