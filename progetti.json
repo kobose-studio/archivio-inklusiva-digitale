@@ -39,13 +39,13 @@
     "id": 4, 
     "titolo": "(F)Act",
     "autore": "Kobose",
-    "modulo_corso": "Modulo II: Mani, Macchine & Layout",
-    "tono_voce": "Aggressivo",
-    "tema": "Fotografia D'Autore/Strategia Etica",
+    "modulo_corso": "Modulo I: Lo Sguardo e la Strategia",
+    "tono_voce": "Ironico",
+    "tema": "Manipolazione Mediatica e Collage",
     "anno": 2025,
-    "numero_pagine": 16, 
+    "numero_pagine": 16,
     "link_fanzine": "assets/(F)Act_kobose_16p_spread.pdf",
-    "link_copertina": "assets/(F)Act_kobose_cover.jpg" 
+    "link_copertina": "assets/(F)Act_kobose_cover.jpg"
   },
   {
     "id": 5, 
