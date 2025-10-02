@@ -35,20 +35,8 @@
     "link_fanzine": "assets/Far-Fest_kobose_zine_32p-web.pdf",
     "link_copertina": "assets/Far-Fest_kobose_cover.jpg" 
   },
-   {
-    "id": 4, 
-    "titolo": "Bull",
-    "autore": "Kobose",
-    "modulo_corso": "Modulo III: Proiezione e Mercato",
-    "tono_voce": "Aggressivo",
-    "tema": "Cut-Up e Guerriglia Visiva",
-    "anno": 2025,
-    "numero_pagine": 28, 
-    "link_fanzine": "assets/Bull_kobose_24p_spread-w.pdf",  
-    "link_copertina": "assets/Bull_kobose_cover.jpg" 
-  },
   {
-    "id": 5, 
+    "id": 4, 
     "titolo": "(F)Act",
     "autore": "Kobose",
     "modulo_corso": "Modulo I: Lo Sguardo e la Strategia",
@@ -58,5 +46,17 @@
     "numero_pagine": 16,
     "link_fanzine": "assets/(F)Act_kobose_16p_spread.pdf",
     "link_copertina": "assets/(F)Act_kobose_cover.jpg"
+  },
+  {
+    "id": 5, 
+    "titolo": "Bull",
+    "autore": "Kobose",
+    "modulo_corso": "Modulo III: Proiezione e Mercato",
+    "tono_voce": "Aggressivo",
+    "tema": "Cut-Up e Guerriglia Visiva",
+    "anno": 2025,
+    "numero_pagine": 28, 
+    "link_fanzine": "assets/Bull_kobose_24p_spread-w.pdf",  
+    "link_copertina": "assets/Bull_kobose_cover.jpg" 
   }
 ]
