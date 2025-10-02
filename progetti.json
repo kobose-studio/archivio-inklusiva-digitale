@@ -46,5 +46,17 @@
     "numero_pagine": 28, 
     "link_fanzine": "assets/Bull_kobose_24p_spread-w.pdf",  
     "link_copertina": "assets/Bull_kobose_cover.jpg" 
+  },
+  {
+    "id": 5, 
+    "titolo": "(F)Act",
+    "autore": "Kobose",
+    "modulo_corso": "Modulo II: Mani, Macchine & Layout",
+    "tono_voce": "Ironico",
+    "tema": "Informazione e Contro-informazione",
+    "anno": 2025,
+    "numero_pagine": 16, 
+    "link_fanzine": "assets/(F)Act_kobose_16p_spread.pdf",
+    "link_copertina": "assets/(F)Act_kobose_cover.jpg" 
   }
 ]
