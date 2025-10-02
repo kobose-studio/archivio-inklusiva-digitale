@@ -1,201 +1,20 @@
 /* ========================================= */
-/* 0. VARIABILI E FONT */
-/* ========================================= */
-:root {
-    /* Palette Colori (B/N e Lime Estremo) */
-    --colore-primario: #0A0A0A; /* Nero Intenso */
-    --colore-secondario: #FFFFFF; /* Bianco Puro */
-    --colore-accento: #7FFF00; /* Verde Lime Elettrico (Super Saturato) */
-    --colore-sfondo: #F7F7F7; /* Grigio Molto Chiaro */
-
-    /* Font: Roboto Mono per tutto, come richiesto */
-    --font-base: 'Roboto Mono', monospace; 
-}
-
-/* Reset Base e Sfondo */
-body {
-    font-family: var(--font-base);
-    color: var(--colore-primario);
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-    background-color: var(--colore-sfondo);
-}
-
-/* ========================================= */
-/* 1. HEADER (Il look INKLUSIVA / 4.0) */
-/* ========================================= */
-
-header {
-    background-color: var(--colore-primario); 
-    color: var(--colore-secondario); 
-    padding: 30px 5%;
-    text-align: center;
-    border-bottom: 5px solid var(--colore-accento); 
-}
-
-#main-title {
-    font-size: 4em; 
-    font-weight: 900; 
-    margin: 0;
-    line-height: 0.9; 
-    color: var(--colore-accento); 
-    text-transform: uppercase;
-}
-
-#sub-title {
-    font-size: 1.1em; 
-    font-weight: 700;
-    margin: 0;
-    color: var(--colore-secondario); 
-    text-transform: uppercase;
-}
-
-/* ========================================= */
-/* 2. FILTRI E RICERCA */
-/* ========================================= */
-
-#filtri-e-ricerca {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; 
-    gap: 20px;
-    padding: 20px 5%;
-    background-color: var(--colore-secondario);
-    border-bottom: 1px solid var(--colore-primario); 
-}
-
-#barra-ricerca, #filtro-tono {
-    padding: 12px 15px;
-    border: 2px solid var(--colore-primario); 
-    border-radius: 0; 
-    font-size: 1em;
-    width: 250px;
-    max-width: 100%;
-    transition: all 0.2s;
-}
-
-#barra-ricerca:focus, #filtro-tono:focus {
-    border-color: var(--colore-accento); 
-    outline: none;
-    box-shadow: 0 0 0 2px var(--colore-accento);
-}
-
-/* ========================================= */
-/* 3. LAYOUT DELLE SCHEDE (Griglia) */
-/* ========================================= */
-
-#archivio-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-    gap: 30px; 
-    padding: 40px 5%; 
-}
-
-/* Stile per la singola scheda del progetto */
-.progetto-card {
-    background-color: var(--colore-secondario);
-    border: 2px solid var(--colore-primario); 
-    border-radius: 0;
-    box-shadow: 6px 6px 0px 0px var(--colore-accento); 
-    padding: 25px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-}
-
-.progetto-card:hover {
-    transform: translate(-3px, -3px); 
-    box-shadow: 9px 9px 0px 0px var(--colore-accento); 
-}
-
-/* 4. STILE IMMAGINI DI COPERTINA (NUOVO) */
-.copertina-fanzine {
-    width: 100%; 
-    height: auto; 
-    max-height: 350px;
-    object-fit: cover; 
-    
-    border: 2px solid var(--colore-primario); 
-    margin-bottom: 20px; 
-    box-shadow: 4px 4px 0px 0px var(--colore-primario); 
-    
-    /* Filtro per omogeneizzare le copertine se sono a colori */
-    filter: grayscale(80%) contrast(1.1); 
-    transition: filter 0.3s;
-}
-
-.progetto-card:hover .copertina-fanzine {
-    /* Rimuove il filtro per far apparire i colori all'hover */
-    filter: grayscale(0%) contrast(1.0);
-}
-
-
-/* Contenuti delle schede */
-.progetto-card h2 {
-    font-size: 1.4em;
-    color: var(--colore-accento); 
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.metadato {
-    font-size: 0.9em;
-    margin: 5px 0;
-}
-
-.metadato strong {
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-right: 5px;
-}
-
-/* Pulsanti "Vedi Fanzine" */
-.progetto-card a {
-    display: inline-block;
-    background-color: var(--colore-accento);
-    color: var(--colore-primario);
-    font-family: var(--font-base);
-    padding: 10px 20px;
-    margin-top: 15px;
-    text-decoration: none;
-    text-transform: uppercase;
-    border: 2px solid var(--colore-primario);
-    border-radius: 0;
-    transition: background-color 0.2s, transform 0.1s;
-}
-
-.progetto-card a:hover {
-    background-color: var(--colore-primario); 
-    color: var(--colore-accento);
-    transform: scale(1.05);
-}
-
-/* ========================================= */
-/* 5. FOOTER */
-/* ========================================= */
-
-footer {
-    text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-    border-top: 1px solid var(--colore-primario);
-    font-size: 0.8em;
-    color: #666;
-    background-color: var(--colore-secondario);
-}
-/* ========================================= */
 /* 6. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
 
+/* Assunzione: hai già definito le variabili --colore-primario (nero/scuro) e --colore-accento (lime/brillante) */
+
 #main-nav {
-    background-color: var(--colore-primario); /* Nero Intenso */
-    border-bottom: 2px solid var(--colore-accento); /* Linea di accento Lime */
+    /* Ho mantenuto i colori in base al tuo stile Brutalista */
+    background-color: var(--colore-primario, #1a1a1a); 
+    border-bottom: 2px solid var(--colore-accento, #ccff00); 
 }
 
 #main-nav ul {
     list-style: none;
     margin: 0;
     padding: 0 5%;
-    display: flex; /* Metti i link in linea */
+    display: flex; 
     justify-content: flex-start;
 }
 
@@ -207,17 +26,17 @@ footer {
     display: block;
     padding: 15px 20px;
     text-decoration: none;
-    color: var(--colore-secondario); /* Testo Bianco */
+    color: var(--colore-secondario, white); /* Testo chiaro sul fondo scuro */
     font-size: 1em;
     font-weight: 700;
     text-transform: uppercase;
-    border-right: 1px solid var(--colore-accento); /* Separatore brutale */
+    border-right: 1px solid var(--colore-accento, #ccff00); /* Separatore aggressivo */
     transition: background-color 0.2s, color 0.2s;
 }
 
 #main-nav a:hover {
-    background-color: var(--colore-accento); /* Inverti i colori all'hover */
-    color: var(--colore-primario);
+    background-color: var(--colore-accento, #ccff00); /* Inverti i colori all'hover */
+    color: var(--colore-primario, #1a1a1a);
 }
 
 /* ========================================= */
@@ -226,15 +45,15 @@ footer {
 .content-section {
     padding: 40px 5%;
     margin-bottom: 20px;
-    background-color: var(--colore-secondario);
-    border: 2px solid var(--colore-primario);
+    background-color: var(--colore-secondario, white);
+    border: 2px solid var(--colore-primario, #1a1a1a);
     border-top: none;
 }
 
 .content-section h2 {
-    color: var(--colore-accento);
+    color: var(--colore-accento, #ccff00);
     font-size: 2em;
-    border-bottom: 3px solid var(--colore-primario);
+    border-bottom: 3px solid var(--colore-primario, #1a1a1a);
     padding-bottom: 10px;
     margin-top: 0;
 }
