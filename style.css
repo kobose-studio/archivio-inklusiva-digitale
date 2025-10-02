@@ -182,3 +182,59 @@ footer {
     color: #666;
     background-color: var(--colore-secondario);
 }
+/* ========================================= */
+/* 6. MENU DI NAVIGAZIONE (NAV) */
+/* ========================================= */
+
+#main-nav {
+    background-color: var(--colore-primario); /* Nero Intenso */
+    border-bottom: 2px solid var(--colore-accento); /* Linea di accento Lime */
+}
+
+#main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 5%;
+    display: flex; /* Metti i link in linea */
+    justify-content: flex-start;
+}
+
+#main-nav li {
+    margin: 0;
+}
+
+#main-nav a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: var(--colore-secondario); /* Testo Bianco */
+    font-size: 1em;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-right: 1px solid var(--colore-accento); /* Separatore brutale */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#main-nav a:hover {
+    background-color: var(--colore-accento); /* Inverti i colori all'hover */
+    color: var(--colore-primario);
+}
+
+/* ========================================= */
+/* 7. SEZIONI DEI CONTENUTI (Manifesto/About) */
+/* ========================================= */
+.content-section {
+    padding: 40px 5%;
+    margin-bottom: 20px;
+    background-color: var(--colore-secondario);
+    border: 2px solid var(--colore-primario);
+    border-top: none;
+}
+
+.content-section h2 {
+    color: var(--colore-accento);
+    font-size: 2em;
+    border-bottom: 3px solid var(--colore-primario);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
