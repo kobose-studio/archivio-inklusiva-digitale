@@ -9,6 +9,7 @@
     --colore-primario: #000000; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
+    --colore-grigio-chiaro: #BBBBBB; /* Nuovo: Grigio Chiarissimo per il sottotitolo */
     --font-famiglia: 'Space Mono', monospace; 
 }
 
@@ -26,7 +27,7 @@ body {
 /* ========================================= */
 header {
     background-color: var(--colore-primario); 
-    color: var(--colore-accento);
+    color: var(--colore-accento); /* Colore di default per l'header, usato per h1 quando non specificato */
     padding: 30px 5%; 
     text-align: center;
     border-bottom: 5px solid var(--colore-accento); 
@@ -36,13 +37,16 @@ header {
     font-size: 3em;
     margin: 0;
     text-transform: uppercase;
+    /* Assicura che INKLUSIVA sia in Lime Elettrico (o nel colore primario del header se h1 non è sovrascritto) */
+    color: var(--colore-accento);
 }
 
-/* ❌ CORREZIONE COLORE: Sottotitolo in colore CHIARO (Bianco) ❌ */
+/* ❌ CORREZIONE COLORE: Sottotitolo in Grigio Chiarissimo ❌ */
 header p {
     font-size: 1.2em;
     margin-top: 5px;
-    color: var(--colore-secondario); /* Bianco per chiarezza, come richiesto */
+    /* Usa la nuova variabile per il Grigio Chiarissimo */
+    color: var(--colore-grigio-chiaro); 
 }
 
 /* ========================================= */
@@ -126,28 +130,24 @@ header p {
 }
 
 .progetto-card:hover {
-    transform: translate(-3px, -3px); /* Leggera mossa */
-    box-shadow: 8px 8px 0px var(--colore-accento); /* Ombra di impatto con accento */
+    transform: translate(-3px, -3px); 
+    box-shadow: 8px 8px 0px var(--colore-accento); 
 }
 
-/* ❌ NUOVO: Effetto Desaturazione/Saturazione sulle Immagini ❌ */
+/* Effetto Desaturazione/Saturazione sulle Immagini */
 .copertina-fanzine {
     width: 100%;
     height: auto;
     display: block;
     border: 2px solid var(--colore-primario);
     margin-bottom: 15px;
-    /* Desaturazione: Rende l'immagine in scala di grigi */
     filter: grayscale(100%) contrast(1.1);
-    /* Aggiunge una transizione fluida per l'effetto hover */
     transition: filter 0.3s ease-out; 
 }
 
-/* Quando si passa il mouse sulla CARD, l'immagine torna a colori */
 .progetto-card:hover .copertina-fanzine {
-    filter: grayscale(0%) contrast(1); /* Togli l'effetto scala di grigi */
+    filter: grayscale(0%) contrast(1);
 }
-/* FINE EFFETTO HOVER */
 
 
 .progetto-card h2 {
@@ -169,7 +169,6 @@ header p {
     min-height: 70vh;
 }
 
-/* Il grande font Gen-Z/Brutalista richiesto */
 .large-title {
     font-size: 4.5em; 
     font-weight: 700; 
@@ -190,11 +189,10 @@ header p {
     margin-bottom: 30px;
 }
 
-/* Nuovo stile per i sottotitoli delle sezioni del Manifesto */
 .manifesto-sottotitolo {
     font-size: 1.8em;
     font-weight: 700;
-    color: var(--colore-accento); /* Usa l'accento lime per i titoli interni */
+    color: var(--colore-accento); 
     text-transform: uppercase;
     margin-top: 40px;
     margin-bottom: 15px;
@@ -203,7 +201,7 @@ header p {
 }
 
 .page-content p {
-    font-size: 1em; /* Testo del manifesto leggermente più piccolo per migliore leggibilità */
+    font-size: 1em; 
     line-height: 1.6;
     max-width: 800px;
     margin-bottom: 20px;
