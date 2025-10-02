@@ -9,7 +9,7 @@
     --colore-primario: #000000; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    --colore-grigio-chiaro: #BBBBBB; /* Nuovo: Grigio Chiarissimo per il sottotitolo */
+    --colore-grigio-chiaro: #E0E0E0; /* NUOVA VARIABILE: Grigio Chiarissimo */
     --font-famiglia: 'Space Mono', monospace; 
 }
 
@@ -27,7 +27,7 @@ body {
 /* ========================================= */
 header {
     background-color: var(--colore-primario); 
-    color: var(--colore-accento); /* Colore di default per l'header, usato per h1 quando non specificato */
+    color: var(--colore-accento);
     padding: 30px 5%; 
     text-align: center;
     border-bottom: 5px solid var(--colore-accento); 
@@ -37,16 +37,13 @@ header {
     font-size: 3em;
     margin: 0;
     text-transform: uppercase;
-    /* Assicura che INKLUSIVA sia in Lime Elettrico (o nel colore primario del header se h1 non è sovrascritto) */
-    color: var(--colore-accento);
 }
 
-/* ❌ CORREZIONE COLORE: Sottotitolo in Grigio Chiarissimo ❌ */
-header p {
+/* APPLICA IL GRIGIO CHIARISSIMO AL NUOVO SOTTOTITOLO */
+#sub-title {
     font-size: 1.2em;
     margin-top: 5px;
-    /* Usa la nuova variabile per il Grigio Chiarissimo */
-    color: var(--colore-grigio-chiaro); 
+    color: var(--colore-grigio-chiaro); /* Usa il grigio chiarissimo richiesto */
 }
 
 /* ========================================= */
