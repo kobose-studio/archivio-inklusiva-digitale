@@ -1,13 +1,17 @@
 /* ========================================= */
-/* 0. VARIABILI E FONT PER STILE BRUTALISTA */
+/* 0. IMPORT FONT E VARIABILI */
 /* ========================================= */
+
+/* Importa il font Space Mono da Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 :root {
-    --colore-primario: #000000; /* Nero Intenso per lo sfondo o testo principale */
+    --colore-primario: #000000; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    --font-famiglia: 'Helvetica Neue', Arial, sans-serif; /* Font chiaro e leggibile */
+    /* NUOVO FONT: Space Mono */
+    --font-famiglia: 'Space Mono', monospace; 
 }
-
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
