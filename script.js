@@ -1,10 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // =========================================
-    // VARIABILI GLOBALI E INIZIALIZZAZIONE DEL COLORE
-    // =========================================
-    
-    // ✅ CORREZIONE: Ottieni il colore Lime del CSS subito dopo DOMContentLoaded
-    const limeColor = getComputedStyle(document.documentElement).getPropertyValue('--colore-accento').trim(); 
 
     // =========================================
     // PARTE 1: LOGICA ARCHIVIO (Caricamento, Filtro, Visualizzazione)
@@ -13,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('archivio-container');
     const barraRicerca = document.getElementById('barra-ricerca');
     const filtroTono = document.getElementById('filtro-tono');
-    let tuttiIProgetti = []; // Array per conservare tutti i progetti caricati
+    let tuttiIProgetti = []; 
 
     // Funzione 1: Carica i dati dal JSON
     function caricaDati() {
@@ -36,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Funzione 2: Crea e visualizza le schede dei progetti
     function visualizzaProgetti(progettiDaMostrare) {
-        container.innerHTML = ''; // Pulisci il contenitore
+        container.innerHTML = ''; 
         
         if (progettiDaMostrare.length === 0) {
             container.innerHTML = '<p>Nessun progetto trovato che corrisponda ai criteri di ricerca/filtro.</p>';
@@ -86,26 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
     filtroTono.addEventListener('change', filtraEOrdinaProgetti);
 
     // =========================================
-    // PARTE 2: PARTICLE SYSTEM
+    // PARTE 2: PARTICLE SYSTEM (RIVISTA E CORRETTA)
     // =========================================
 
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const textCanvas = document.getElementById('textCanvas');
-    const textCtx = textCanvas.getContext('2d');
-    textCanvas.width = window.innerWidth;
-    textCanvas.height = window.innerHeight;
-
+    let canvas, ctx, textCanvas, textCtx;
+    let particleColor;
     
     let particles = [];
     const numParticles = 200;
     const repulsionDistance = 150;
     const repulsionStrength = 0.6;
-    const particleSize = 8;
-    const particleColor = limeColor; // Usa il colore lime
+    const baseParticleSize = 8; // Rinominata per chiarezza
     let sizeVariation = 0;
     let variationRandomness = 0.5;
 
@@ -138,6 +123,39 @@ document.addEventListener('DOMContentLoaded', () => {
         "CITTADINANZA ATTIVA"
     ];
 
+    // ✅ FUNZIONE CRUCIALE: Inizializza il canvas e le variabili di contesto
+    function setupCanvas() {
+        canvas = document.getElementById('particleCanvas');
+        textCanvas = document.getElementById('textCanvas');
+
+        if (!canvas || !textCanvas) {
+            console.error("Errore: Impossibile trovare i canvas nel DOM. Controlla index.html.");
+            return false;
+        }
+
+        ctx = canvas.getContext('2d');
+        textCtx = textCanvas.getContext('2d');
+
+        // Imposta le dimensioni iniziali
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        textCanvas.width = window.innerWidth;
+        textCanvas.height = window.innerHeight;
+
+        // ✅ Ottieni il colore Lime del CSS
+        const computedStyle = getComputedStyle(document.documentElement);
+        particleColor = computedStyle.getPropertyValue('--colore-accento'); 
+        
+        if (!particleColor || particleColor.length < 4) {
+             console.warn("Avviso: Colore CSS non letto correttamente. Uso fallback: #CCFF00.");
+             particleColor = "#CCFF00"; // Fallback
+        } else {
+             particleColor = particleColor.trim();
+        }
+
+        return true;
+    }
+
     // Funzione per disegnare un poligono regolare
     function drawPolygon(ctx, x, y, radius, sides) {
         if (sides < 3) return;
@@ -155,13 +173,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Classe Particella
     class Particle {
-        constructor(x, y, color = particleColor, size = particleSize) {
+        constructor(x, y, color = particleColor, size = baseParticleSize) {
             this.x = x;
             this.y = y;
             this.size = size;
             this.color = color;
-            this.velocityX = Math.random() * 2 - 1;
-            this.velocityY = Math.random() * 2 - 1;
+            // Velocità iniziale randomizzata leggermente più lenta per stabilità
+            this.velocityX = (Math.random() * 0.8 - 0.4); 
+            this.velocityY = (Math.random() * 0.8 - 0.4);
             this.alpha = 0;
             this.fadeSpeed = 0.01;
             this.maxVelocity = 2;
@@ -173,12 +192,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         update() {
-            // Fade-in effect
             if (this.alpha < 1) {
                 this.alpha += this.fadeSpeed;
             }
 
-            // Apply repulsion from mouse
+            // Repulsione del mouse
             if (mouseX !== null && mouseY !== null) {
                 let dx = this.x - mouseX;
                 let dy = this.y - mouseY;
@@ -194,40 +212,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Add wandering force
+            // Movimento casuale/inerziale
             this.velocityX += (Math.random() - 0.5) * this.wanderStrength;
             this.velocityY += (Math.random() - 0.5) * this.wanderStrength;
             this.velocityX += (this.baseVelocity.x - this.velocityX) * 0.005;
             this.velocityY += (this.baseVelocity.y - this.velocityY) * 0.005;
 
-            // Apply velocity and friction
+            // Applica velocità e attrito
             this.x += this.velocityX;
             this.y += this.velocityY;
             this.velocityX *= this.friction;
             this.velocityY *= this.friction;
 
-            // Bounce off edges
+            // Rimbalzo dai bordi
             const damping = 0.7;
-            if (this.x + this.size > canvas.width) {
-                this.x = canvas.width - this.size;
-                this.velocityX = -this.velocityX * damping;
+            if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+                this.velocityX *= -damping;
             }
-            if (this.x - this.size < 0) {
-                this.x = this.size;
-                this.velocityX = -this.velocityX * damping;
+            if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+                this.velocityY *= -damping;
             }
-            if (this.y + this.size > canvas.height) {
-                this.y = canvas.height - this.size;
-                this.velocityY = -this.velocityY * damping;
-            }
-            if (this.y - this.size < 0) {
-                this.y = this.size;
-                this.velocityY = -this.velocityY * damping;
-            }
+            this.x = Math.max(this.size, Math.min(this.x, canvas.width - this.size));
+            this.y = Math.max(this.size, Math.min(this.y, canvas.height - this.size));
+
 
             // Dimensione dinamica
             const randomFactor = (Math.random() - 0.5) * variationRandomness * 2;
-            this.targetSize = particleSize + sizeVariation + randomFactor * 10;
+            this.targetSize = baseParticleSize + sizeVariation + randomFactor * 10;
             this.size += (this.targetSize - this.size) * 0.1;
         }
 
@@ -243,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initParticles() {
         particles = [];
         for (let i = 0; i < numParticles; i++) {
+            // Posiziona le particelle in modo casuale entro i limiti
             particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
         }
     }
@@ -251,35 +263,34 @@ document.addEventListener('DOMContentLoaded', () => {
     function createTextParticles(text, x, y) {
         textParticles = [];
         const fontSize = 38; 
-        // Usa il colore Lime per il testo disegnato sul canvas
         textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`; 
-        textCtx.fillStyle = limeColor; 
+        textCtx.fillStyle = particleColor; 
         textCtx.textAlign = 'center';
         textCtx.textBaseline = 'middle';
         textCtx.fillText(text, x, y);
 
+        // Prende i dati del pixel del testo disegnato
         const textData = textCtx.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
-        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Pulisci il canvas di testo
+        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Pulisci il canvas di testo immediatamente
 
+        // Campionamento dei pixel colorati per creare particelle
         for (let i = 0; i < textCanvas.width; i += 4) {
             for (let j = 0; j < textCanvas.height; j += 4) {
                 const pixelAlpha = textData[(j * textCanvas.width + i) * 4 + 3];
                 if (pixelAlpha > 128) {
-                    const xPos = i;
-                    const yPos = j;
-                    textParticles.push(new Particle(xPos, yPos, limeColor, 2));
+                    textParticles.push(new Particle(i, j, particleColor, 2));
                 }
             }
         }
     }
     
-    // Mostra il testo statico quando non c'è interazione
+    // Disegna il testo statico quando non c'è disintegrazione
     function drawText() {
-        if (activeText) {
+        if (activeText && textParticles.length === 0) {
             const fontSize = 38;
             textCtx.globalAlpha = 1;
             textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`;
-            textCtx.fillStyle = limeColor; // Testo statico in Lime
+            textCtx.fillStyle = particleColor; 
             textCtx.textAlign = 'center';
             textCtx.textBaseline = 'middle';
             textCtx.fillText(activeText, textCanvas.width / 2, textCanvas.height / 2);
@@ -289,8 +300,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ciclo di animazione
     function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisci il canvas delle particelle
-        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Pulisci il canvas del testo
+        if (!ctx || !textCtx) {
+            // Se i contesti non sono definiti, ferma l'animazione o riprova
+            return; 
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); 
 
         if (textParticles.length > 0) {
             // Logica di disintegrazione del testo
@@ -305,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 textParticles[i].x += textParticles[i].velocityX * (1 + disintegrationFactor * 6); 
                 textParticles[i].y += textParticles[i].velocityY * (1 + disintegrationFactor * 6);
                 textParticles[i].alpha = Math.max(0, 1 - disintegrationFactor * 1.5); 
-                textParticles[i].size = particleSize * (1 + disintegrationFactor * 1.5);
+                textParticles[i].size = baseParticleSize * (1 + disintegrationFactor * 1.5);
                 textParticles[i].draw();
             }
         } else {
@@ -314,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 particles[i].update();
                 particles[i].draw();
             }
-            drawText(); // Disegna il testo statico se presente
+            drawText(); 
         }
 
         requestAnimationFrame(animate);
@@ -338,16 +354,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener per il ridimensionamento della finestra
     window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        textCanvas.width = window.innerWidth;
-        textCanvas.height = window.innerHeight;
-        initParticles();
+        if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            textCanvas.width = window.innerWidth;
+            textCanvas.height = window.innerHeight;
+            initParticles();
+        }
     });
 
     // Logica del click per il testo
     window.addEventListener('click', (event) => {
-        // Controlla che il click non sia su un link o un bottone nel body
+        // Ignora i click su elementi interattivi
         if (event.target.tagName === 'A' || event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') {
             return;
         }
@@ -357,12 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         clearTimeout(phraseDisplayTimeout);
         phraseDisplayTimeout = setTimeout(() => {
-            // Dopo il timeout, avvia la disintegrazione del testo statico in particelle
-            const textX = textCanvas.width / 2;
-            const textY = textCanvas.height / 2;
-            // Se activeText non è stato resettato da un altro click, procedi alla disintegrazione
             if(activeText) {
-                createTextParticles(activeText, textX, textY);
+                createTextParticles(activeText, textCanvas.width / 2, textCanvas.height / 2);
             }
         }, textDisplayDuration);
     });
@@ -374,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (event.key === 'ArrowDown') {
             sizeVariation = Math.max(sizeVariation - 1, -5);
         } else if (event.key === 'ArrowLeft') {
-            variationRandomness = Math.max(variationRandomness - 0.1, 0);
+            variationRandomness = Math.max(variationRandomness - 0.1, 0.1); // Minore di 0.1 per stabilità
         } else if (event.key === 'ArrowRight') {
             variationRandomness = Math.min(variationRandomness + 0.1, 1);
         }
@@ -383,9 +397,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Avvia il caricamento dei dati dell'archivio e il sistema di particelle
+    // =========================================
+    // AVVIO
+    // =========================================
+    
+    // 1. Inizializza i canvas (CRUCIALE)
+    if (setupCanvas()) {
+        // 2. Avvia le particelle solo se i canvas sono stati inizializzati con successo
+        initParticles();
+        // 3. Avvia l'animazione
+        animate();
+    }
+    
+    // 4. Avvia il caricamento dei dati dell'archivio
     caricaDati();
-    initParticles();
-    animate();
 
 });
