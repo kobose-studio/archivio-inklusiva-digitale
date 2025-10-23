@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'icosahedron', sides: 20 },
     ];
 
-    // ✅ CORREZIONE: Frasi sostituite con concetti chiave di INKLUSIVA
+    // Frasi sostituite con concetti chiave di INKLUSIVA
     const inklusivaPhrases = [
         "INGENUINITÀ > INGEGNO ETICO",
         "LEGACY DIGITALE 4.0",
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.velocityX *= this.friction;
             this.velocityY *= this.friction;
 
-            // Bounce off edges (gestito da CSS body per Brutalismo)
+            // Bounce off edges 
             const damping = 0.7;
             if (this.x + this.size > canvas.width) {
                 this.x = canvas.width - this.size;
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initParticles();
     });
 
-    // ✅ NUOVO: Logica del click per il testo
+    // Logica del click per il testo
     window.addEventListener('click', (event) => {
         // Evita che il click interferisca con gli elementi dell'archivio (se non è il canvas stesso)
         if (event.target.tagName !== 'CANVAS' && event.target.tagName !== 'BODY') {
@@ -352,39 +352,4 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Scegli una frase casuale da INKLUSIVA
         const phrase = inklusivaPhrases[Math.floor(Math.random() * inklusivaPhrases.length)];
-        activeText = phrase;
-        
-        // Pulisci il timeout precedente e imposta il nuovo
-        clearTimeout(phraseDisplayTimeout);
-        phraseDisplayTimeout = setTimeout(() => {
-            // Dopo il timeout, avvia la disintegrazione
-            const textX = textCanvas.width / 2;
-            const textY = textCanvas.height / 2;
-            createTextParticles(activeText, textX, textY);
-            
-            // Attiva il loop di disintegrazione (animate gestirà il reset di activeText)
-        }, textDisplayDuration);
-    });
-
-    // Event listener per la tastiera (dimensioni e casualità)
-    window.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowUp') {
-            sizeVariation = Math.min(sizeVariation + 1, 10);
-        } else if (event.key === 'ArrowDown') {
-            sizeVariation = Math.max(sizeVariation - 1, -5);
-        } else if (event.key === 'ArrowLeft') {
-            variationRandomness = Math.max(variationRandomness - 0.1, 0);
-        } else if (event.key === 'ArrowRight') {
-            variationRandomness = Math.min(variationRandomness + 0.1, 1);
-        }
-        // Blocca lo scroll della pagina causato dalle frecce, se non siamo su un input
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-            event.preventDefault();
-        }
-    });
-
-    // Initialize and start animation
-    initParticles();
-    animate();
-
-});
+        active
