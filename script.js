@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     // =========================================
+    // VARIABILI GLOBALI E INIZIALIZZAZIONE DEL COLORE
+    // =========================================
+    
+    // ✅ CORREZIONE: Ottieni il colore Lime del CSS subito dopo DOMContentLoaded
+    const limeColor = getComputedStyle(document.documentElement).getPropertyValue('--colore-accento').trim(); 
+
+    // =========================================
     // PARTE 1: LOGICA ARCHIVIO (Caricamento, Filtro, Visualizzazione)
     // =========================================
 
@@ -23,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error("Errore nel caricamento dell'archivio:", error);
-                container.innerHTML = '<p class="errore">Impossibile caricare l\'archivio. Controlla il file progetti.json.</p>';
+                container.innerHTML = '<p class="errore">Impossibile caricare l\'archivio: Controlla il file progetti.json.</p>';
             });
     }
 
@@ -78,11 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
     barraRicerca.addEventListener('input', filtraEOrdinaProgetti);
     filtroTono.addEventListener('change', filtraEOrdinaProgetti);
 
-    // Avvia il caricamento dei dati
-    caricaDati();
-
     // =========================================
-    // PARTE 2: PARTICLE SYSTEM (Adattato al tema INKLUSIVA)
+    // PARTE 2: PARTICLE SYSTEM
     // =========================================
 
     const canvas = document.getElementById('particleCanvas');
@@ -95,8 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
     textCanvas.width = window.innerWidth;
     textCanvas.height = window.innerHeight;
 
-    // Colore Lime Brutalista (dalla variabile CSS)
-    const limeColor = getComputedStyle(document.documentElement).getPropertyValue('--colore-accento').trim(); 
     
     let particles = [];
     const numParticles = 200;
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let textParticles = [];
     let disintegrationFactor = 0;
     let phraseDisplayTimeout;
-    let textDisplayDuration = 4000; // Tempo di visualizzazione aumentato
+    let textDisplayDuration = 4000; 
 
     const platonicSolids = [
         { name: 'tetrahedron', sides: 4 },
@@ -123,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'icosahedron', sides: 20 },
     ];
 
-    // Frasi sostituite con concetti chiave di INKLUSIVA
     const inklusivaPhrases = [
         "INGENUINITÀ > INGEGNO ETICO",
         "LEGACY DIGITALE 4.0",
@@ -205,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.velocityX *= this.friction;
             this.velocityY *= this.friction;
 
-            // Bounce off edges 
+            // Bounce off edges
             const damping = 0.7;
             if (this.x + this.size > canvas.width) {
                 this.x = canvas.width - this.size;
@@ -250,13 +251,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function createTextParticles(text, x, y) {
         textParticles = [];
         const fontSize = 38; 
-        textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`; // Usa il font del body (Space Mono)
-        textCtx.fillStyle = limeColor;
+        // Usa il colore Lime per il testo disegnato sul canvas
+        textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`; 
+        textCtx.fillStyle = limeColor; 
         textCtx.textAlign = 'center';
         textCtx.textBaseline = 'middle';
         textCtx.fillText(text, x, y);
 
         const textData = textCtx.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
+        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Pulisci il canvas di testo
 
         for (let i = 0; i < textCanvas.width; i += 4) {
             for (let j = 0; j < textCanvas.height; j += 4) {
@@ -268,7 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
     }
     
     // Mostra il testo statico quando non c'è interazione
@@ -287,8 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ciclo di animazione
     function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisci il canvas delle particelle
+        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Pulisci il canvas del testo
 
         if (textParticles.length > 0) {
             // Logica di disintegrazione del testo
@@ -312,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 particles[i].update();
                 particles[i].draw();
             }
+            drawText(); // Disegna il testo statico se presente
         }
 
         requestAnimationFrame(animate);
@@ -319,7 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener per la posizione del mouse
     window.addEventListener('mousemove', (event) => {
-        // Aggiorna la posizione del mouse solo se non stiamo disintegrando il testo
         if (textParticles.length === 0) {
             mouseX = event.clientX;
             mouseY = event.clientY;
@@ -345,11 +347,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Logica del click per il testo
     window.addEventListener('click', (event) => {
-        // Evita che il click interferisca con gli elementi dell'archivio (se non è il canvas stesso)
-        if (event.target.tagName !== 'CANVAS' && event.target.tagName !== 'BODY') {
+        // Controlla che il click non sia su un link o un bottone nel body
+        if (event.target.tagName === 'A' || event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') {
             return;
         }
         
-        // Scegli una frase casuale da INKLUSIVA
         const phrase = inklusivaPhrases[Math.floor(Math.random() * inklusivaPhrases.length)];
-        active
+        activeText = phrase;
+        
+        clearTimeout(phraseDisplayTimeout);
+        phraseDisplayTimeout = setTimeout(() => {
+            // Dopo il timeout, avvia la disintegrazione del testo statico in particelle
+            const textX = textCanvas.width / 2;
+            const textY = textCanvas.height / 2;
+            // Se activeText non è stato resettato da un altro click, procedi alla disintegrazione
+            if(activeText) {
+                createTextParticles(activeText, textX, textY);
+            }
+        }, textDisplayDuration);
+    });
+
+    // Event listener per la tastiera (dimensioni e casualità)
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowUp') {
+            sizeVariation = Math.min(sizeVariation + 1, 10);
+        } else if (event.key === 'ArrowDown') {
+            sizeVariation = Math.max(sizeVariation - 1, -5);
+        } else if (event.key === 'ArrowLeft') {
+            variationRandomness = Math.max(variationRandomness - 0.1, 0);
+        } else if (event.key === 'ArrowRight') {
+            variationRandomness = Math.min(variationRandomness + 0.1, 1);
+        }
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+            event.preventDefault();
+        }
+    });
+
+    // Avvia il caricamento dei dati dell'archivio e il sistema di particelle
+    caricaDati();
+    initParticles();
+    animate();
+
+});
