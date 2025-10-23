@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const filtroTono = document.getElementById('filtro-tono');
     let tuttiIProgetti = []; 
 
-    // Funzione 1: Carica i dati dal JSON
     function caricaDati() {
         fetch('progetti.json')
             .then(response => {
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Funzione 2: Crea e visualizza le schede dei progetti
     function visualizzaProgetti(progettiDaMostrare) {
         container.innerHTML = ''; 
         
@@ -57,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Funzione 3: Applica Filtro e Ricerca
     function filtraEOrdinaProgetti() {
         const testoRicerca = barraRicerca.value.toLowerCase();
         const tonoSelezionato = filtroTono.value;
@@ -75,32 +72,27 @@ document.addEventListener('DOMContentLoaded', () => {
         visualizzaProgetti(progettiFiltrati);
     }
 
-    // Listener per attivare il filtro
     barraRicerca.addEventListener('input', filtraEOrdinaProgetti);
     filtroTono.addEventListener('change', filtraEOrdinaProgetti);
 
+
     // =========================================
-    // PARTE 2: PARTICLE SYSTEM (RIVISTA E CORRETTA)
+    // PARTE 2: PARTICLE SYSTEM (MASSIMA SEMPLIFICAZIONE)
     // =========================================
 
-    let canvas, ctx, textCanvas, textCtx;
+    let canvas, ctx;
     let particleColor;
     
     let particles = [];
     const numParticles = 200;
     const repulsionDistance = 150;
     const repulsionStrength = 0.6;
-    const baseParticleSize = 8; // Rinominata per chiarezza
-    let sizeVariation = 0;
-    let variationRandomness = 0.5;
+    const baseParticleSize = 8; 
+    let sizeVariation = 0; // Controllata da ArrowUp/Down
+    let variationRandomness = 0.5; // Controllata da ArrowLeft/Right
 
     let mouseX = null;
     let mouseY = null;
-    let activeText = '';
-    let textParticles = [];
-    let disintegrationFactor = 0;
-    let phraseDisplayTimeout;
-    let textDisplayDuration = 4000; 
 
     const platonicSolids = [
         { name: 'tetrahedron', sides: 4 },
@@ -110,49 +102,33 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'icosahedron', sides: 20 },
     ];
 
-    const inklusivaPhrases = [
-        "INGENUINITÀ > INGEGNO ETICO",
-        "LEGACY DIGITALE 4.0",
-        "SCARTO ETICO",
-        "ARTEFATTO IBRIDO",
-        "LA VOCE COERENTE",
-        "SELF-PUBLISHING SOSTENIBILE",
-        "DESIGN COME PREVENZIONE",
-        "METODOLOGIA IBRIDA PI KOBOSE",
-        "ACCESSORIETÀ MASSIMA",
-        "CITTADINANZA ATTIVA"
-    ];
-
     // ✅ FUNZIONE CRUCIALE: Inizializza il canvas e le variabili di contesto
     function setupCanvas() {
         canvas = document.getElementById('particleCanvas');
-        textCanvas = document.getElementById('textCanvas');
-
-        if (!canvas || !textCanvas) {
-            console.error("Errore: Impossibile trovare i canvas nel DOM. Controlla index.html.");
+        if (!canvas) {
+            console.error("Errore: Impossibile trovare il canvas (#particleCanvas) nel DOM. Controlla index.html.");
             return false;
         }
 
         ctx = canvas.getContext('2d');
-        textCtx = textCanvas.getContext('2d');
+        if (!ctx) {
+             console.error("Errore: Impossibile ottenere il contesto 2D del canvas.");
+             return false;
+        }
 
         // Imposta le dimensioni iniziali
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        textCanvas.width = window.innerWidth;
-        textCanvas.height = window.innerHeight;
 
-        // ✅ Ottieni il colore Lime del CSS
+        // Ottieni il colore Lime del CSS
         const computedStyle = getComputedStyle(document.documentElement);
-        particleColor = computedStyle.getPropertyValue('--colore-accento'); 
+        particleColor = computedStyle.getPropertyValue('--colore-accento').trim(); 
         
         if (!particleColor || particleColor.length < 4) {
              console.warn("Avviso: Colore CSS non letto correttamente. Uso fallback: #CCFF00.");
-             particleColor = "#CCFF00"; // Fallback
-        } else {
-             particleColor = particleColor.trim();
+             particleColor = "#CCFF00"; // Fallback di emergenza
         }
-
+        
         return true;
     }
 
@@ -171,18 +147,16 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fill();
     }
 
-    // Classe Particella
+    // Classe Particella (SEMPLIFICATA)
     class Particle {
         constructor(x, y, color = particleColor, size = baseParticleSize) {
             this.x = x;
             this.y = y;
             this.size = size;
             this.color = color;
-            // Velocità iniziale randomizzata leggermente più lenta per stabilità
-            this.velocityX = (Math.random() * 0.8 - 0.4); 
-            this.velocityY = (Math.random() * 0.8 - 0.4);
-            this.alpha = 0;
-            this.fadeSpeed = 0.01;
+            // Velocità più moderata per meno caos
+            this.velocityX = (Math.random() * 0.6 - 0.3); 
+            this.velocityY = (Math.random() * 0.6 - 0.3);
             this.maxVelocity = 2;
             this.friction = 0.98;
             this.baseVelocity = { x: this.velocityX, y: this.velocityY };
@@ -192,10 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         update() {
-            if (this.alpha < 1) {
-                this.alpha += this.fadeSpeed;
-            }
-
             // Repulsione del mouse
             if (mouseX !== null && mouseY !== null) {
                 let dx = this.x - mouseX;
@@ -215,16 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Movimento casuale/inerziale
             this.velocityX += (Math.random() - 0.5) * this.wanderStrength;
             this.velocityY += (Math.random() - 0.5) * this.wanderStrength;
-            this.velocityX += (this.baseVelocity.x - this.velocityX) * 0.005;
-            this.velocityY += (this.baseVelocity.y - this.velocityY) * 0.005;
-
+            
             // Applica velocità e attrito
             this.x += this.velocityX;
             this.y += this.velocityY;
             this.velocityX *= this.friction;
             this.velocityY *= this.friction;
 
-            // Rimbalzo dai bordi
+            // Rimbalzo dai bordi (Versione più semplice)
             const damping = 0.7;
             if (this.x + this.size > canvas.width || this.x - this.size < 0) {
                 this.velocityX *= -damping;
@@ -238,15 +206,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Dimensione dinamica
             const randomFactor = (Math.random() - 0.5) * variationRandomness * 2;
-            this.targetSize = baseParticleSize + sizeVariation + randomFactor * 10;
+            this.targetSize = baseParticleSize + sizeVariation + randomFactor * 5; // Ridotta la scala di casualità
             this.size += (this.targetSize - this.size) * 0.1;
         }
 
         draw() {
             ctx.fillStyle = this.color;
-            ctx.globalAlpha = this.alpha;
+            ctx.globalAlpha = 1; // Alpha sempre 1 per visibilità garantita
             drawPolygon(ctx, this.x, this.y, this.size, this.shape.sides);
-            ctx.globalAlpha = 1;
         }
     }
 
@@ -254,83 +221,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function initParticles() {
         particles = [];
         for (let i = 0; i < numParticles; i++) {
-            // Posiziona le particelle in modo casuale entro i limiti
             particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
-        }
-    }
-
-    // Crea le particelle del testo per l'effetto di disintegrazione
-    function createTextParticles(text, x, y) {
-        textParticles = [];
-        const fontSize = 38; 
-        textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`; 
-        textCtx.fillStyle = particleColor; 
-        textCtx.textAlign = 'center';
-        textCtx.textBaseline = 'middle';
-        textCtx.fillText(text, x, y);
-
-        // Prende i dati del pixel del testo disegnato
-        const textData = textCtx.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
-        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Pulisci il canvas di testo immediatamente
-
-        // Campionamento dei pixel colorati per creare particelle
-        for (let i = 0; i < textCanvas.width; i += 4) {
-            for (let j = 0; j < textCanvas.height; j += 4) {
-                const pixelAlpha = textData[(j * textCanvas.width + i) * 4 + 3];
-                if (pixelAlpha > 128) {
-                    textParticles.push(new Particle(i, j, particleColor, 2));
-                }
-            }
-        }
-    }
-    
-    // Disegna il testo statico quando non c'è disintegrazione
-    function drawText() {
-        if (activeText && textParticles.length === 0) {
-            const fontSize = 38;
-            textCtx.globalAlpha = 1;
-            textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`;
-            textCtx.fillStyle = particleColor; 
-            textCtx.textAlign = 'center';
-            textCtx.textBaseline = 'middle';
-            textCtx.fillText(activeText, textCanvas.width / 2, textCanvas.height / 2);
-            textCtx.globalAlpha = 1;
         }
     }
 
     // Ciclo di animazione
     function animate() {
-        if (!ctx || !textCtx) {
-            // Se i contesti non sono definiti, ferma l'animazione o riprova
-            return; 
-        }
+        if (!ctx) return; 
 
+        // Rimuove la necessità di un alpha per lo sfondo
         ctx.clearRect(0, 0, canvas.width, canvas.height); 
-        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height); 
 
-        if (textParticles.length > 0) {
-            // Logica di disintegrazione del testo
-            disintegrationFactor += 0.003; 
-            if (disintegrationFactor >= 1) {
-                textParticles = [];
-                disintegrationFactor = 0;
-                activeText = '';
-            }
-
-            for (let i = 0; i < textParticles.length; i++) {
-                textParticles[i].x += textParticles[i].velocityX * (1 + disintegrationFactor * 6); 
-                textParticles[i].y += textParticles[i].velocityY * (1 + disintegrationFactor * 6);
-                textParticles[i].alpha = Math.max(0, 1 - disintegrationFactor * 1.5); 
-                textParticles[i].size = baseParticleSize * (1 + disintegrationFactor * 1.5);
-                textParticles[i].draw();
-            }
-        } else {
-            // Logica normale delle particelle
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
-            drawText(); 
+        // Logica normale delle particelle
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
         }
 
         requestAnimationFrame(animate);
@@ -338,13 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener per la posizione del mouse
     window.addEventListener('mousemove', (event) => {
-        if (textParticles.length === 0) {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-        } else {
-            mouseX = null;
-            mouseY = null;
-        }
+        mouseX = event.clientX;
+        mouseY = event.clientY;
     });
 
     window.addEventListener('mouseout', () => {
@@ -357,28 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (canvas) {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            textCanvas.width = window.innerWidth;
-            textCanvas.height = window.innerHeight;
             initParticles();
         }
-    });
-
-    // Logica del click per il testo
-    window.addEventListener('click', (event) => {
-        // Ignora i click su elementi interattivi
-        if (event.target.tagName === 'A' || event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') {
-            return;
-        }
-        
-        const phrase = inklusivaPhrases[Math.floor(Math.random() * inklusivaPhrases.length)];
-        activeText = phrase;
-        
-        clearTimeout(phraseDisplayTimeout);
-        phraseDisplayTimeout = setTimeout(() => {
-            if(activeText) {
-                createTextParticles(activeText, textCanvas.width / 2, textCanvas.height / 2);
-            }
-        }, textDisplayDuration);
     });
 
     // Event listener per la tastiera (dimensioni e casualità)
@@ -388,12 +268,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (event.key === 'ArrowDown') {
             sizeVariation = Math.max(sizeVariation - 1, -5);
         } else if (event.key === 'ArrowLeft') {
-            variationRandomness = Math.max(variationRandomness - 0.1, 0.1); // Minore di 0.1 per stabilità
+            variationRandomness = Math.max(variationRandomness - 0.1, 0.1); 
         } else if (event.key === 'ArrowRight') {
             variationRandomness = Math.min(variationRandomness + 0.1, 1);
         }
         if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-            event.preventDefault();
+            event.preventDefault(); // Impedisce lo scroll della pagina
         }
     });
 
@@ -401,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // AVVIO
     // =========================================
     
-    // 1. Inizializza i canvas (CRUCIALE)
+    // 1. Inizializza il canvas (CRUCIALE)
     if (setupCanvas()) {
         // 2. Avvia le particelle solo se i canvas sono stati inizializzati con successo
         initParticles();
