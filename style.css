@@ -2,12 +2,13 @@
 /* 0. IMPORT FONT E VARIABILI */
 /* ========================================= */
 
+/* Importa il font Space Mono da Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
     --colore-primario: #000000; /* Nero Intenso */
-    --colore-secondario: #FFFFFF; /* Bianco */
-    --colore-accento: #CCFF00; /* Lime Elettrico */
+    --colore-secondario: #FFFFFF; /* Bianco (Colore del testo del menu) */
+    --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
     --colore-grigio-chiaro: #AAAAAA; 
     --font-famiglia: 'Space Mono', monospace; 
 }
@@ -24,26 +25,32 @@ body {
 }
 
 /* ========================================= */
-/* ✅ MODIFICA CRITICA: STILI PER IL PARTICLE SYSTEM (Canvas) */
+/* ✅ STILI PER IL PARTICLE SYSTEM (Canvas) */
 /* ========================================= */
 #particleCanvas { 
     position: fixed; 
     top: 0;
     left: 0;
     display: block;
-    z-index: 0; /* Abbassato per stare sotto gli sfondi neri */
+    z-index: 1; /* Il Canvas sta in basso */
     background-color: transparent; 
     pointer-events: none; 
 }
 
-/* Assicura che TUTTO il contenuto del sito sia SOPRA il canvas */
+/* ✅ Z-INDEX: Forziamo il contesto di stacking per gli elementi di contenuto. */
 header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
     position: relative; 
-    z-index: 5; /* Stack context principale sopra il canvas */
+    z-index: 5; /* Tutto il contenuto DEVE stare sopra il canvas */
+    /* Assicuriamo che gli sfondi degli elementi principali siano opachi */
     background-color: var(--colore-secondario); 
 }
+/* Trasparenza per il contenitore delle card */
+#archivio-container {
+    background-color: transparent; 
+}
 
-/* Stili per la legenda (Basso a destra) */
+
+/* ✅ Stili per la legenda (Spostata a DESTRA) */
 #legend {
     position: fixed;
     bottom: 20px;
@@ -62,30 +69,12 @@ header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
 /* 1. HEADER (Titoli e Sottotitoli) */
 /* ========================================= */
 header {
-    background-color: transparent; /* DEVE ESSERE TRASPARENTE per far vedere le particelle */
+    /* RIPRISTINATO: L'header copre il canvas per mantenere lo sfondo nero solido */
+    background-color: var(--colore-primario); 
     color: var(--colore-accento);
     padding: 30px 5%; 
     text-align: center;
     border-bottom: 5px solid var(--colore-accento); 
-    position: relative;
-}
-
-/* ✅ PSEUDO-ELEMENTO: Lo sfondo nero, posizionato sopra il canvas (z-index: 0) */
-header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--colore-primario); /* Lo sfondo nero */
-    z-index: 1; /* Sopra il canvas (0), Sotto il testo (2) */
-}
-
-/* ✅ CRITICO: Assicuro che il contenuto dell'header stia SOPRA lo sfondo nero */
-#main-title, #sub-title {
-    position: relative;
-    z-index: 2; /* Sopra lo sfondo nero (1) */
 }
 
 #main-title {
@@ -106,32 +95,16 @@ header::before {
 /* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
 #main-nav {
-    background-color: transparent; /* DEVE ESSERE TRASPARENTE */
-    border-bottom: 2px solid var(--colore-accento);
-    position: relative;
-}
-
-/* ✅ PSEUDO-ELEMENTO per la NAV: Lo sfondo nero, posizionato sopra il canvas (z-index: 0) */
-#main-nav::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    /* RIPRISTINATO: La nav copre il canvas per mantenere lo sfondo nero solido */
     background-color: var(--colore-primario);
-    z-index: 1; /* Sopra il canvas (0), Sotto i link (2) */
+    border-bottom: 2px solid var(--colore-accento);
 }
-
-/* ✅ CRITICO: Assicuro che i link stiano SOPRA lo sfondo nero */
 #main-nav ul {
     list-style: none;
     margin: 0;
     padding: 0 5%;
     display: flex; 
     justify-content: flex-start;
-    position: relative;
-    z-index: 2; /* Sopra lo sfondo nero (1) */
 }
 #main-nav a {
     display: block;
@@ -142,7 +115,6 @@ header::before {
     text-transform: uppercase;
     border-right: 1px solid var(--colore-accento); 
     transition: background-color 0.2s, color 0.2s;
-    position: relative; /* Necessario per il z-index 2 del parent */
 }
 #main-nav a:hover,
 #main-nav a.active-page { 
@@ -158,6 +130,7 @@ header::before {
     justify-content: center;
     gap: 20px;
     padding: 20px 5%;
+    /* Lo sfondo qui copre il canvas, lasciando le particelle visibili sotto */
     background-color: var(--colore-secondario); 
     border-bottom: 2px solid var(--colore-primario);
 }
@@ -225,6 +198,7 @@ header::before {
 /* ========================================= */
 /* 5. STILI SPECIFICI PER LE SOTTOPAGINE */
 /* ========================================= */
+/* ✅ MODIFICA: Lo sfondo della pagina deve essere solido per coprire il canvas */
 .page-content {
     background-color: var(--colore-secondario);
     padding: 50px 10%;
