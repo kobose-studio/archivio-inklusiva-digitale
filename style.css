@@ -16,13 +16,15 @@
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
-    background-color: var(--colore-secondario); 
+    background-color: var(--colore-secondario); /* Sfondo Bianco VISIBILE */
     color: var(--colore-primario);
     margin: 0;
     padding: 0;
-    /* Necessario per posizionare il canvas in modo fisso */
+    /* ESSENZIALE per dare contesto Z-INDEX al contenuto */
     min-height: 100vh;
     position: relative; 
+    /* L'overflow è importante per evitare barre di scorrimento non volute */
+    overflow-x: hidden; 
 }
 
 /* ========================================= */
@@ -32,21 +34,24 @@ body {
     position: fixed; /* Fissa il canvas allo sfondo */
     top: 0;
     left: 0;
+    width: 100%; /* Copre l'intera larghezza */
+    height: 100%; /* Copre l'intera altezza */
     display: block;
-    z-index: 1; /* Posizionato sotto l'header e il contenuto */
-    background-color: transparent; /* Permette al body di impostare il colore di sfondo (Bianco) */
+    z-index: -1; /* Manda il canvas DIETRO TUTTO, incluso il body */
+    /* Lo sfondo del body (Bianco) è ora visibile, e le particelle Lime sono disegnate sopra */
     pointer-events: none; /* Non interferisce con i click sui link */
 }
 
 /* Assicura che TUTTO il contenuto del sito sia SOPRA il canvas */
-header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
-    position: relative; 
+/* NOTA: Z-INDEX 5 è ancora necessario se hai elementi con position: fixed/absolute */
+header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer, #legend {
+    position: relative; /* Assicura che siano nel contesto dello z-index */
     z-index: 5; 
 }
 
-/* Stili per la legenda (da adattare al tema) */
+/* Stili per la legenda */
 #legend {
-    position: fixed;
+    position: fixed; /* Deve essere fixed per stare sopra il contenuto */
     bottom: 20px;
     left: 20px;
     color: var(--colore-primario); /* Testo nero */
@@ -55,6 +60,7 @@ header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
     background-color: var(--colore-accento); /* Sfondo lime */
     padding: 10px;
     border: 2px solid var(--colore-primario);
+    /* Abbiamo dato z-index 5 anche al contenuto normale, ma 10 alla legenda per sicurezza */
 }
 
 
