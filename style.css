@@ -69,7 +69,6 @@ header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
 /* 1. HEADER (Titoli e Sottotitoli) */
 /* ========================================= */
 header {
-    /* RIPRISTINATO: L'header copre il canvas per mantenere lo sfondo nero solido */
     background-color: var(--colore-primario); 
     color: var(--colore-accento);
     padding: 30px 5%; 
@@ -95,7 +94,6 @@ header {
 /* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
 #main-nav {
-    /* RIPRISTINATO: La nav copre il canvas per mantenere lo sfondo nero solido */
     background-color: var(--colore-primario);
     border-bottom: 2px solid var(--colore-accento);
 }
@@ -130,7 +128,6 @@ header {
     justify-content: center;
     gap: 20px;
     padding: 20px 5%;
-    /* Lo sfondo qui copre il canvas, lasciando le particelle visibili sotto */
     background-color: var(--colore-secondario); 
     border-bottom: 2px solid var(--colore-primario);
 }
@@ -198,7 +195,6 @@ header {
 /* ========================================= */
 /* 5. STILI SPECIFICI PER LE SOTTOPAGINE */
 /* ========================================= */
-/* ✅ MODIFICA: Lo sfondo della pagina deve essere solido per coprire il canvas */
 .page-content {
     background-color: var(--colore-secondario);
     padding: 50px 10%;
