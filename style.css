@@ -20,7 +20,43 @@ body {
     color: var(--colore-primario);
     margin: 0;
     padding: 0;
+    /* Necessario per posizionare il canvas in modo fisso */
+    min-height: 100vh;
+    position: relative; 
 }
+
+/* ========================================= */
+/* ✅ NUOVO: STILI PER IL PARTICLE SYSTEM (Canvas) */
+/* ========================================= */
+#particleCanvas, #textCanvas {
+    position: fixed; /* Fissa il canvas allo sfondo */
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 1; /* Posizionato sotto l'header e il contenuto */
+    background-color: transparent; /* Permette al body di impostare il colore di sfondo (Bianco) */
+    pointer-events: none; /* Non interferisce con i click sui link */
+}
+
+/* Assicura che TUTTO il contenuto del sito sia SOPRA il canvas */
+header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
+    position: relative; 
+    z-index: 5; 
+}
+
+/* Stili per la legenda (da adattare al tema) */
+#legend {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: var(--colore-primario); /* Testo nero */
+    font-size: 12px;
+    z-index: 10;
+    background-color: var(--colore-accento); /* Sfondo lime */
+    padding: 10px;
+    border: 2px solid var(--colore-primario);
+}
+
 
 /* ========================================= */
 /* 1. HEADER (Titoli e Sottotitoli) */
@@ -33,31 +69,27 @@ header {
     border-bottom: 5px solid var(--colore-accento); 
 }
 
-/* ✅ CORREZIONE: Aumenta la dimensione del titolo in modo "eccessivo" */
 #main-title {
-    font-size: 5.5em; /* Un aumento significativo per un carattere extra! */
+    font-size: 5.5em; 
     margin: 0;
     text-transform: uppercase;
     line-height: 1; 
 }
 
-/* ✅ CORREZIONE: Sottotitolo nel colore del testo del Menu (Bianco) */
 #sub-title {
     font-size: 1.2em;
     margin-top: 10px;
-    color: var(--colore-secondario); /* Bianco/Colore Menu */
+    color: var(--colore-secondario); 
 }
 
 
 /* ========================================= */
 /* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
-
 #main-nav {
     background-color: var(--colore-primario);
     border-bottom: 2px solid var(--colore-accento);
 }
-
 #main-nav ul {
     list-style: none;
     margin: 0;
@@ -65,23 +97,16 @@ header {
     display: flex; 
     justify-content: flex-start;
 }
-
-#main-nav li {
-    margin: 0;
-}
-
 #main-nav a {
     display: block;
     padding: 15px 20px;
     text-decoration: none;
     color: var(--colore-secondario); 
-    font-size: 1em;
     font-weight: 700;
     text-transform: uppercase;
     border-right: 1px solid var(--colore-accento); 
     transition: background-color 0.2s, color 0.2s;
 }
-
 #main-nav a:hover,
 #main-nav a.active-page { 
     background-color: var(--colore-accento); 
@@ -91,7 +116,6 @@ header {
 /* ========================================= */
 /* 3. FILTRI E RICERCA */
 /* ========================================= */
-/* ... codice Filtri invariato ... */
 #filtri-e-ricerca {
     display: flex;
     justify-content: center;
@@ -100,7 +124,6 @@ header {
     background-color: var(--colore-secondario); 
     border-bottom: 2px solid var(--colore-primario);
 }
-
 #barra-ricerca, #filtro-tono {
     padding: 10px;
     border: 3px solid var(--colore-primario); 
@@ -121,7 +144,6 @@ header {
     gap: 25px;
     padding: 25px 5%;
 }
-
 .progetto-card {
     background-color: var(--colore-secondario);
     border: 3px solid var(--colore-primario);
@@ -129,13 +151,10 @@ header {
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 5px 5px 0px var(--colore-primario); 
 }
-
 .progetto-card:hover {
     transform: translate(-3px, -3px); 
     box-shadow: 8px 8px 0px var(--colore-accento); 
 }
-
-/* Stili per il titolo della zine */
 .progetto-card h2 {
     color: var(--colore-primario);
     text-transform: uppercase;
@@ -144,14 +163,10 @@ header {
     font-weight: 700;
     transition: color 0.3s ease-out; 
 }
-
-/* Mouse-over: Titolo della zine in LIME */
 .progetto-card:hover h2 {
     color: var(--colore-accento); 
     border-bottom: 1px solid var(--colore-primario); 
 }
-
-/* Effetto Desaturazione/Saturazione sulle Immagini */
 .copertina-fanzine {
     width: 100%;
     height: auto;
@@ -161,22 +176,18 @@ header {
     filter: grayscale(100%) contrast(1.1);
     transition: filter 0.3s ease-out; 
 }
-
 .progetto-card:hover .copertina-fanzine {
     filter: grayscale(0%) contrast(1); 
 }
-
-/* ✅ NUOVO: Stile per i link all'interno della scheda (ad esempio, il link alla zine) */
 .progetto-card a {
-    color: inherit; /* Mantiene il colore nero del testo circostante */
-    text-decoration: underline; /* Mantiene solo la sottolineatura */
-    text-decoration-color: var(--colore-accento); /* Rende la sottolineatura Lime */
+    color: inherit; 
+    text-decoration: underline; 
+    text-decoration-color: var(--colore-accento); 
 }
 
 /* ========================================= */
 /* 5. STILI SPECIFICI PER LE SOTTOPAGINE */
 /* ========================================= */
-/* ... codice Sottopagine invariato ... */
 .page-content {
     background-color: var(--colore-secondario);
     padding: 50px 10%;
@@ -184,7 +195,6 @@ header {
     border-bottom: 5px solid var(--colore-primario);
     min-height: 70vh;
 }
-
 .large-title {
     font-size: 4.5em; 
     font-weight: 700; 
@@ -196,15 +206,6 @@ header {
     border-bottom: 5px solid var(--colore-accento); 
     padding-bottom: 15px;
 }
-
-.large-text {
-    font-size: 1.5em; 
-    font-style: italic; 
-    line-height: 1.4;
-    max-width: 800px;
-    margin-bottom: 30px;
-}
-
 .manifesto-sottotitolo {
     font-size: 1.8em;
     font-weight: 700;
@@ -215,7 +216,6 @@ header {
     border-left: 5px solid var(--colore-primario);
     padding-left: 10px;
 }
-
 .page-content p {
     font-size: 1em; 
     line-height: 1.6;
@@ -234,18 +234,14 @@ footer {
     font-size: 0.9em;
     text-transform: uppercase;
 }
-
-/* ✅ NUOVO: Stile per i link nel footer (Mantiene il colore del testo circostante) */
 footer a {
-    color: inherit; /* Mantiene il colore lime del footer */
+    color: inherit; 
     text-decoration: underline;
-    text-decoration-color: var(--colore-secondario); /* Sottolineatura Bianca/Chiara */
+    text-decoration-color: var(--colore-secondario); 
     transition: color 0.2s;
 }
-
-/* Piccolo effetto hover sul link del footer */
 footer a:hover {
-    color: var(--colore-secondario); /* Diventa bianco al mouse over */
+    color: var(--colore-secondario); 
 }
 
 
@@ -257,12 +253,10 @@ footer a:hover {
         flex-direction: column;
         gap: 10px;
     }
-
     #barra-ricerca, #filtro-tono {
         width: 100%;
     }
-
     .large-title, #main-title {
-        font-size: 3.5em; /* Riduci per lo schermo mobile */
+        font-size: 3.5em; 
     }
 }
