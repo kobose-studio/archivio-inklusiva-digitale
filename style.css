@@ -27,13 +27,13 @@ body {
 /* ========================================= */
 /* ✅ CORREZIONE: STILI PER IL PARTICLE SYSTEM (Canvas) */
 /* ========================================= */
-#particleCanvas, #textCanvas {
+#particleCanvas { /* Solo particleCanvas */
     position: fixed; /* Fissa il canvas in posizione assoluta rispetto alla finestra */
     top: 0;
     left: 0;
     display: block;
     z-index: 1; /* Posizionato dietro l'header e il contenuto (z-index basso) */
-    background-color: transparent; /* Assicurati che non copra il body */
+    background-color: transparent; 
     pointer-events: none; /* Non interferisce con i click sui link */
 }
 
