@@ -2,22 +2,20 @@
 /* 0. IMPORT FONT E VARIABILI */
 /* ========================================= */
 
-/* Importa il font Space Mono da Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
     --colore-primario: #000000; /* Nero Intenso */
     --colore-secondario: #FFFFFF; /* Bianco (Colore del testo del menu) */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    --colore-grigio-chiaro: #AAAAAA; /* Colore precedente del sottotitolo */
+    --colore-grigio-chiaro: #AAAAAA; 
     --font-famiglia: 'Space Mono', monospace; 
 }
 
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
-    /* ✅ CORREZIONE: Imposto lo sfondo del body a nero/bianco in modo che NON COPRE il canvas. 
-       MANTENERE IL COLORE SULLE SEZIONI SPECIFICHE! */
+    /* Mantengo il bianco come colore di base, le particelle appariranno sopra */
     background-color: var(--colore-secondario); 
     color: var(--colore-primario);
     margin: 0;
@@ -39,29 +37,23 @@ body {
     pointer-events: none; 
 }
 
-/* ✅ CORREZIONE Z-INDEX: Forziamo il contesto di stacking per gli elementi di contenuto. */
+/* Forziamo il contesto di stacking per gli elementi di contenuto. */
 header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
     position: relative; 
     z-index: 5; /* Tutto il contenuto DEVE stare sopra il canvas */
-    /* ✅ Cruciale: assicura che il background delle CARD non copra il canvas se la card non copre tutto */
+    /* Assicuro che il contenuto non sia trasparente per default */
     background-color: var(--colore-secondario); 
 }
-/* ✅ SOLUZIONE AGGIUNTIVA: Impostiamo lo sfondo del container principale a trasparente
-   e lasciamo che sia il body a colorare il tutto. */
-#archivio-container {
-    background-color: transparent; /* Rendiamo il contenitore principale trasparente */
-}
 
-
-/* ✅ CORREZIONE: Stili per la legenda (Spostata a DESTRA) */
+/* Stili per la legenda (Spostata a DESTRA) */
 #legend {
     position: fixed;
     bottom: 20px;
-    right: 20px; /* Spostata a destra */
-    left: auto;  /* Rimosso il left per evitare conflitti */
+    right: 20px; 
+    left: auto;  
     color: var(--colore-primario); 
     font-size: 12px;
-    z-index: 10; /* Sempre in primo piano */
+    z-index: 10; 
     background-color: var(--colore-accento); 
     padding: 10px;
     border: 2px solid var(--colore-primario);
@@ -72,14 +64,28 @@ header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
 /* 1. HEADER (Titoli e Sottotitoli) */
 /* ========================================= */
 header {
-    background-color: var(--colore-primario); 
+    /* ✅ MODIFICA CRITICA: Rimuovo il background-color per far vedere le particelle,
+       MA aggiungo un :before per simulare lo sfondo nero sopra il canvas. */
+    background-color: transparent; 
     color: var(--colore-accento);
     padding: 30px 5%; 
     text-align: center;
     border-bottom: 5px solid var(--colore-accento); 
+    position: relative; /* Necessario per il posizionamento del pseudo-elemento */
 }
-/* ... resto del codice CSS invariato ... */
 
+/* ✅ PSEUDO-ELEMENTO: Crea uno sfondo nero che non blocca la trasparenza completa
+   dell'header e non interferisce con il content z-index/stacking context. */
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--colore-primario); /* Lo sfondo nero */
+    z-index: -1; /* Posizionato dietro il contenuto dell'header, ma sopra il canvas (z-index 1) */
+}
 
 #main-title {
     font-size: 5.5em; 
@@ -99,15 +105,31 @@ header {
 /* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
 #main-nav {
-    background-color: var(--colore-primario);
+    /* Anche la NAV deve essere trasparente, e il suo background nero gestito */
+    background-color: transparent; 
     border-bottom: 2px solid var(--colore-accento);
 }
+
+/* ✅ PSEUDO-ELEMENTO per la NAV */
+#main-nav::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--colore-primario);
+    z-index: -1;
+}
+
 #main-nav ul {
     list-style: none;
     margin: 0;
     padding: 0 5%;
     display: flex; 
     justify-content: flex-start;
+    position: relative; /* Per assicurare che gli elementi li/a stiano sopra l'::before */
+    z-index: 1;
 }
 #main-nav a {
     display: block;
@@ -129,6 +151,7 @@ header {
 /* 3. FILTRI E RICERCA */
 /* ========================================= */
 #filtri-e-ricerca {
+    /* Manteniamo il bianco qui */
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -150,19 +173,20 @@ header {
 /* 4. ARCHIVIO CARDS */
 /* ========================================= */
 #archivio-container {
-    /* Eliminato background-color qui per trasparenza: vedi la correzione in alto */
+    background-color: transparent; /* Permette di vedere le particelle tra le card */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 25px;
     padding: 25px 5%;
 }
 .progetto-card {
-    background-color: var(--colore-secondario); /* Le card devono mantenere il loro sfondo bianco */
+    background-color: var(--colore-secondario); /* Le card restano bianche */
     border: 3px solid var(--colore-primario);
     padding: 20px;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 5px 5px 0px var(--colore-primario); 
 }
+/* ... resto del codice CSS invariato ... */
 .progetto-card:hover {
     transform: translate(-3px, -3px); 
     box-shadow: 8px 8px 0px var(--colore-accento); 
