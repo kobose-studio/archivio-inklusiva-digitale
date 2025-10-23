@@ -6,8 +6,8 @@
 
 :root {
     --colore-primario: #000000; /* Nero Intenso */
-    --colore-secondario: #FFFFFF; /* Bianco (Colore del testo del menu) */
-    --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
+    --colore-secondario: #FFFFFF; /* Bianco */
+    --colore-accento: #CCFF00; /* Lime Elettrico */
     --colore-grigio-chiaro: #AAAAAA; 
     --font-famiglia: 'Space Mono', monospace; 
 }
@@ -15,7 +15,6 @@
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
-    /* Mantengo il bianco come colore di base, le particelle appariranno sopra */
     background-color: var(--colore-secondario); 
     color: var(--colore-primario);
     margin: 0;
@@ -25,27 +24,26 @@ body {
 }
 
 /* ========================================= */
-/* ✅ CORREZIONE: STILI PER IL PARTICLE SYSTEM (Canvas) */
+/* ✅ MODIFICA CRITICA: STILI PER IL PARTICLE SYSTEM (Canvas) */
 /* ========================================= */
 #particleCanvas { 
     position: fixed; 
     top: 0;
     left: 0;
     display: block;
-    z-index: 1; /* Il Canvas sta in basso */
+    z-index: 0; /* Abbassato per stare sotto gli sfondi neri */
     background-color: transparent; 
     pointer-events: none; 
 }
 
-/* Forziamo il contesto di stacking per gli elementi di contenuto. */
+/* Assicura che TUTTO il contenuto del sito sia SOPRA il canvas */
 header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
     position: relative; 
-    z-index: 5; /* Tutto il contenuto DEVE stare sopra il canvas */
-    /* Assicuro che il contenuto non sia trasparente per default */
+    z-index: 5; /* Stack context principale sopra il canvas */
     background-color: var(--colore-secondario); 
 }
 
-/* Stili per la legenda (Spostata a DESTRA) */
+/* Stili per la legenda (Basso a destra) */
 #legend {
     position: fixed;
     bottom: 20px;
@@ -64,18 +62,15 @@ header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
 /* 1. HEADER (Titoli e Sottotitoli) */
 /* ========================================= */
 header {
-    /* ✅ MODIFICA CRITICA: Rimuovo il background-color per far vedere le particelle,
-       MA aggiungo un :before per simulare lo sfondo nero sopra il canvas. */
-    background-color: transparent; 
+    background-color: transparent; /* DEVE ESSERE TRASPARENTE per far vedere le particelle */
     color: var(--colore-accento);
     padding: 30px 5%; 
     text-align: center;
     border-bottom: 5px solid var(--colore-accento); 
-    position: relative; /* Necessario per il posizionamento del pseudo-elemento */
+    position: relative;
 }
 
-/* ✅ PSEUDO-ELEMENTO: Crea uno sfondo nero che non blocca la trasparenza completa
-   dell'header e non interferisce con il content z-index/stacking context. */
+/* ✅ PSEUDO-ELEMENTO: Lo sfondo nero, posizionato sopra il canvas (z-index: 0) */
 header::before {
     content: "";
     position: absolute;
@@ -84,7 +79,13 @@ header::before {
     width: 100%;
     height: 100%;
     background-color: var(--colore-primario); /* Lo sfondo nero */
-    z-index: -1; /* Posizionato dietro il contenuto dell'header, ma sopra il canvas (z-index 1) */
+    z-index: 1; /* Sopra il canvas (0), Sotto il testo (2) */
+}
+
+/* ✅ CRITICO: Assicuro che il contenuto dell'header stia SOPRA lo sfondo nero */
+#main-title, #sub-title {
+    position: relative;
+    z-index: 2; /* Sopra lo sfondo nero (1) */
 }
 
 #main-title {
@@ -105,12 +106,12 @@ header::before {
 /* 2. MENU DI NAVIGAZIONE (NAV) */
 /* ========================================= */
 #main-nav {
-    /* Anche la NAV deve essere trasparente, e il suo background nero gestito */
-    background-color: transparent; 
+    background-color: transparent; /* DEVE ESSERE TRASPARENTE */
     border-bottom: 2px solid var(--colore-accento);
+    position: relative;
 }
 
-/* ✅ PSEUDO-ELEMENTO per la NAV */
+/* ✅ PSEUDO-ELEMENTO per la NAV: Lo sfondo nero, posizionato sopra il canvas (z-index: 0) */
 #main-nav::before {
     content: "";
     position: absolute;
@@ -119,17 +120,18 @@ header::before {
     width: 100%;
     height: 100%;
     background-color: var(--colore-primario);
-    z-index: -1;
+    z-index: 1; /* Sopra il canvas (0), Sotto i link (2) */
 }
 
+/* ✅ CRITICO: Assicuro che i link stiano SOPRA lo sfondo nero */
 #main-nav ul {
     list-style: none;
     margin: 0;
     padding: 0 5%;
     display: flex; 
     justify-content: flex-start;
-    position: relative; /* Per assicurare che gli elementi li/a stiano sopra l'::before */
-    z-index: 1;
+    position: relative;
+    z-index: 2; /* Sopra lo sfondo nero (1) */
 }
 #main-nav a {
     display: block;
@@ -140,6 +142,7 @@ header::before {
     text-transform: uppercase;
     border-right: 1px solid var(--colore-accento); 
     transition: background-color 0.2s, color 0.2s;
+    position: relative; /* Necessario per il z-index 2 del parent */
 }
 #main-nav a:hover,
 #main-nav a.active-page { 
@@ -151,7 +154,6 @@ header::before {
 /* 3. FILTRI E RICERCA */
 /* ========================================= */
 #filtri-e-ricerca {
-    /* Manteniamo il bianco qui */
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -173,20 +175,19 @@ header::before {
 /* 4. ARCHIVIO CARDS */
 /* ========================================= */
 #archivio-container {
-    background-color: transparent; /* Permette di vedere le particelle tra le card */
+    background-color: transparent; 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 25px;
     padding: 25px 5%;
 }
 .progetto-card {
-    background-color: var(--colore-secondario); /* Le card restano bianche */
+    background-color: var(--colore-secondario); 
     border: 3px solid var(--colore-primario);
     padding: 20px;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 5px 5px 0px var(--colore-primario); 
 }
-/* ... resto del codice CSS invariato ... */
 .progetto-card:hover {
     transform: translate(-3px, -3px); 
     box-shadow: 8px 8px 0px var(--colore-accento); 
