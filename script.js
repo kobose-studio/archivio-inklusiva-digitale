@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // =========================================
-    // PARTE 1: GESTIONE ARCHIVIO (funzioni lasciate per completezza)
+    // PARTE 1: GESTIONE ARCHIVIO (RIPRISTINATA LA VERSIONE FUNZIONANTE)
     // =========================================
 
-    // Dati fittizi per l'archivio (già definiti in precedenza)
+    // Dati fittizi per l'archivio (VERIFICATI)
     const datiZine = [
-        { titolo: "Bio-Punk (01)", tono: "Distopico", anno: 2024, copertina: "Bull_cover.jpg-d18247fc-00cd-496d-a5ce-95634aa2efd9", file: "01_Bio-Punk_135x192_16p.pdf" },
-        { titolo: "Bull (02)", tono: "Noir", anno: 2024, copertina: "Bull_cover.jpg-d18247fc-00cd-496d-a5ce-95634aa2efd9", file: "Bull_24p_web.pdf" },
-        { titolo: "Far-Fest (03)", tono: "Preistorico", anno: 2024, copertina: "Far-Fest_kobose_cover.jpg-8bdac405-0fd5-4883-9b64-5e1350f54d16", file: "Far-Fest_kobose_zine-web.pdf" },
-        { titolo: "(F)Act (04)", tono: "Vibrante", anno: 2024, copertina: "(F)Act_kobose_cover.jpg-847756a2-80c3-4c75-bacc-3bee88363b08", file: "(F)Act_kobose_16p_spread.pdf" }
+        { titolo: "Bio-Punk", tono: "Distopico", anno: 2024, copertina: "Bull_cover.jpg-d18247fc-00cd-496d-a5ce-95634aa2efd9", file: "01_Bio-Punk_135x192_16p.pdf" },
+        { titolo: "Bull", tono: "Noir", anno: 2024, copertina: "Bull_cover.jpg-d18247fc-00cd-496d-a5ce-95634aa2efd9", file: "Bull_24p_web.pdf" },
+        { titolo: "Far-Fest", tono: "Preistorico", anno: 2024, copertina: "Far-Fest_kobose_cover.jpg-8bdac405-0fd5-4883-9b64-5e1350f54d16", file: "Far-Fest_kobose_zine-web.pdf" },
+        { titolo: "(F)Act", tono: "Vibrante", anno: 2024, copertina: "(F)Act_kobose_cover.jpg-847756a2-80c3-4c75-bacc-3bee88363b08", file: "(F)Act_kobose_16p_spread.pdf" }
     ];
 
     function caricaDati() {
@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'progetto-card';
 
+            // Questa parte è stata RIPRISTINATA alla versione ORIGINALE
             card.innerHTML = `
                 <a href="${zine.file}" target="_blank">
                     <img src="${zine.copertina}" alt="Copertina di ${zine.titolo}" class="copertina-fanzine">
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =========================================
-    // PARTE 2: PARTICLE SYSTEM (MASSIMA SEMPLIFICAZIONE)
+    // PARTE 2: PARTICLE SYSTEM
     // =========================================
 
     let canvas, ctx;
@@ -61,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupCanvas() {
         canvas = document.getElementById('particleCanvas');
         if (!canvas) {
-            // Non è un errore, se il canvas non è nella pagina (anche se dovrebbe esserci sempre)
             return false;
         }
 
@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.height = window.innerHeight;
 
         const computedStyle = getComputedStyle(document.documentElement);
-        // Usa trim() per eliminare gli spazi bianchi e garantire che il colore sia valido
         particleColor = computedStyle.getPropertyValue('--colore-accento').trim(); 
         
         if (!particleColor || particleColor.length < 4) {
@@ -223,10 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // AVVIO
     // =========================================
     
-    // Avvia l'archivio (solo su index.html)
+    // 1. Avvia l'archivio (solo su index.html, non rompe le sottopagine)
     caricaDati(); 
 
-    // Avvia il sistema di particelle
+    // 2. Avvia il sistema di particelle (su tutte le pagine che hanno il canvas)
     if (setupCanvas()) {
         initParticles();
         animate();
