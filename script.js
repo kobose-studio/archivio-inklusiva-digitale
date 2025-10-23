@@ -1,80 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // =========================================
-    // PARTE 1: LOGICA ARCHIVIO (Caricamento, Filtro, Visualizzazione)
+    // PARTE 1: GESTIONE ARCHIVIO (funzioni lasciate per completezza)
     // =========================================
 
-    const container = document.getElementById('archivio-container');
-    const barraRicerca = document.getElementById('barra-ricerca');
-    const filtroTono = document.getElementById('filtro-tono');
-    let tuttiIProgetti = []; 
+    // Dati fittizi per l'archivio (già definiti in precedenza)
+    const datiZine = [
+        { titolo: "Bio-Punk (01)", tono: "Distopico", anno: 2024, copertina: "Bull_cover.jpg-d18247fc-00cd-496d-a5ce-95634aa2efd9", file: "01_Bio-Punk_135x192_16p.pdf" },
+        { titolo: "Bull (02)", tono: "Noir", anno: 2024, copertina: "Bull_cover.jpg-d18247fc-00cd-496d-a5ce-95634aa2efd9", file: "Bull_24p_web.pdf" },
+        { titolo: "Far-Fest (03)", tono: "Preistorico", anno: 2024, copertina: "Far-Fest_kobose_cover.jpg-8bdac405-0fd5-4883-9b64-5e1350f54d16", file: "Far-Fest_kobose_zine-web.pdf" },
+        { titolo: "(F)Act (04)", tono: "Vibrante", anno: 2024, copertina: "(F)Act_kobose_cover.jpg-847756a2-80c3-4c75-bacc-3bee88363b08", file: "(F)Act_kobose_16p_spread.pdf" }
+    ];
 
     function caricaDati() {
-        fetch('progetti.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Errore nel caricamento del file progetti.json');
-                }
-                return response.json();
-            })
-            .then(data => {
-                tuttiIProgetti = data; 
-                visualizzaProgetti(tuttiIProgetti); 
-            })
-            .catch(error => {
-                console.error("Errore nel caricamento dell'archivio:", error);
-                container.innerHTML = '<p class="errore">Impossibile caricare l\'archivio: Controlla il file progetti.json.</p>';
-            });
-    }
+        const container = document.getElementById('archivio-container');
+        if (!container) return; // Non fa nulla se non è nella pagina Archivio
 
-    function visualizzaProgetti(progettiDaMostrare) {
-        container.innerHTML = ''; 
-        
-        if (progettiDaMostrare.length === 0) {
-            container.innerHTML = '<p>Nessun progetto trovato che corrisponda ai criteri di ricerca/filtro.</p>';
-            return;
-        }
-
-        progettiDaMostrare.forEach(progetto => {
+        datiZine.forEach(zine => {
             const card = document.createElement('div');
             card.className = 'progetto-card';
+
             card.innerHTML = `
-                <a href="${progetto.link_fanzine}" target="_blank" title="Visualizza fanzine: ${progetto.titolo}">
-                    <img src="${progetto.link_copertina}" alt="Copertina della fanzine ${progetto.titolo}" class="copertina-fanzine">
+                <a href="${zine.file}" target="_blank">
+                    <img src="${zine.copertina}" alt="Copertina di ${zine.titolo}" class="copertina-fanzine">
+                    <h2>${zine.titolo}</h2>
                 </a>
-                <h2>${progetto.titolo}</h2>
-                <p><strong>ID:</strong> ${progetto.id}</p>
-                <p><strong>Autore:</strong> ${progetto.autore}</p>
-                <p><strong>Modulo:</strong> ${progetto.modulo_corso}</p>
-                <p><strong>Tono:</strong> ${progetto.tono_voce}</p>
-                <p><strong>Tema:</strong> ${progetto.tema}</p>
-                <p><strong>Pagine:</strong> ${progetto.numero_pagine} (${progetto.anno})</p>
-                <p><a href="${progetto.link_fanzine}" target="_blank">Download/Visualizza PDF</a></p>
+                <p><strong>Tono:</strong> ${zine.tono}</p>
+                <p><strong>Anno:</strong> ${zine.anno}</p>
             `;
             container.appendChild(card);
         });
     }
-
-    function filtraEOrdinaProgetti() {
-        const testoRicerca = barraRicerca.value.toLowerCase();
-        const tonoSelezionato = filtroTono.value;
-
-        const progettiFiltrati = tuttiIProgetti.filter(progetto => {
-            const corrispondeRicerca = progetto.titolo.toLowerCase().includes(testoRicerca) ||
-                                       progetto.autore.toLowerCase().includes(testoRicerca) ||
-                                       progetto.tema.toLowerCase().includes(testoRicerca);
-            
-            const corrispondeTono = !tonoSelezionato || progetto.tono_voce === tonoSelezionato;
-
-            return corrispondeRicerca && corrispondeTono;
-        });
-
-        visualizzaProgetti(progettiFiltrati);
-    }
-
-    barraRicerca.addEventListener('input', filtraEOrdinaProgetti);
-    filtroTono.addEventListener('change', filtraEOrdinaProgetti);
-
 
     // =========================================
     // PARTE 2: PARTICLE SYSTEM (MASSIMA SEMPLIFICAZIONE)
@@ -88,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const repulsionDistance = 150;
     const repulsionStrength = 0.6;
     const baseParticleSize = 8; 
-    let sizeVariation = 0; // Controllata da ArrowUp/Down
-    let variationRandomness = 0.5; // Controllata da ArrowLeft/Right
+    let sizeVariation = 0; 
+    let variationRandomness = 0.5; 
 
     let mouseX = null;
     let mouseY = null;
@@ -102,11 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'icosahedron', sides: 20 },
     ];
 
-    // ✅ FUNZIONE CRUCIALE: Inizializza il canvas e le variabili di contesto
     function setupCanvas() {
         canvas = document.getElementById('particleCanvas');
         if (!canvas) {
-            console.error("Errore: Impossibile trovare il canvas (#particleCanvas) nel DOM. Controlla index.html.");
+            // Non è un errore, se il canvas non è nella pagina (anche se dovrebbe esserci sempre)
             return false;
         }
 
@@ -116,23 +71,21 @@ document.addEventListener('DOMContentLoaded', () => {
              return false;
         }
 
-        // Imposta le dimensioni iniziali
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Ottieni il colore Lime del CSS
         const computedStyle = getComputedStyle(document.documentElement);
+        // Usa trim() per eliminare gli spazi bianchi e garantire che il colore sia valido
         particleColor = computedStyle.getPropertyValue('--colore-accento').trim(); 
         
         if (!particleColor || particleColor.length < 4) {
              console.warn("Avviso: Colore CSS non letto correttamente. Uso fallback: #CCFF00.");
-             particleColor = "#CCFF00"; // Fallback di emergenza
+             particleColor = "#CCFF00"; 
         }
         
         return true;
     }
 
-    // Funzione per disegnare un poligono regolare
     function drawPolygon(ctx, x, y, radius, sides) {
         if (sides < 3) return;
         ctx.beginPath();
@@ -147,14 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fill();
     }
 
-    // Classe Particella (SEMPLIFICATA)
     class Particle {
         constructor(x, y, color = particleColor, size = baseParticleSize) {
             this.x = x;
             this.y = y;
             this.size = size;
             this.color = color;
-            // Velocità più moderata per meno caos
             this.velocityX = (Math.random() * 0.6 - 0.3); 
             this.velocityY = (Math.random() * 0.6 - 0.3);
             this.maxVelocity = 2;
@@ -166,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         update() {
-            // Repulsione del mouse
             if (mouseX !== null && mouseY !== null) {
                 let dx = this.x - mouseX;
                 let dy = this.y - mouseY;
@@ -182,17 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Movimento casuale/inerziale
             this.velocityX += (Math.random() - 0.5) * this.wanderStrength;
             this.velocityY += (Math.random() - 0.5) * this.wanderStrength;
             
-            // Applica velocità e attrito
             this.x += this.velocityX;
             this.y += this.velocityY;
             this.velocityX *= this.friction;
             this.velocityY *= this.friction;
 
-            // Rimbalzo dai bordi (Versione più semplice)
             const damping = 0.7;
             if (this.x + this.size > canvas.width || this.x - this.size < 0) {
                 this.velocityX *= -damping;
@@ -203,21 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
             this.x = Math.max(this.size, Math.min(this.x, canvas.width - this.size));
             this.y = Math.max(this.size, Math.min(this.y, canvas.height - this.size));
 
-
-            // Dimensione dinamica
             const randomFactor = (Math.random() - 0.5) * variationRandomness * 2;
-            this.targetSize = baseParticleSize + sizeVariation + randomFactor * 5; // Ridotta la scala di casualità
+            this.targetSize = baseParticleSize + sizeVariation + randomFactor * 5;
             this.size += (this.targetSize - this.size) * 0.1;
         }
 
         draw() {
             ctx.fillStyle = this.color;
-            ctx.globalAlpha = 1; // Alpha sempre 1 per visibilità garantita
+            ctx.globalAlpha = 1; 
             drawPolygon(ctx, this.x, this.y, this.size, this.shape.sides);
         }
     }
 
-    // Inizializza le particelle
     function initParticles() {
         particles = [];
         for (let i = 0; i < numParticles; i++) {
@@ -225,14 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Ciclo di animazione
     function animate() {
         if (!ctx) return; 
 
-        // Rimuove la necessità di un alpha per lo sfondo
         ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
-        // Logica normale delle particelle
         for (let i = 0; i < particles.length; i++) {
             particles[i].update();
             particles[i].draw();
@@ -241,7 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(animate);
     }
 
-    // Event listener per la posizione del mouse
+    // =========================================
+    // GESTIONE EVENTI
+    // =========================================
+
     window.addEventListener('mousemove', (event) => {
         mouseX = event.clientX;
         mouseY = event.clientY;
@@ -252,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mouseY = null;
     });
 
-    // Event listener per il ridimensionamento della finestra
     window.addEventListener('resize', () => {
         if (canvas) {
             canvas.width = window.innerWidth;
@@ -261,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event listener per la tastiera (dimensioni e casualità)
     window.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowUp') {
             sizeVariation = Math.min(sizeVariation + 1, 10);
@@ -273,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             variationRandomness = Math.min(variationRandomness + 0.1, 1);
         }
         if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-            event.preventDefault(); // Impedisce lo scroll della pagina
+            event.preventDefault(); 
         }
     });
 
@@ -281,15 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // AVVIO
     // =========================================
     
-    // 1. Inizializza il canvas (CRUCIALE)
+    // Avvia l'archivio (solo su index.html)
+    caricaDati(); 
+
+    // Avvia il sistema di particelle
     if (setupCanvas()) {
-        // 2. Avvia le particelle solo se i canvas sono stati inizializzati con successo
         initParticles();
-        // 3. Avvia l'animazione
         animate();
     }
-    
-    // 4. Avvia il caricamento dei dati dell'archivio
-    caricaDati();
-
 });
