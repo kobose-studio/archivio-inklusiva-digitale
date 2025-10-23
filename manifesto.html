@@ -3,50 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archivio Digitale INKLUSIVA 4.0 - Manifesto</title>
+    <title>Manifesto - INKLUSIVA</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <canvas id="particleCanvas"></canvas>
+    
+    <div id="legend">
+        Usa &uarr;&darr; per variare la dimensione delle particelle<br>
+        Usa &larr;&rarr; per variare la casualità
+    </div>
+
     <header>
         <h1 id="main-title">INKLUSIVA</h1>
-        <p id="sub-title">Collezione dei progetti di micro-editoria del corso INKLUSIVA: Archivio Legacy Digitale 4.0</p>
+        <p id="sub-title">Collezione dei progetti di micro-editoria INKLUSIVA: L'Archivio Legacy Digitale 4.0</p>
     </header>
-    
+
     <nav id="main-nav">
         <ul>
             <li><a href="index.html">Archivio (Zine)</a></li>
-            
             <li><a href="manifesto.html" class="active-page">Manifesto</a></li>
             <li><a href="vibe.html">About / Vibe</a></li>
         </ul>
     </nav>
-    
-    <section id="manifesto-content" class="page-content">
-        <h2 class="large-title">MANIFESTO INKLUSIVA: LA VOCE OLTRE IL FILTRO</h2>
-        
-        <p class="large-text">Non siamo qui per decorare il disagio. Siamo qui per trasformare l’inquietudine in azione.</p>
-        
-        <h3 class="manifesto-sottotitolo">I. L'ATTO ETICO: DALLA CARTA AL CORAGGIO</h3>
-        <p><strong>LA VOCE PRIMA DI TUTTO.</strong> Rifiutiamo il silenzio e la retorica del consenso. La nostra fanzine non è un prodotto, è un manifesto autoriale dove il Tono di Voce è l'unica regola. Che sia aggressivo, poetico o ironico, deve essere autentico.</p>
-        <p><strong>L'ETICA DELL'INGEGNO (DIY).</strong> Il valore non si misura in spesa, ma in ingegno progettuale. Scegliamo forbici e colla sulla suite di design. La nostra estetica è ad alto contrasto, grezza e granulosa: la perfezione è noiosa, l'errore è la nostra firma.</p>
-        <p><strong>IL RIUSO COME DIGNITÀ.</strong> Trasformiamo lo scarto in risorsa. La carta avanzata diventa finitura intenzionale. Il riuso, il Cut-Up dei libri e la manipolazione materica sono i nostri strumenti contro lo spreco e l'omologazione. Basso impatto è Alta Qualità Artigianale.</p>
 
-        <h3 class="manifesto-sottotitolo">II. LO SGUARDO IBRIDO: LA QUALITÀ INTENZIONALE</h3>
-        <p><strong>L'OCCHIO CRITICO.</strong> Utilizziamo lo smartphone non per la vanità, ma come strumento democratico d'autore. La fotografia è la nostra mappa per trovare le connessioni nascoste nel territorio e nell'anima.</p>
-        <p><strong>IL DIALOGO FORZATO.</strong> Il Cut-Up Bibliotecario è il nostro metodo. Giustapponiamo le nostre foto personali (il Sé) con i testi sacri della biblioteca (il Sapere Collettivo). Facciamo a pezzi la storia per costringerla a parlare della nostra urgenza.</p>
-        <p><strong>IL SENSO EXTRA.</strong> La nostra opera è multisensoriale. La fanzine ha peso, texture, odore e suono. L'elemento sonoro (Sound Design) e il packaging inaspettato (mutuato da profumeria o food design) sono il nostro modo per rompere la monocultura sensoriale con cura e intenzionalità.</p>
-
-        <h3 class="manifesto-sottotitolo">III. LA LEGACY: OLTRE LA MOSTRA</h3>
-        <p><strong>IL MARKETING DELLA VERITÀ.</strong> Il nostro pitch è etico: rifiuta l'hype. Comunichiamo il processo, la trasparenza e l'impatto sociale, non la tendenza. Vogliamo coinvolgere, non solo vendere.</p>
-        <p><strong>L'ARCHIVIO È PERMANENZA.</strong> Il lavoro fisico si traduce in Legacy Digitale 4.0. Ogni fanzine diviene una risorsa accessibile, garantendo che la nostra voce e la nostra critica rimangano vive e utili alla comunità.</p>
+    <div class="page-content">
+        <h2 class="large-title">Il Manifesto della Micro-Editoria Digitale</h2>
         
-        <p class="large-text">INKLUSIVA: Siamo gli artigiani della carta. Siamo i problem solver del disagio. Siamo la dimostrazione che l'arte più potente nasce quando si hanno risorse limitate e molta intenzione.</p>
-    </section>
+        <p>Il Manifesto di INKLUSIVA non è solo un documento di principi, ma una dichiarazione operativa di intenti. Definisce il nostro posizionamento etico, il nostro approccio metodologico e la nostra visione a lungo termine sulla funzione sociale del design. È la nostra promessa di trasformare l'inquietudine in una risorsa culturale concreta e accessibile.</p>
+        
+        <h3 class="manifesto-sottotitolo">1. Contro l'Omologazione</h3>
+        <p>Il nostro obiettivo è utilizzare il digitale come strumento critico, per sottrarre il gusto e l'autorità alle logiche di consumo. Il media è inteso come un'estensione della nostra espressione creativa, non come un limite o un dogma.</p>
+
+        <h3 class="manifesto-sottotitolo">2. L'Eredità Grezza (Legacy)</h3>
+        <p>Riconosciamo ogni imperfezione come un segno di vita autentico. Preserviamo la Legacy del design come un Artefatto Grezzo e non Finito, in una continua evoluzione. **#DigitalBrutalism**</p>
+        
+        <h3 class="manifesto-sottotitolo">3. L'Inclusiva come Metodo</h3>
+        <p>La vera sostenibilità si ottiene solo abbracciando la complessità e la diversità contestuale. Rifiutiamo le soluzioni prefabbricate e omogenee del mainstream per privilegiare l'ingegno locale.</p>
+
+    </div>
 
     <footer>
-        <p>© Archivio INKLUSIVA, progettato e sviluppato da Kobose Studio. Progetto per accessibilità e scalabilità.</p>
+        <p>© Archivio INKLUSIVA. Design e sviluppo: <a href="https://kobose.myportfolio.com/" target="_blank">Kobose Studio</a>. Progettato per accessibilità e scalabilità.</p>
     </footer>
+
+    <script src="script.js"></script>
 
 </body>
 </html>
