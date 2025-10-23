@@ -16,7 +16,9 @@
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
-    background-color: var(--colore-secondario); /* Lo sfondo del body è Bianco */
+    /* ✅ CORREZIONE: Imposto lo sfondo del body a nero/bianco in modo che NON COPRE il canvas. 
+       MANTENERE IL COLORE SULLE SEZIONI SPECIFICHE! */
+    background-color: var(--colore-secondario); 
     color: var(--colore-primario);
     margin: 0;
     padding: 0;
@@ -27,27 +29,36 @@ body {
 /* ========================================= */
 /* ✅ CORREZIONE: STILI PER IL PARTICLE SYSTEM (Canvas) */
 /* ========================================= */
-#particleCanvas { /* Solo particleCanvas */
-    position: fixed; /* Fissa il canvas in posizione assoluta rispetto alla finestra */
+#particleCanvas { 
+    position: fixed; 
     top: 0;
     left: 0;
     display: block;
-    z-index: 1; /* Posizionato dietro l'header e il contenuto (z-index basso) */
+    z-index: 1; /* Il Canvas sta in basso */
     background-color: transparent; 
-    pointer-events: none; /* Non interferisce con i click sui link */
+    pointer-events: none; 
 }
 
-/* Assicura che TUTTO il contenuto del sito sia SOPRA il canvas */
+/* ✅ CORREZIONE Z-INDEX: Forziamo il contesto di stacking per gli elementi di contenuto. */
 header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
     position: relative; 
-    z-index: 5; /* Posiziona tutto il contenuto sopra il canvas (z-index alto) */
+    z-index: 5; /* Tutto il contenuto DEVE stare sopra il canvas */
+    /* ✅ Cruciale: assicura che il background delle CARD non copra il canvas se la card non copre tutto */
+    background-color: var(--colore-secondario); 
+}
+/* ✅ SOLUZIONE AGGIUNTIVA: Impostiamo lo sfondo del container principale a trasparente
+   e lasciamo che sia il body a colorare il tutto. */
+#archivio-container {
+    background-color: transparent; /* Rendiamo il contenitore principale trasparente */
 }
 
-/* Stili per la legenda */
+
+/* ✅ CORREZIONE: Stili per la legenda (Spostata a DESTRA) */
 #legend {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    right: 20px; /* Spostata a destra */
+    left: auto;  /* Rimosso il left per evitare conflitti */
     color: var(--colore-primario); 
     font-size: 12px;
     z-index: 10; /* Sempre in primo piano */
@@ -67,6 +78,8 @@ header {
     text-align: center;
     border-bottom: 5px solid var(--colore-accento); 
 }
+/* ... resto del codice CSS invariato ... */
+
 
 #main-title {
     font-size: 5.5em; 
@@ -137,14 +150,14 @@ header {
 /* 4. ARCHIVIO CARDS */
 /* ========================================= */
 #archivio-container {
-    background-color: var(--colore-secondario); 
+    /* Eliminato background-color qui per trasparenza: vedi la correzione in alto */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 25px;
     padding: 25px 5%;
 }
 .progetto-card {
-    background-color: var(--colore-secondario);
+    background-color: var(--colore-secondario); /* Le card devono mantenere il loro sfondo bianco */
     border: 3px solid var(--colore-primario);
     padding: 20px;
     transition: transform 0.2s, box-shadow 0.2s;
