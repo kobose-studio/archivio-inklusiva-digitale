@@ -1,90 +1,390 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Definisci le costanti e le variabili
+    // =========================================
+    // PARTE 1: LOGICA ARCHIVIO (Caricamento, Filtro, Visualizzazione)
+    // =========================================
+
     const container = document.getElementById('archivio-container');
     const barraRicerca = document.getElementById('barra-ricerca');
     const filtroTono = document.getElementById('filtro-tono');
     let tuttiIProgetti = []; // Array per conservare tutti i progetti caricati
 
-    // 2. Funzione per caricare i dati dal JSON (il motore della scalabilità)
+    // Funzione 1: Carica i dati dal JSON
     function caricaDati() {
-        // Usa la funzione fetch per ottenere i dati dal file JSON
         fetch('progetti.json')
             .then(response => {
-                // Se la risposta è positiva, converti in oggetto JavaScript
                 if (!response.ok) {
                     throw new Error('Errore nel caricamento del file progetti.json');
                 }
                 return response.json();
             })
             .then(data => {
-                tuttiIProgetti = data; // Salva i dati
-                visualizzaProgetti(tuttiIProgetti); // Visualizza tutti i progetti all'avvio
+                tuttiIProgetti = data; 
+                visualizzaProgetti(tuttiIProgetti); 
             })
             .catch(error => {
                 console.error("Errore nel caricamento dell'archivio:", error);
-                container.innerHTML = '<p class="errore">Impossibile caricare l\'archivio in questo momento. Controlla il file progetti.json.</p>';
+                container.innerHTML = '<p class="errore">Impossibile caricare l\'archivio. Controlla il file progetti.json.</p>';
             });
     }
 
-    // 3. Funzione per creare e visualizzare le schede dei progetti
+    // Funzione 2: Crea e visualizza le schede dei progetti
     function visualizzaProgetti(progettiDaMostrare) {
-        container.innerHTML = ''; // Pulisce il contenitore
-
+        container.innerHTML = ''; // Pulisci il contenitore
+        
         if (progettiDaMostrare.length === 0) {
-            container.innerHTML = '<p class="errore">Nessun progetto trovato che corrisponda ai criteri di ricerca/filtro.</p>';
+            container.innerHTML = '<p>Nessun progetto trovato che corrisponda ai criteri di ricerca/filtro.</p>';
             return;
         }
 
         progettiDaMostrare.forEach(progetto => {
             const card = document.createElement('div');
-            card.classList.add('progetto-card');
-
-            // Importante: qui usiamo la nuova variabile link_copertina per l'immagine
+            card.className = 'progetto-card';
             card.innerHTML = `
-                <img src="${progetto.link_copertina}" alt="Copertina della fanzine ${progetto.titolo}" class="copertina-fanzine">
-                
-                <div class="card-content">
-                    <h2>${progetto.titolo}</h2>
-                    <p class="metadato"><strong>Autore:</strong> ${progetto.autore}</p>
-                    <p class="metadato"><strong>Tono:</strong> ${progetto.tono_voce}</p>
-                    <p class="metadato"><strong>Tema:</strong> ${progetto.tema}</p>
-                    <p class="metadato"><strong>Modulo:</strong> ${progetto.modulo_corso}</p>
-                    <p class="metadato"><strong>Pagine:</strong> ${progetto.numero_pagine}</p>
-                </div>
-                <a href="${progetto.link_fanzine}" target="_blank" rel="noopener noreferrer">Vedi Fanzine (PDF)</a>
+                <a href="${progetto.link_fanzine}" target="_blank" title="Visualizza fanzine: ${progetto.titolo}">
+                    <img src="${progetto.link_copertina}" alt="Copertina della fanzine ${progetto.titolo}" class="copertina-fanzine">
+                </a>
+                <h2>${progetto.titolo}</h2>
+                <p><strong>ID:</strong> ${progetto.id}</p>
+                <p><strong>Autore:</strong> ${progetto.autore}</p>
+                <p><strong>Modulo:</strong> ${progetto.modulo_corso}</p>
+                <p><strong>Tono:</strong> ${progetto.tono_voce}</p>
+                <p><strong>Tema:</strong> ${progetto.tema}</p>
+                <p><strong>Pagine:</strong> ${progetto.numero_pagine} (${progetto.anno})</p>
+                <p><a href="${progetto.link_fanzine}" target="_blank">Download/Visualizza PDF</a></p>
             `;
             container.appendChild(card);
         });
     }
 
-    // 4. Funzione principale di filtro (il motore della fruibilità)
+    // Funzione 3: Applica Filtro e Ricerca
     function filtraEOrdinaProgetti() {
-        // Valori di ricerca e filtro (convertiti in minuscolo per una ricerca non case-sensitive)
         const testoRicerca = barraRicerca.value.toLowerCase();
         const tonoSelezionato = filtroTono.value;
 
-        // Filtra i progetti in base alla ricerca testuale E al filtro del tono
         const progettiFiltrati = tuttiIProgetti.filter(progetto => {
-            // Criterio di ricerca: titolo, autore, o tema contiene il testo Ricerca
             const corrispondeRicerca = progetto.titolo.toLowerCase().includes(testoRicerca) ||
                                        progetto.autore.toLowerCase().includes(testoRicerca) ||
                                        progetto.tema.toLowerCase().includes(testoRicerca);
             
-            // Criterio di filtro: il tono corrisponde O il filtro è "Tutti"
             const corrispondeTono = !tonoSelezionato || progetto.tono_voce === tonoSelezionato;
 
-            // Restituisce TRUE solo se entrambi i criteri sono soddisfatti
             return corrispondeRicerca && corrispondeTono;
         });
 
-        // Dopo il filtro, visualizza i risultati
         visualizzaProgetti(progettiFiltrati);
     }
 
-    // 5. Aggiungi i listener degli eventi per attivare il filtro
+    // Listener per attivare il filtro
     barraRicerca.addEventListener('input', filtraEOrdinaProgetti);
     filtroTono.addEventListener('change', filtraEOrdinaProgetti);
 
-    // 6. Inizia caricando i dati all'avvio della pagina
+    // Avvia il caricamento dei dati
     caricaDati();
+
+    // =========================================
+    // PARTE 2: PARTICLE SYSTEM (Adattato al tema INKLUSIVA)
+    // =========================================
+
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const textCanvas = document.getElementById('textCanvas');
+    const textCtx = textCanvas.getContext('2d');
+    textCanvas.width = window.innerWidth;
+    textCanvas.height = window.innerHeight;
+
+    // Colore Lime Brutalista (dalla variabile CSS)
+    const limeColor = getComputedStyle(document.documentElement).getPropertyValue('--colore-accento').trim(); 
+    
+    let particles = [];
+    const numParticles = 200;
+    const repulsionDistance = 150;
+    const repulsionStrength = 0.6;
+    const particleSize = 8;
+    const particleColor = limeColor; // Usa il colore lime
+    let sizeVariation = 0;
+    let variationRandomness = 0.5;
+
+    let mouseX = null;
+    let mouseY = null;
+    let activeText = '';
+    let textParticles = [];
+    let disintegrationFactor = 0;
+    let phraseDisplayTimeout;
+    let textDisplayDuration = 4000; // Tempo di visualizzazione aumentato
+
+    const platonicSolids = [
+        { name: 'tetrahedron', sides: 4 },
+        { name: 'cube', sides: 6 },
+        { name: 'octahedron', sides: 8 },
+        { name: 'dodecahedron', sides: 12 },
+        { name: 'icosahedron', sides: 20 },
+    ];
+
+    // ✅ CORREZIONE: Frasi sostituite con concetti chiave di INKLUSIVA
+    const inklusivaPhrases = [
+        "INGENUINITÀ > INGEGNO ETICO",
+        "LEGACY DIGITALE 4.0",
+        "SCARTO ETICO",
+        "ARTEFATTO IBRIDO",
+        "LA VOCE COERENTE",
+        "SELF-PUBLISHING SOSTENIBILE",
+        "DESIGN COME PREVENZIONE",
+        "METODOLOGIA IBRIDA PI KOBOSE",
+        "ACCESSORIETÀ MASSIMA",
+        "CITTADINANZA ATTIVA"
+    ];
+
+    // Funzione per disegnare un poligono regolare
+    function drawPolygon(ctx, x, y, radius, sides) {
+        if (sides < 3) return;
+        ctx.beginPath();
+        const angleStep = (Math.PI * 2) / sides;
+        let angle = -Math.PI / 2;
+        ctx.moveTo(x + radius * Math.cos(angle), y + radius * Math.sin(angle));
+        for (let i = 1; i < sides; i++) {
+            angle += angleStep;
+            ctx.lineTo(x + radius * Math.cos(angle), y + radius * Math.sin(angle));
+        }
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    // Classe Particella
+    class Particle {
+        constructor(x, y, color = particleColor, size = particleSize) {
+            this.x = x;
+            this.y = y;
+            this.size = size;
+            this.color = color;
+            this.velocityX = Math.random() * 2 - 1;
+            this.velocityY = Math.random() * 2 - 1;
+            this.alpha = 0;
+            this.fadeSpeed = 0.01;
+            this.maxVelocity = 2;
+            this.friction = 0.98;
+            this.baseVelocity = { x: this.velocityX, y: this.velocityY };
+            this.wanderStrength = 0.05;
+            this.shape = platonicSolids[Math.floor(Math.random() * platonicSolids.length)];
+            this.targetSize = size;
+        }
+
+        update() {
+            // Fade-in effect
+            if (this.alpha < 1) {
+                this.alpha += this.fadeSpeed;
+            }
+
+            // Apply repulsion from mouse
+            if (mouseX !== null && mouseY !== null) {
+                let dx = this.x - mouseX;
+                let dy = this.y - mouseY;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < repulsionDistance) {
+                    let force = (repulsionStrength * (repulsionDistance - distance)) / distance;
+                    this.velocityX += dx * force;
+                    this.velocityY += dy * force;
+
+                    this.velocityX = Math.max(Math.min(this.velocityX, this.maxVelocity), -this.maxVelocity);
+                    this.velocityY = Math.max(Math.min(this.velocityY, this.maxVelocity), -this.maxVelocity);
+                }
+            }
+
+            // Add wandering force
+            this.velocityX += (Math.random() - 0.5) * this.wanderStrength;
+            this.velocityY += (Math.random() - 0.5) * this.wanderStrength;
+            this.velocityX += (this.baseVelocity.x - this.velocityX) * 0.005;
+            this.velocityY += (this.baseVelocity.y - this.velocityY) * 0.005;
+
+            // Apply velocity and friction
+            this.x += this.velocityX;
+            this.y += this.velocityY;
+            this.velocityX *= this.friction;
+            this.velocityY *= this.friction;
+
+            // Bounce off edges (gestito da CSS body per Brutalismo)
+            const damping = 0.7;
+            if (this.x + this.size > canvas.width) {
+                this.x = canvas.width - this.size;
+                this.velocityX = -this.velocityX * damping;
+            }
+            if (this.x - this.size < 0) {
+                this.x = this.size;
+                this.velocityX = -this.velocityX * damping;
+            }
+            if (this.y + this.size > canvas.height) {
+                this.y = canvas.height - this.size;
+                this.velocityY = -this.velocityY * damping;
+            }
+            if (this.y - this.size < 0) {
+                this.y = this.size;
+                this.velocityY = -this.velocityY * damping;
+            }
+
+            // Dimensione dinamica
+            const randomFactor = (Math.random() - 0.5) * variationRandomness * 2;
+            this.targetSize = particleSize + sizeVariation + randomFactor * 10;
+            this.size += (this.targetSize - this.size) * 0.1;
+        }
+
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.alpha;
+            drawPolygon(ctx, this.x, this.y, this.size, this.shape.sides);
+            ctx.globalAlpha = 1;
+        }
+    }
+
+    // Inizializza le particelle
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+        }
+    }
+
+    // Crea le particelle del testo per l'effetto di disintegrazione
+    function createTextParticles(text, x, y) {
+        textParticles = [];
+        const fontSize = 38; 
+        textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`; // Usa il font del body (Space Mono)
+        textCtx.fillStyle = limeColor;
+        textCtx.textAlign = 'center';
+        textCtx.textBaseline = 'middle';
+        textCtx.fillText(text, x, y);
+
+        const textData = textCtx.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
+
+        for (let i = 0; i < textCanvas.width; i += 4) {
+            for (let j = 0; j < textCanvas.height; j += 4) {
+                const pixelAlpha = textData[(j * textCanvas.width + i) * 4 + 3];
+                if (pixelAlpha > 128) {
+                    const xPos = i;
+                    const yPos = j;
+                    textParticles.push(new Particle(xPos, yPos, limeColor, 2));
+                }
+            }
+        }
+        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+    }
+    
+    // Mostra il testo statico quando non c'è interazione
+    function drawText() {
+        if (activeText) {
+            const fontSize = 38;
+            textCtx.globalAlpha = 1;
+            textCtx.font = `700 ${fontSize}px ${getComputedStyle(document.body).fontFamily}`;
+            textCtx.fillStyle = limeColor; // Testo statico in Lime
+            textCtx.textAlign = 'center';
+            textCtx.textBaseline = 'middle';
+            textCtx.fillText(activeText, textCanvas.width / 2, textCanvas.height / 2);
+            textCtx.globalAlpha = 1;
+        }
+    }
+
+    // Ciclo di animazione
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+
+        if (textParticles.length > 0) {
+            // Logica di disintegrazione del testo
+            disintegrationFactor += 0.003; 
+            if (disintegrationFactor >= 1) {
+                textParticles = [];
+                disintegrationFactor = 0;
+                activeText = '';
+            }
+
+            for (let i = 0; i < textParticles.length; i++) {
+                textParticles[i].x += textParticles[i].velocityX * (1 + disintegrationFactor * 6); 
+                textParticles[i].y += textParticles[i].velocityY * (1 + disintegrationFactor * 6);
+                textParticles[i].alpha = Math.max(0, 1 - disintegrationFactor * 1.5); 
+                textParticles[i].size = particleSize * (1 + disintegrationFactor * 1.5);
+                textParticles[i].draw();
+            }
+        } else {
+            // Logica normale delle particelle
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    // Event listener per la posizione del mouse
+    window.addEventListener('mousemove', (event) => {
+        // Aggiorna la posizione del mouse solo se non stiamo disintegrando il testo
+        if (textParticles.length === 0) {
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+        } else {
+            mouseX = null;
+            mouseY = null;
+        }
+    });
+
+    window.addEventListener('mouseout', () => {
+        mouseX = null;
+        mouseY = null;
+    });
+
+    // Event listener per il ridimensionamento della finestra
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        textCanvas.width = window.innerWidth;
+        textCanvas.height = window.innerHeight;
+        initParticles();
+    });
+
+    // ✅ NUOVO: Logica del click per il testo
+    window.addEventListener('click', (event) => {
+        // Evita che il click interferisca con gli elementi dell'archivio (se non è il canvas stesso)
+        if (event.target.tagName !== 'CANVAS' && event.target.tagName !== 'BODY') {
+            return;
+        }
+        
+        // Scegli una frase casuale da INKLUSIVA
+        const phrase = inklusivaPhrases[Math.floor(Math.random() * inklusivaPhrases.length)];
+        activeText = phrase;
+        
+        // Pulisci il timeout precedente e imposta il nuovo
+        clearTimeout(phraseDisplayTimeout);
+        phraseDisplayTimeout = setTimeout(() => {
+            // Dopo il timeout, avvia la disintegrazione
+            const textX = textCanvas.width / 2;
+            const textY = textCanvas.height / 2;
+            createTextParticles(activeText, textX, textY);
+            
+            // Attiva il loop di disintegrazione (animate gestirà il reset di activeText)
+        }, textDisplayDuration);
+    });
+
+    // Event listener per la tastiera (dimensioni e casualità)
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowUp') {
+            sizeVariation = Math.min(sizeVariation + 1, 10);
+        } else if (event.key === 'ArrowDown') {
+            sizeVariation = Math.max(sizeVariation - 1, -5);
+        } else if (event.key === 'ArrowLeft') {
+            variationRandomness = Math.max(variationRandomness - 0.1, 0);
+        } else if (event.key === 'ArrowRight') {
+            variationRandomness = Math.min(variationRandomness + 0.1, 1);
+        }
+        // Blocca lo scroll della pagina causato dalle frecce, se non siamo su un input
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+            event.preventDefault();
+        }
+    });
+
+    // Initialize and start animation
+    initParticles();
+    animate();
+
 });
