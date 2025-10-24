@@ -23,11 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error("Errore nel caricamento dell'archivio:", error);
-                container.innerHTML = '<p class="errore">Impossibile caricare l\'archivio: Controlla il file progetti.json.</p>';
+                // Non blocca l'esecuzione se fallisce il caricamento
             });
     }
 
     function visualizzaProgetti(progettiDaMostrare) {
+        if (!container) return; // Controllo aggiuntivo
+        
         container.innerHTML = ''; 
         
         if (progettiDaMostrare.length === 0) {
@@ -79,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // AVVIO LOGICA ARCHIVIO (solo per index.html)
     // =========================================
 
-    if (container) {
+    if (container && barraRicerca && filtroTono) {
         caricaDati();
 
         // Listener per la ricerca
@@ -87,5 +89,142 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Listener per il filtro tono
         filtroTono.addEventListener('change', filtraProgetti);
+    }
+
+    
+    // =========================================
+    // PARTE 2: LOGICA PARTICELLE (Universale)
+    // =========================================
+    
+    const canvas = document.getElementById('particleCanvas');
+    
+    // ✅ MODIFICA CRUCIALE: Eseguiamo tutto il blocco delle particelle SOLO se il canvas esiste
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 200; 
+        let mouseX = null;
+        let mouseY = null;
+        
+        let baseSize = 0.5;
+        let sizeVariation = 3;
+        let variationRandomness = 0.5;
+
+        function setupCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            return true;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = baseSize;
+                this.speedX = (Math.random() * 0.5) - 0.25;
+                this.speedY = (Math.random() * 0.5) - 0.25;
+                this.color = '#CCFF00';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+
+                if (mouseX !== null && mouseY !== null) {
+                    const dx = mouseX - this.x;
+                    const dy = mouseY - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        this.size = baseSize + sizeVariation + (Math.random() * variationRandomness);
+                        
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const maxDistance = 100;
+                        const force = (maxDistance - distance) / maxDistance;
+                        const directionX = forceDirectionX * force * -0.5;
+                        const directionY = forceDirectionY * force * -0.5;
+
+                        this.x -= directionX;
+                        this.y -= directionY;
+                    } else {
+                        this.size = baseSize + (Math.random() * variationRandomness);
+                    }
+                } else {
+                    this.size = baseSize + (Math.random() * variationRandomness);
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Event listeners
+        window.addEventListener('mousemove', (event) => {
+            mouseX = event.x;
+            mouseY = event.y;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouseX = null;
+            mouseY = null;
+        });
+
+        window.addEventListener('resize', () => {
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
+            }
+        });
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp') {
+                sizeVariation = Math.min(sizeVariation + 1, 10);
+            } else if (event.key === 'ArrowDown') {
+                sizeVariation = Math.max(sizeVariation - 1, -5);
+            } else if (event.key === 'ArrowLeft') {
+                variationRandomness = Math.max(variationRandomness - 0.1, 0.1); 
+            } else if (event.key === 'ArrowRight') {
+                variationRandomness = Math.min(variationRandomness + 0.1, 1);
+            }
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+                event.preventDefault();
+            }
+        });
+
+        // AVVIO PARTICELLE
+        if (setupCanvas()) {
+            initParticles();
+            animate();
+        }
     }
 });
