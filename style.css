@@ -7,17 +7,16 @@
 
 :root {
     --colore-primario: #000000; /* Nero Intenso */
-    --colore-secondario: #FFFFFF; /* Bianco (Colore del testo del menu) */
+    --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
-    --colore-grigio-chiaro: #AAAAAA; /* Colore precedente del sottotitolo */
+    --colore-grigio-chiaro: #AAAAAA; 
     --font-famiglia: 'Space Mono', monospace; 
 }
 
 /* Stile base per un look Brutalista */
 body {
     font-family: var(--font-famiglia);
-    /* ✅ CORREZIONE: Imposto lo sfondo del body a nero/bianco in modo che NON COPRE il canvas. 
-       MANTENERE IL COLORE SULLE SEZIONI SPECIFICHE! */
+    /* Mantieni lo sfondo bianco o trasparente se vuoi vedere le particelle sotto */
     background-color: var(--colore-secondario); 
     color: var(--colore-primario);
     margin: 0;
@@ -27,7 +26,7 @@ body {
 }
 
 /* ========================================= */
-/* ✅ CORREZIONE: STILI PER IL PARTICLE SYSTEM (Canvas) */
+/* STILI PER IL PARTICLE SYSTEM (Canvas e Legenda) */
 /* ========================================= */
 #particleCanvas {
     position: fixed;
@@ -42,12 +41,13 @@ body {
     position: fixed;
     bottom: 10px;
     right: 10px;
-    background-color: var(--colore-primario);
+    /* ✅ RIPRISTINATO: Sfondo trasparente come nella tua versione */
+    background-color: transparent;
     color: var(--colore-accento);
     padding: 10px;
     font-size: 0.8em;
     z-index: 10;
-    border: 1px solid var(--colore-accento);
+    /* ✅ RIPRISTINATO: Rimosso il border non necessario */
 }
 
 /* ========================================= */
@@ -56,28 +56,29 @@ body {
 header {
     background-color: var(--colore-primario);
     color: var(--colore-accento);
-    padding: 40px 5%; /* Aumenta il padding verticale per staccare dal bordo */
-    text-align: center;
+    padding: 40px 5%; 
+    text-align: center; /* Centra il contenuto dell'header */
     border-bottom: 5px solid var(--colore-accento);
 }
 
 #main-title {
-    font-size: clamp(3em, 8vw, 6em); /* Titolo responsivo */
+    font-size: clamp(3em, 8vw, 6em);
     font-weight: 900;
     text-transform: uppercase;
     line-height: 1;
     margin: 0;
     padding: 10px 20px;
     
-    /* ✅ MODIFICA RICHIESTA: Rimetto il frame attorno a INKLUSIVA */
-    display: inline-block; /* Permette al border di adattarsi al testo */
+    /* ✅ MODIFICA RICHIESTA: Riaggiungo il frame a INKLUSIVA */
+    display: inline-block; 
     border: 5px solid var(--colore-accento);
 }
 
 #sub-title {
     font-size: clamp(0.8em, 2vw, 1.2em);
-    font-style: italic;
-    color: var(--colore-grigio-chiaro); /* Sottotitolo più discreto */
+    /* ✅ RIPRISTINATO: Torna al font normale e al colore accento */
+    font-style: normal;
+    color: var(--colore-accento); 
     margin-top: 15px;
 }
 
@@ -92,9 +93,9 @@ header {
     padding: 0;
     margin: 0;
     display: flex;
-    flex-wrap: wrap; /* Permette il wrap su schermi piccoli */
-    justify-content: center; /* Centra i link */
-    gap: 30px; /* Spazio tra gli elementi del menu */
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 30px; 
 }
 
 #main-nav a {
@@ -104,7 +105,8 @@ header {
     text-transform: uppercase;
     padding: 5px 10px;
     transition: all 0.2s;
-    border: 2px solid transparent; /* Per l'effetto hover/active */
+    /* ✅ RIPRISTINATO: NESSUN FRAME sul link di navigazione */
+    border: none; 
 }
 
 #main-nav a:hover {
@@ -113,9 +115,9 @@ header {
 }
 
 #main-nav a.active-page {
-    border: 2px solid var(--colore-accento);
-    background-color: var(--colore-primario);
-    color: var(--colore-accento);
+    /* Manteniamo l'effetto attivo come nella tua versione */
+    color: var(--colore-secondario);
+    background-color: var(--colore-accento);
 }
 
 /* ========================================= */
@@ -128,7 +130,8 @@ header {
     gap: 20px;
     padding: 30px 5%;
     border-bottom: 2px solid var(--colore-grigio-chiaro);
-    background-color: var(--colore-secondario); /* Sfondo bianco per staccare */
+    /* ✅ RIPRISTINATO: Sfondo bianco */
+    background-color: var(--colore-secondario); 
 }
 
 #barra-ricerca, #filtro-tono {
@@ -138,9 +141,10 @@ header {
     border: 2px solid var(--colore-primario);
     background-color: var(--colore-secondario);
     color: var(--colore-primario);
-    box-shadow: 4px 4px 0 var(--colore-accento); /* Effetto 3D Brutalista */
+    /* ✅ RIPRISTINATO: Box-shadow Brutalista */
+    box-shadow: 4px 4px 0 var(--colore-accento); 
     transition: box-shadow 0.1s, transform 0.1s;
-    flex: 1 1 300px; /* Cresce ma non oltre 300px per box */
+    flex: 1 1 300px; 
     max-width: 400px;
 }
 
@@ -165,10 +169,12 @@ header {
 .card {
     background-color: var(--colore-primario);
     color: var(--colore-accento);
+    /* ✅ RIPRISTINATO: Border completo (Frame) */
     border: 5px solid var(--colore-accento);
+    /* ✅ RIPRISTINATO: Rimosso overflow hidden che non c'era */
     transition: transform 0.3s, box-shadow 0.3s;
-    overflow: hidden;
     position: relative;
+    /* ✅ RIPRISTINATO: NON AVERE DIMENSIONI IRREGOLARI (Non c'era height o aspect-ratio fisso) */
 }
 
 .card:hover {
@@ -184,8 +190,9 @@ header {
 
 .card-immagine {
     width: 100%;
-    height: 300px; /* Altezza fissa per consistenza */
-    object-fit: cover; /* Assicura che l'immagine copra la card senza distorsioni */
+    /* ✅ RIPRISTINATO: Altezza fissa a 300px per consistenza (come nella tua versione) */
+    height: 300px; 
+    object-fit: cover; 
     display: block;
     border-bottom: 3px solid var(--colore-accento);
 }
@@ -199,13 +206,14 @@ header {
     margin-top: 0;
     margin-bottom: 5px;
     line-height: 1.2;
-    color: var(--colore-secondario); /* Titolo bianco */
+    /* ✅ RIPRISTINATO: Titolo bianco */
+    color: var(--colore-secondario); 
 }
 
 .card-meta p {
     margin: 0;
     font-size: 0.9em;
-    color: var(--colore-grigio-chiaro); /* Testo di metadati più chiaro */
+    color: var(--colore-grigio-chiaro); 
 }
 
 .card-download {
@@ -231,16 +239,15 @@ header {
 /* ========================================= */
 .page-content {
     max-width: 900px;
-    /* Centra la sezione di contenuto */
     margin: 40px auto; 
     padding: 50px 5%;
-    /* Il background deve essere trasparente per mostrare le particelle */
+    /* ✅ RIPRISTINATO: Sfondo trasparente per mostrare le particelle */
     background-color: transparent; 
     border: 5px solid var(--colore-primario); 
 }
 
 .large-text {
-    font-size: 1.5em; /* Testo di spicco */
+    font-size: 1.5em; 
     font-weight: 700;
     line-height: 1.4;
     color: var(--colore-primario);
