@@ -29,184 +29,229 @@ body {
 /* ========================================= */
 /* ✅ CORREZIONE: STILI PER IL PARTICLE SYSTEM (Canvas) */
 /* ========================================= */
-#particleCanvas { 
-    position: fixed; 
+#particleCanvas {
+    position: fixed;
     top: 0;
     left: 0;
-    display: block;
-    z-index: 1; /* Il Canvas sta in basso */
-    background-color: transparent; 
-    pointer-events: none; 
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Metti il canvas sotto il contenuto */
 }
 
-/* ✅ CORREZIONE Z-INDEX: Forziamo il contesto di stacking per gli elementi di contenuto. */
-header, nav, #filtri-e-ricerca, #archivio-container, .page-content, footer {
-    position: relative; 
-    z-index: 5; /* Tutto il contenuto DEVE stare sopra il canvas */
-    /* ✅ Cruciale: assicura che il background delle CARD non copra il canvas se la card non copre tutto */
-    background-color: var(--colore-secondario); 
-}
-/* ✅ SOLUZIONE AGGIUNTIVA: Impostiamo lo sfondo del container principale a trasparente
-   e lasciamo che sia il body a colorare il tutto. */
-#archivio-container {
-    background-color: transparent; /* Rendiamo il contenitore principale trasparente */
-}
-
-
-/* ✅ CORREZIONE: Stili per la legenda (Spostata a DESTRA) */
 #legend {
     position: fixed;
-    bottom: 20px;
-    right: 20px; /* Spostata a destra */
-    left: auto;  /* Rimosso il left per evitare conflitti */
-    color: var(--colore-primario); 
-    font-size: 12px;
-    z-index: 10; /* Sempre in primo piano */
-    background-color: var(--colore-accento); 
+    bottom: 10px;
+    right: 10px;
+    background-color: var(--colore-primario);
+    color: var(--colore-accento);
     padding: 10px;
-    border: 2px solid var(--colore-primario);
+    font-size: 0.8em;
+    z-index: 10;
+    border: 1px solid var(--colore-accento);
 }
 
-
 /* ========================================= */
-/* 1. HEADER (Titoli e Sottotitoli) */
+/* 1. HEADER E NAVIGAZIONE */
 /* ========================================= */
 header {
-    background-color: var(--colore-primario); 
+    background-color: var(--colore-primario);
     color: var(--colore-accento);
-    padding: 30px 5%; 
+    padding: 40px 5%; /* Aumenta il padding verticale per staccare dal bordo */
     text-align: center;
-    border-bottom: 5px solid var(--colore-accento); 
+    border-bottom: 5px solid var(--colore-accento);
 }
-/* ... resto del codice CSS invariato ... */
-
 
 #main-title {
-    font-size: 5.5em; 
-    margin: 0;
+    font-size: clamp(3em, 8vw, 6em); /* Titolo responsivo */
+    font-weight: 900;
     text-transform: uppercase;
-    line-height: 1; 
+    line-height: 1;
+    margin: 0;
+    padding: 10px 20px;
+    
+    /* ✅ MODIFICA RICHIESTA: Rimetto il frame attorno a INKLUSIVA */
+    display: inline-block; /* Permette al border di adattarsi al testo */
+    border: 5px solid var(--colore-accento);
 }
 
 #sub-title {
-    font-size: 1.2em;
-    margin-top: 10px;
-    color: var(--colore-secondario); 
+    font-size: clamp(0.8em, 2vw, 1.2em);
+    font-style: italic;
+    color: var(--colore-grigio-chiaro); /* Sottotitolo più discreto */
+    margin-top: 15px;
 }
 
-
-/* ========================================= */
-/* 2. MENU DI NAVIGAZIONE (NAV) */
-/* ========================================= */
 #main-nav {
     background-color: var(--colore-primario);
-    border-bottom: 2px solid var(--colore-accento);
+    border-bottom: 5px solid var(--colore-accento);
+    padding: 10px 5%;
 }
+
 #main-nav ul {
     list-style: none;
+    padding: 0;
     margin: 0;
-    padding: 0 5%;
-    display: flex; 
-    justify-content: flex-start;
+    display: flex;
+    flex-wrap: wrap; /* Permette il wrap su schermi piccoli */
+    justify-content: center; /* Centra i link */
+    gap: 30px; /* Spazio tra gli elementi del menu */
 }
+
 #main-nav a {
-    display: block;
-    padding: 15px 20px;
+    color: var(--colore-accento);
     text-decoration: none;
-    color: var(--colore-secondario); 
     font-weight: 700;
     text-transform: uppercase;
-    border-right: 1px solid var(--colore-accento); 
-    transition: background-color 0.2s, color 0.2s;
+    padding: 5px 10px;
+    transition: all 0.2s;
+    border: 2px solid transparent; /* Per l'effetto hover/active */
 }
-#main-nav a:hover,
-#main-nav a.active-page { 
-    background-color: var(--colore-accento); 
-    color: var(--colore-primario);
+
+#main-nav a:hover {
+    color: var(--colore-secondario);
+    background-color: var(--colore-accento);
+}
+
+#main-nav a.active-page {
+    border: 2px solid var(--colore-accento);
+    background-color: var(--colore-primario);
+    color: var(--colore-accento);
 }
 
 /* ========================================= */
-/* 3. FILTRI E RICERCA */
+/* 2. FILTRI E RICERCA (Solo Index) */
 /* ========================================= */
 #filtri-e-ricerca {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    padding: 20px 5%;
-    background-color: var(--colore-secondario); 
-    border-bottom: 2px solid var(--colore-primario);
+    padding: 30px 5%;
+    border-bottom: 2px solid var(--colore-grigio-chiaro);
+    background-color: var(--colore-secondario); /* Sfondo bianco per staccare */
 }
+
 #barra-ricerca, #filtro-tono {
-    padding: 10px;
-    border: 3px solid var(--colore-primario); 
+    padding: 10px 15px;
+    font-family: var(--font-famiglia);
+    font-size: 1em;
+    border: 2px solid var(--colore-primario);
     background-color: var(--colore-secondario);
-    font-family: var(--font-famiglia); 
-    font-size: 16px;
-    width: 300px;
-    max-width: 100%;
+    color: var(--colore-primario);
+    box-shadow: 4px 4px 0 var(--colore-accento); /* Effetto 3D Brutalista */
+    transition: box-shadow 0.1s, transform 0.1s;
+    flex: 1 1 300px; /* Cresce ma non oltre 300px per box */
+    max-width: 400px;
+}
+
+#barra-ricerca:focus, #filtro-tono:focus {
+    outline: none;
+    box-shadow: 2px 2px 0 var(--colore-accento);
+    transform: translate(2px, 2px);
 }
 
 /* ========================================= */
-/* 4. ARCHIVIO CARDS */
+/* 3. ARCHIVIO (Griglia e Card Progetto) */
 /* ========================================= */
 #archivio-container {
-    /* Eliminato background-color qui per trasparenza: vedi la correzione in alto */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    gap: 25px;
-    padding: 25px 5%;
+    /* Grid responsiva: minimo 300px, massimo 1fr. Colonne automatiche. */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px 5%;
+    background-color: var(--colore-secondario);
 }
-.progetto-card {
-    background-color: var(--colore-secondario); /* Le card devono mantenere il loro sfondo bianco */
-    border: 3px solid var(--colore-primario);
-    padding: 20px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 5px 5px 0px var(--colore-primario); 
+
+.card {
+    background-color: var(--colore-primario);
+    color: var(--colore-accento);
+    border: 5px solid var(--colore-accento);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    position: relative;
 }
-.progetto-card:hover {
-    transform: translate(-3px, -3px); 
-    box-shadow: 8px 8px 0px var(--colore-accento); 
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 10px 10px 0 var(--colore-accento);
 }
-.progetto-card h2 {
-    color: var(--colore-primario);
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--colore-accento);
-    padding-bottom: 5px;
-    font-weight: 700;
-    transition: color 0.3s ease-out; 
-}
-.progetto-card:hover h2 {
-    color: var(--colore-accento); 
-    border-bottom: 1px solid var(--colore-primario); 
-}
-.copertina-fanzine {
-    width: 100%;
-    height: auto;
+
+.card a {
+    text-decoration: none;
+    color: inherit;
     display: block;
-    border: 2px solid var(--colore-primario);
-    margin-bottom: 15px;
-    filter: grayscale(100%) contrast(1.1);
-    transition: filter 0.3s ease-out; 
 }
-.progetto-card:hover .copertina-fanzine {
-    filter: grayscale(0%) contrast(1); 
+
+.card-immagine {
+    width: 100%;
+    height: 300px; /* Altezza fissa per consistenza */
+    object-fit: cover; /* Assicura che l'immagine copra la card senza distorsioni */
+    display: block;
+    border-bottom: 3px solid var(--colore-accento);
 }
-.progetto-card a {
-    color: inherit; 
-    text-decoration: underline; 
-    text-decoration-color: var(--colore-accento); 
+
+.card-contenuto {
+    padding: 20px;
+}
+
+.card-contenuto h3 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    color: var(--colore-secondario); /* Titolo bianco */
+}
+
+.card-meta p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--colore-grigio-chiaro); /* Testo di metadati più chiaro */
+}
+
+.card-download {
+    display: inline-block;
+    background-color: var(--colore-accento);
+    color: var(--colore-primario);
+    padding: 8px 15px;
+    font-weight: 700;
+    margin-top: 15px;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    border: 2px solid var(--colore-accento);
+}
+
+.card-download:hover {
+    background-color: var(--colore-secondario);
+    color: var(--colore-primario);
 }
 
 /* ========================================= */
-/* 5. STILI SPECIFICI PER LE SOTTOPAGINE */
+/* 4. LAYOUT Pagine Secondarie (Manifesto/Vibe) */
 /* ========================================= */
 .page-content {
-    background-color: var(--colore-secondario);
-    padding: 50px 10%;
-    margin-top: 0;
-    border-bottom: 5px solid var(--colore-primario);
-    min-height: 70vh;
+    max-width: 900px;
+    /* Centra la sezione di contenuto */
+    margin: 40px auto; 
+    padding: 50px 5%;
+    /* Il background deve essere trasparente per mostrare le particelle */
+    background-color: transparent; 
+    border: 5px solid var(--colore-primario); 
 }
+
+.large-text {
+    font-size: 1.5em; /* Testo di spicco */
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--colore-primario);
+    border: 3px dashed var(--colore-accento);
+    padding: 15px;
+    margin-bottom: 40px;
+}
+
+/* ========================================= */
+/* 5. TIPOGRAFIA Pagine Secondarie */
+/* ========================================= */
 .large-title {
     font-size: 4.5em; 
     font-weight: 700; 
@@ -218,6 +263,7 @@ header {
     border-bottom: 5px solid var(--colore-accento); 
     padding-bottom: 15px;
 }
+
 .manifesto-sottotitolo {
     font-size: 1.8em;
     font-weight: 700;
@@ -245,30 +291,36 @@ footer {
     padding: 20px 5%;
     font-size: 0.9em;
     text-transform: uppercase;
+    margin-top: 40px;
 }
 footer a {
     color: inherit; 
     text-decoration: underline;
-    text-decoration-color: var(--colore-secondario); 
-    transition: color 0.2s;
+    text-decoration-color: var(--colore-accento);
 }
-footer a:hover {
-    color: var(--colore-secondario); 
-}
-
 
 /* ========================================= */
-/* 7. MEDIA QUERIES (REATTIVITÀ) */
+/* 7. MEDIA QUERIES (Mobile) */
 /* ========================================= */
 @media (max-width: 768px) {
-    #filtri-e-ricerca {
-        flex-direction: column;
+    
+    .large-title {
+        font-size: 3em; 
+    }
+
+    /* Rimuovi il padding sui lati per i contenuti principali su mobile */
+    .page-content, #archivio-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    #main-nav ul {
+        flex-direction: column; 
         gap: 10px;
     }
-    #barra-ricerca, #filtro-tono {
-        width: 100%;
-    }
-    .large-title, #main-title {
-        font-size: 3.5em; 
+    
+    #main-nav a {
+        display: block; /* I link occupano tutta la larghezza */
+        text-align: center;
     }
 }
