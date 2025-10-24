@@ -7,7 +7,7 @@
 
 :root {
     --colore-primario: #000000; /* Nero Intenso */
-    --colore-secondario: #FFFFFF; /* Bianco (Colore del testo del menu) */
+    --colore-secondario: #FFFFFF; /* Bianco */
     --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
     --colore-grigio-chiaro: #AAAAAA; /* Colore precedente del sottotitolo */
     --font-famiglia: 'Space Mono', monospace; 
@@ -15,7 +15,7 @@
 
 /* Stile base per un look Brutalista */
 body {
-    font-family: var(--font-famiglia);\
+    font-family: var(--font-famiglia);
     background-color: var(--colore-secondario); 
     color: var(--colore-primario);
     margin: 0;
@@ -25,7 +25,7 @@ body {
 }
 
 /* ========================================= */
-/* ✅ CORREZIONE: STILI PER IL PARTICLE SYSTEM (Canvas) */
+/* STILI PER IL PARTICLE SYSTEM (Canvas) */
 /* ========================================= */
 
 #particleCanvas {
@@ -43,7 +43,7 @@ body {
     bottom: 10px;
     right: 10px;
     font-size: 0.7em;
-    color: var(--colore-primario); /* Testo nero per visibilità su sfondo bianco */
+    color: var(--colore-primario);
     background-color: var(--colore-accento);
     padding: 5px 10px;
     border: 2px solid var(--colore-primario);
@@ -68,7 +68,8 @@ header {
     text-transform: uppercase;
     margin: 0;
     line-height: 1;
-    border: 5px solid var(--colore-accento);
+    /* ✅ MANTENIAMO IL FRAME INTORNO AL LOGO */
+    border: 5px solid var(--colore-accento); 
     padding: 5px 10px;
     display: inline-block;
 }
@@ -122,7 +123,7 @@ header {
     background-color: var(--colore-secondario);
     border-bottom: 5px solid var(--colore-primario);
     position: sticky;
-    top: 90px; /* Sotto l'header e la nav (circa 70px + 20px) */
+    top: 90px;
     z-index: 99;
 }
 
@@ -151,7 +152,7 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
-    background-color: transparent; /* Permette al body/canvas di vedersi */
+    background-color: transparent; /* Consente la visibilità delle particelle */
 }
 
 /* Card singolo progetto */
@@ -173,7 +174,7 @@ header {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 141.42%; /* Rapporto A5 per la copertina */
+    padding-bottom: 141.42%; 
 }
 
 .card-cover img {
@@ -186,7 +187,7 @@ header {
     display: block;
 }
 
-/* Dettagli in overlay */
+/* Dettagli in overlay (NON MODIFICARE) */
 .card-details-overlay {
     position: absolute;
     top: 0;
@@ -267,12 +268,12 @@ header {
 /* 5. SEZIONI/CONTENUTI PAGINE SECONDARIE */
 /* ========================================= */
 
-/* ✅ CORREZIONE CRITICA: Rende lo sfondo del contenuto trasparente! */
 .page-content {
     max-width: 900px;
-    margin: 0 auto;
+    /* ✅ CORREZIONE CRITICA: RIPRISTINO IL CENTRAGGIO! */
+    margin: 0 auto; 
     padding: 50px 5%;
-    /* Rimuovi il background-color solido per far vedere il canvas */
+    /* Lo sfondo deve essere trasparente per mostrare le particelle */
     background-color: transparent; 
 }
 
