@@ -1,237 +1,323 @@
-document.addEventListener('DOMContentLoaded', () => {
+/* ========================================= */
+/* 0. IMPORT FONT E VARIABILI */
+/* ========================================= */
 
-    // =========================================
-    // PARTE 1: LOGICA ARCHIVIO (Caricamento, Filtro, Visualizzazione)
-    // =========================================
+/* Importa il font Space Mono da Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-    const container = document.getElementById('archivio-container');
-    const barraRicerca = document.getElementById('barra-ricerca');
-    const filtroTono = document.getElementById('filtro-tono');
-    let tuttiIProgetti = []; 
-    let archivioAttivo = container && barraRicerca && filtroTono; // Controllo rapido
+:root {
+    --colore-primario: #000000; /* Nero Intenso */
+    --colore-secondario: #FFFFFF; /* Bianco */
+    --colore-accento: #CCFF00; /* Lime Elettrico - L'accento Brutale */
+    --colore-grigio-chiaro: #AAAAAA; /* Colore precedente del sottotitolo */
+    --font-famiglia: 'Space Mono', monospace; 
+}
 
-    function caricaDati() {
-        fetch('progetti.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Errore nel caricamento del file progetti.json');
-                }
-                return response.json();
-            })
-            .then(data => {
-                tuttiIProgetti = data; 
-                visualizzaProgetti(tuttiIProgetti); 
-            })
-            .catch(error => {
-                console.error("Errore nel caricamento dell'archivio:", error);
-                // Si rompe solo l'archivio, ma il resto del sito può caricarsi
-                if (container) {
-                    container.innerHTML = '<p class="errore">Impossibile caricare l\'archivio: Controlla il file progetti.json.</p>';
-                }
-            });
+/* Stile base per un look Brutalista */
+body {
+    font-family: var(--font-famiglia);
+    background-color: var(--colore-secondario); 
+    color: var(--colore-primario);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative; 
+}
+
+/* ========================================= */
+/* STILI PER IL PARTICLE SYSTEM (Canvas) */
+/* ========================================= */
+
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Mette il canvas dietro tutti gli elementi */
+    pointer-events: none; /* Permette di cliccare gli elementi dietro il canvas */
+}
+
+#legend {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.7em;
+    color: var(--colore-primario);
+    background-color: var(--colore-accento);
+    padding: 5px 10px;
+    border: 2px solid var(--colore-primario);
+    z-index: 1000;
+}
+
+/* ========================================= */
+/* 1. HEADER E NAVIGAZIONE */
+/* ========================================= */
+header {
+    background-color: var(--colore-secondario);
+    padding: 20px 5%;
+    border-bottom: 5px solid var(--colore-primario);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+#main-title {
+    font-size: 2.5em;
+    color: var(--colore-accento);
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+    /* ✅ MANTENIAMO IL FRAME INTORNO AL LOGO */
+    border: 5px solid var(--colore-accento); 
+    padding: 5px 10px;
+    display: inline-block;
+}
+
+#sub-title {
+    font-size: 0.9em;
+    color: var(--colore-primario);
+    text-transform: uppercase;
+    margin: 10px 0 0 0;
+}
+
+#main-nav {
+    background-color: var(--colore-primario);
+    padding: 10px 5%;
+    border-bottom: 5px solid var(--colore-accento);
+}
+
+#main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 30px;
+}
+
+#main-nav a {
+    color: var(--colore-accento);
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 5px 0;
+    display: block;
+    transition: color 0.1s;
+    border-bottom: 3px solid transparent;
+}
+
+#main-nav a:hover,
+#main-nav a.active-page {
+    color: var(--colore-secondario);
+    border-bottom: 3px solid var(--colore-secondario);
+}
+
+/* ========================================= */
+/* 2. FILTRI E RICERCA (SOLO INDEX) */
+/* ========================================= */
+#filtri-e-ricerca {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 5%;
+    background-color: var(--colore-secondario);
+    border-bottom: 5px solid var(--colore-primario);
+    position: sticky;
+    top: 90px;
+    z-index: 99;
+}
+
+#barra-ricerca, #filtro-tono {
+    padding: 10px;
+    border: 3px solid var(--colore-primario);
+    font-family: var(--font-famiglia);
+    font-size: 1em;
+    background-color: var(--colore-secondario);
+    color: var(--colore-primario);
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 var(--colore-accento);
+    transition: box-shadow 0.1s;
+}
+
+#barra-ricerca:focus, #filtro-tono:focus {
+    outline: none;
+    box-shadow: 6px 6px 0 var(--colore-accento);
+}
+
+/* ========================================= */
+/* 3. GRIGLIA ARCHIVIO (SOLO INDEX) */
+/* ========================================= */
+#archivio-container {
+    padding: 50px 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    background-color: transparent; /* Consente la visibilità delle particelle */
+}
+
+/* Card singolo progetto */
+.zine-card {
+    border: 5px solid var(--colore-primario);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 8px 8px 0 var(--colore-accento);
+    background-color: var(--colore-secondario);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.zine-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 12px 12px 0 var(--colore-accento);
+}
+
+.card-cover {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 141.42%; 
+}
+
+.card-cover img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Dettagli in overlay (NON MODIFICARE) */
+.card-details-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: var(--colore-accento);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+}
+
+.zine-card:hover .card-details-overlay {
+    opacity: 1;
+}
+
+.card-details-overlay h3 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.card-details-overlay p {
+    font-size: 0.9em;
+    margin: 5px 0;
+    color: var(--colore-secondario);
+}
+
+.download-button {
+    margin-top: 20px;
+    background-color: var(--colore-accento);
+    color: var(--colore-primario);
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 3px solid var(--colore-primario);
+    display: inline-block;
+    box-shadow: 3px 3px 0 var(--colore-primario);
+    transition: box-shadow 0.1s, transform 0.1s;
+}
+
+.download-button:hover {
+    box-shadow: 4px 4px 0 var(--colore-primario);
+    transform: translate(-1px, -1px);
+}
+
+/* ========================================= */
+/* 4. UTILITY E RESPONSIVE */
+/* ========================================= */
+.errore {
+    color: red;
+    font-weight: 700;
+    text-align: center;
+    padding: 50px;
+}
+
+@media (max-width: 768px) {
+    #main-title {
+        font-size: 2em;
     }
 
-    function visualizzaProgetti(progettiDaMostrare) {
-        if (!container) return; // Uscita di sicurezza
-        
-        container.innerHTML = ''; 
-        
-        if (progettiDaMostrare.length === 0) {
-            container.innerHTML = '<p>Nessun progetto trovato che corrisponda ai criteri di ricerca/filtro.</p>';
-            return;
-        }
-
-        progettiDaMostrare.forEach(progetto => {
-            const card = document.createElement('div');
-            card.className = 'zine-card';
-            card.setAttribute('data-id', progetto.id); 
-            card.setAttribute('data-tono', progetto.tono_voce);
-            
-            card.innerHTML = `
-                <div class="card-cover">
-                    <img src="${progetto.link_copertina}" alt="Copertina di ${progetto.titolo}">
-                    <div class="card-details-overlay">
-                        <h3>${progetto.titolo}</h3>
-                        <p>Autore: ${progetto.autore}</p>
-                        <p>Tono: ${progetto.tono_voce}</p>
-                        <p>Tema: ${progetto.tema}</p>
-                        <a href="${progetto.link_fanzine}" target="_blank" class="download-button">SCARICA FANZINE (${progetto.numero_pagine}p)</a>
-                    </div>
-                </div>
-            `;
-            container.appendChild(card);
-        });
+    #filtri-e-ricerca {
+        flex-direction: column;
+        gap: 10px;
     }
+}
 
-    function filtraProgetti() {
-        if (!archivioAttivo) return; // Uscita di sicurezza
-        
-        const termineRicerca = barraRicerca.value.toLowerCase();
-        const tonoSelezionato = filtroTono.value;
-        
-        const progettiFiltrati = tuttiIProgetti.filter(progetto => {
-            const corrispondeRicerca = 
-                progetto.titolo.toLowerCase().includes(termineRicerca) ||
-                progetto.autore.toLowerCase().includes(termineRicerca) ||
-                progetto.tema.toLowerCase().includes(termineRicerca);
-            
-            const corrispondeFiltro = tonoSelezionato === '' || progetto.tono_voce === tonoSelezionato;
-            
-            return corrispondeRicerca && corrispondeFiltro;
-        });
+/* ========================================= */
+/* 5. SEZIONI/CONTENUTI PAGINE SECONDARIE */
+/* ========================================= */
 
-        visualizzaProgetti(progettiFiltrati);
-    }
+.page-content {
+    max-width: 900px;
+    /* ✅ CORREZIONE CRITICA: RIPRISTINO IL CENTRAGGIO! */
+    margin: 0 auto; 
+    padding: 50px 5%;
+    /* Lo sfondo deve essere trasparente per mostrare le particelle */
+    background-color: transparent; 
+}
 
-    // =========================================
-    // AVVIO LOGICA ARCHIVIO (solo per index.html)
-    // =========================================
-    // ✅ MODIFICA: Avvia l'Archivio solo se TUTTI gli elementi esistono
-    if (archivioAttivo) {
-        caricaDati();
+.large-title {
+    font-size: 4.5em; 
+    font-weight: 700; 
+    color: var(--colore-primario);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 0;
+    margin-bottom: 30px;
+    border-bottom: 5px solid var(--colore-accento); 
+    padding-bottom: 15px;
+}
+.manifesto-sottotitolo {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--colore-accento); 
+    text-transform: uppercase;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    border-left: 5px solid var(--colore-primario);
+    padding-left: 10px;
+}
+.page-content p {
+    font-size: 1em; 
+    line-height: 1.6;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
 
-        // Listener per la ricerca
-        barraRicerca.addEventListener('input', filtraProgetti);
-
-        // Listener per il filtro tono
-        filtroTono.addEventListener('change', filtraProgetti);
-    }
-
-    
-    // =========================================
-    // PARTE 2: LOGICA PARTICELLE (Universale)
-    // =========================================
-    
-    const canvas = document.getElementById('particleCanvas');
-    
-    // ✅ MODIFICA CRUCIALE: Eseguiamo tutto il blocco delle particelle SOLO se il canvas esiste
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const particleCount = 200; 
-        let mouseX = null;
-        let mouseY = null;
-        
-        let baseSize = 0.5;
-        let sizeVariation = 3;
-        let variationRandomness = 0.5;
-
-        function setupCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            return true;
-        }
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = baseSize;
-                this.speedX = (Math.random() * 0.5) - 0.25;
-                this.speedY = (Math.random() * 0.5) - 0.25;
-                this.color = '#CCFF00';
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                if (this.x < 0) this.x = canvas.width;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.y < 0) this.y = canvas.height;
-                if (this.y > canvas.height) this.y = 0;
-
-                if (mouseX !== null && mouseY !== null) {
-                    const dx = mouseX - this.x;
-                    const dy = mouseY - this.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 100) {
-                        this.size = baseSize + sizeVariation + (Math.random() * variationRandomness);
-                        
-                        const forceDirectionX = dx / distance;
-                        const forceDirectionY = dy / distance;
-                        const maxDistance = 100;
-                        const force = (maxDistance - distance) / maxDistance;
-                        const directionX = forceDirectionX * force * -0.5;
-                        const directionY = forceDirectionY * force * -0.5;
-
-                        this.x -= directionX;
-                        this.y -= directionY;
-                    } else {
-                        this.size = baseSize + (Math.random() * variationRandomness);
-                    }
-                } else {
-                    this.size = baseSize + (Math.random() * variationRandomness);
-                }
-            }
-
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animate() {
-            // Sfondo semitrasparente per l'effetto scia
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        // Event listeners
-        window.addEventListener('mousemove', (event) => {
-            mouseX = event.x;
-            mouseY = event.y;
-        });
-
-        window.addEventListener('mouseout', () => {
-            mouseX = null;
-            mouseY = null;
-        });
-
-        window.addEventListener('resize', () => {
-            if (canvas) {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                initParticles();
-            }
-        });
-
-        window.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowUp') {
-                sizeVariation = Math.min(sizeVariation + 1, 10);
-            } else if (event.key === 'ArrowDown') {
-                sizeVariation = Math.max(sizeVariation - 1, -5);
-            } else if (event.key === 'ArrowLeft') {
-                variationRandomness = Math.max(variationRandomness - 0.1, 0.1); 
-            } else if (event.key === 'ArrowRight') {
-                variationRandomness = Math.min(variationRandomness + 0.1, 1);
-            }
-            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-                event.preventDefault();
-            }
-        });
-
-        // AVVIO PARTICELLE
-        if (setupCanvas()) {
-            initParticles();
-            animate();
-        }
-    }
-});
+/* ========================================= */
+/* 6. FOOTER */
+/* ========================================= */
+footer {
+    background-color: var(--colore-primario);
+    color: var(--colore-accento);
+    text-align: center;
+    padding: 20px 5%;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+footer a {
+    color: inherit; 
+    text-decoration: underline;
+    text-transform: none;
+}
